@@ -1,7 +1,6 @@
 // Written by Eric Dee
 
 #include "Runtime.h"
-#include <vector>
 
 namespace VisualAPI {
     

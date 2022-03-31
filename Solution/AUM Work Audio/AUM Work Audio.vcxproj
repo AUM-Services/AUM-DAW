@@ -21,13 +21,20 @@
   <ItemGroup>
     <ClInclude Include="Source\Log\Log.h" />
     <ClInclude Include="Source\AUMWorkAudio.h" />
-    <ClInclude Include="Source\DAW\Functions.h" />
+    <ClInclude Include="Source\Workstation\WorkStationItem.h" />
     <ClInclude Include="Source\Build.h" />
     <ClInclude Include="Source\Host.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Log\Log.cpp" />
-    <ClCompile Include="Source\DAW\Functions.cpp" />
+    <ClCompile Include="Source\Workstation\WorkStationItem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Source Coding Templates\premake-5.0.0-beta1-windows\premake5.exe" />
+    <None Include="Ext-Dependencies\Vendors\premake\premake5.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Ext-Dependencies\Vendors\premake\LICENSE.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -89,13 +96,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Binaries-Intermediate\$(Configuration)$(Platform)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Executable\Binary\$(Configuration)$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Executable\Object\$(Configuration)$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Binaries\$(Configuration)$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Binaries-Intermediate\$(Configuration)$(Platform)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Executable\Binary\$(Configuration)$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Executable\Object\$(Configuration)$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,7 +149,7 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Binaries\$(Configuration)$(Platform)\$(ProjectName)\$(ProjectName).dll" "$(SolutionDir)Binaries\$(Configuration)$(Platform)\Visual API\"</Command>
+      <Command>copy /Y "$(SolutionDir)Executable\Binary\$(Configuration)$(Platform)\$(ProjectName)\$(ProjectName).dll" "$(SolutionDir)Executable\Binary\$(Configuration)$(Platform)\Visual API\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,7 +173,7 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Binaries\$(Configuration)$(Platform)\$(ProjectName)\$(ProjectName).dll" "$(SolutionDir)Binaries\$(Configuration)$(Platform)\Visual API\"</Command>
+      <Command>copy /Y "$(SolutionDir)Executable\Binary\$(Configuration)$(Platform)\$(ProjectName)\$(ProjectName).dll" "$(SolutionDir)Executable\Binary\$(Configuration)$(Platform)\Visual API\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

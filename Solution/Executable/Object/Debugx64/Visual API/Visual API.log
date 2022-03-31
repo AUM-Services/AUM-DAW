@@ -1,0 +1,9 @@
+﻿  Runtime.cpp
+C:\Users\eric_\Desktop\For Restart\AUM Work Audio\Solution\AUM Work Audio\Source\Log\Log.h(30,43): warning C4251: 'AUMLogs::Log::static_statusLogger': class 'std::shared_ptr<spdlog::logger>' needs to have dll-interface to be used by clients of class 'AUMLogs::Log'
+C:\development\vcpkg\installed\x64-windows\include\spdlog\details\registry.h(34): message : see declaration of 'std::shared_ptr<spdlog::logger>'
+C:\Users\eric_\Desktop\For Restart\AUM Work Audio\Solution\AUM Work Audio\Source\Log\Log.h(31,43): warning C4251: 'AUMLogs::Log::static_pluginLogger': class 'std::shared_ptr<spdlog::logger>' needs to have dll-interface to be used by clients of class 'AUMLogs::Log'
+C:\development\vcpkg\installed\x64-windows\include\spdlog\details\registry.h(34): message : see declaration of 'std::shared_ptr<spdlog::logger>'
+C:\Users\eric_\Desktop\For Restart\AUM Work Audio\Solution\AUM Work Audio\Source\Log\Log.h(32,6): warning C4091: 'static ': ignored on left of 'AUMLogs::Log' when no variable is declared
+C:\Users\eric_\Desktop\For Restart\AUM Work Audio\Solution\Visual API\Source\Runtime.cpp(41): warning C4715: 'VisualAPI::GUI::Run': not all control paths return a value
+C:\Users\eric_\Desktop\For Restart\AUM Work Audio\Solution\Visual API\Source\Runtime.cpp(55): warning C4172: returning address of local variable or temporary: visualAPI
+  Visual API.vcxproj -> C:\Users\eric_\Desktop\For Restart\AUM Work Audio\Solution\Executable\Binary\Debugx64\Visual API\Visual API.exe

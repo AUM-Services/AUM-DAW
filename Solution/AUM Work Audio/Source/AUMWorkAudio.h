@@ -1,8 +1,10 @@
+// Written by Eric Dee
+
 #pragma once
 
 // For use by AUM plugins.
 
-#include "DAW/Functions.h"
+#include "Workstation/WorkStationItem.h"
 #include "Log/Log.h"
 
 /****************

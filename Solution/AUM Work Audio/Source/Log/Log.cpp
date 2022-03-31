@@ -12,11 +12,11 @@ namespace AUMLogs {
     shared_ptr<spdlog::logger> &Log::GetPluginLogger() {
         return static_pluginLogger;
     }
-    void Log::Init() {
+    void Log::AppendSettingsToAllLoggers(std::string statusString, std::string pluginString) {
         spdlog::set_pattern("%^[%T] %n: %v%$");
-        static_statusLogger = spdlog::stderr_color_mt("AUM Work Audio log");
+        static_statusLogger = spdlog::stderr_color_mt(statusString);
         static_statusLogger->set_level(spdlog::level::trace);
-        static_pluginLogger = spdlog::stderr_color_mt("Plugin log");
+        static_pluginLogger = spdlog::stderr_color_mt(pluginString);
         static_pluginLogger->set_level(spdlog::level::trace);
     }
 }

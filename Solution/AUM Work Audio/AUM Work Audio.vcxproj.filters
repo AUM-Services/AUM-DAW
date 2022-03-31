@@ -18,7 +18,7 @@
     <ClInclude Include="Source\Build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DAW\Functions.h">
+    <ClInclude Include="Source\Workstation\WorkStationItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\AUMWorkAudio.h">
@@ -32,11 +32,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\DAW\Functions.cpp">
+    <ClCompile Include="Source\Workstation\WorkStationItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Log\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Source Coding Templates\premake-5.0.0-beta1-windows\premake5.exe" />
+    <None Include="Ext-Dependencies\Vendors\premake\premake5.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Ext-Dependencies\Vendors\premake\LICENSE.txt" />
   </ItemGroup>
 </Project>

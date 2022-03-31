@@ -1,8 +1,8 @@
 ####
 
 # Project:
-Binaries/
-Binaries-Intermediate/
+Binary/
+Object/
 
 # Misc:
 Unused/

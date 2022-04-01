@@ -1,4 +1,4 @@
-// Written by Eric Dee
+// Written by Eric Dee.
 
 #pragma once
 
@@ -9,7 +9,6 @@
 
 #ifndef AUM_WORK_AUDIO_IO_H
 #include <stdio.h>
-#include <iostream>
 #define AUM_WORK_AUDIO_IO_H
 #endif // !AUM_WORK_AUDIO_IO_H
 
@@ -28,19 +27,11 @@ using namespace AUMLog;
 
 namespace AUMWorkstation {
 
-    struct AUMBuildMacro AUMWorkstationItem {
+    class AUMBuildMacro AUMWorkstationItemFactory {
     public:
         typedef int (*IntegerFunction)();
-        string Name;
-        AUMWorkstationItem();
-        AUMWorkstationItem(IntegerFunction runDelegate, string name);
-        virtual ~AUMWorkstationItem() {}
-        virtual void PresentationMode() const;
-        int Start() const;
-        int StartDelegate() const;
-    private:
-        virtual int Run() const;
-        int(*DelegateRun)();
+        virtual void PresentationMode(string name) const;
+        virtual void CreateItemFunctionality(IntegerFunction runDelegate, string name) const;
     };
 
 }

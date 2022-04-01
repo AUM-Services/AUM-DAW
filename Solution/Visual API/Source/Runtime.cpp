@@ -2,63 +2,54 @@
 
 #include "Runtime.h"
 
-namespace VisualAPI {
-    
-    int GUI::Run() {
-
-        GLFWwindow* window;
-
-        /* Initialize the library */
-        if (!glfwInit())
-            return -1;
-
-        /* Create a windowed mode window and its OpenGL context */
-        window = glfwCreateWindow(640, 480, "GLFW Init", NULL, NULL);
-        if (!window)
-        {
-            glfwTerminate();
-            return -1;
-        }
-
-        /* Make the window's context current */
-        glfwMakeContextCurrent(window);
-
-        /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
-        {
-            /* Render here */
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            /* Swap front and back buffers */
-            glfwSwapBuffers(window);
-
-            /* Poll for and process events */
-            glfwPollEvents();
-        }
-
-        glfwTerminate();
-    }
-}
+#ifndef AUM_WORK_AUDIO_IO_H
+#include <stdio.h>
+#include <iostream>
+#define AUM_WORK_AUDIO_IO_H
+#endif // !AUM_WORK_AUDIO_IO_H
 
 namespace Runtime {
 
-    class VisualFunctionality : public AUMWorkstationFactory {
+    int ExampleDelegate() { return 4; };
+
+    class AUMRuntime : public AUMApplication {
     public:
-        AUMWorkstationItem* CreateFunctionality() override;
+        void InitWorkstationItems() override;
     };
 
-    AUMWorkstationItem* VisualFunctionality::CreateFunctionality() {
-        VisualAPI::GUI visualAPI = VisualAPI::GUI("GLFW GUI");
-        AUMPluginInfo("Welcome to AUM API. Attempting to connect {0}.", visualAPI.Name);
-
-        return &visualAPI;
+    void AUMRuntime::InitWorkstationItems()
+    {
+        AUMPluginCritical("*Start of init workstation items****");
+        this->WorkstationItems.emplace_back(make_unique<AUMWorkstationItem>());
+        this->WorkstationItems.emplace_back(make_unique<AUMWorkstationItem>(ExampleDelegate, "ExampleRuntime"));
+        this->WorkstationItems.emplace_back(make_unique<IAUMGraphicsOutput>("GLFW GUI"));
     }
+
 }
 
-AUMWorkstationItem* AUMWorkstation::AUMWorkstationInitMain()
-{
-    using namespace Runtime; using namespace VisualAPI;
-    VisualFunctionality visualAPI = VisualFunctionality();
-    AUMWorkstationItem* pluginGUI = visualAPI.CreateFunctionality();
-    return pluginGUI;
-}
+#ifndef AUM_DIGITAL_AUDIO_API_H
+using namespace Runtime;
+#define AUM_DIGITAL_AUDIO_API_H
+#endif // !AUM_DIGITAL_AUDIO_API_H
+
+AUMApplication AUMWorkAudio::AUMWorkstationInitMain() {
+
+    AUMRuntime newRuntime = Runtime::AUMRuntime();
+    newRuntime.InitWorkstationItems();
+    AUMPluginCritical("****End of init workstation items****************");
+    
+    AUMWorkstationItemFactory itemFactory = AUMWorkstationItemFactory();
+    auto exampleDelegate = []()
+    {
+        return 4;
+    };
+    printf("\n- -- --- ----\n");
+    printf("How to create plugins:\n");
+    printf("- -- --- ----\n");
+    itemFactory.CreateItemFunctionality(exampleDelegate, "ExamplePlugin");
+    printf("\n- -- --- ----\n");
+    printf("How to create runtimes:\n");
+    printf("- -- --- ----\n");
+
+    return newRuntime;
+};

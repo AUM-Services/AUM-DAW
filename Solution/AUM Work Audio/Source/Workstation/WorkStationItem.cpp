@@ -4,15 +4,40 @@
 
 namespace AUMWorkstation {
 
-    int AUMWorkstationItem::Run() {
-        AUMStatusInfo("Welcome to AUM Work Audio.");
-        AUMStatusInfo("Create a class that inherits the AUMWorkStationItem to define the 'Run()' method");
-        while (true);
+    int DefaultDelegate() { return 16; };
+
+    AUMWorkstationItem::AUMWorkstationItem(){
+        this->Name = "DefaultRuntime";
+        this->DelegateRun = DefaultDelegate;
+    }
+
+    AUMWorkstationItem::AUMWorkstationItem(IntegerFunction runDelegate, string name) {
+        this->Name = name;
+        this->DelegateRun = runDelegate;
+    }
+
+    void AUMWorkstationItem::PresentationMode() const {
+        if (this->Name == "ExampleRuntime")
+        {
+            AUMAPIInfo("Welcome to AUM Work Audio API.");
+            AUMAPIInfo("Method #1 for creating runtimes:");
+            AUMAPIInfo("Create a class that inherits the AUMWorkStationItem to define the 'Run()' method");
+        }
+    }
+
+    int AUMWorkstationItem::Start() const {
+        return this->Run();
+    }
+
+    int AUMWorkstationItem::StartDelegate() const {
+        return this->DelegateRun();
+    }
+
+    int AUMWorkstationItem::Run() const {
+        this->PresentationMode();
+        AUMAPIInfo("Status: {0}, {1}", this->DelegateRun(), this->Name);
+        AUMAPIInfo("____\n");
         return 0;
     }
 
-    AUMWorkstationItem* AUMWorkstationFactory::CreateFunctionality() {
-        AUMPluginInfo("Welcome to AUM API. Attempting to connect default settings.");
-        return new AUMWorkstationItem();
-    }
 }

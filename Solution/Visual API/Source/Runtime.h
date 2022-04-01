@@ -4,22 +4,13 @@
 
 #ifndef AUM_WORK_AUDIO_H
 #include <AUMWorkAudio.h>
-#include <vector>
 using namespace AUMWorkstation;
+using namespace AUMWorkAudio;
 #define AUM_WORK_AUDIO_H
 #endif // !AUM_WORK_AUDIO_H
 
-#include "Vendors/glfw/include/GLFW/glfw3.h"
-
-namespace VisualAPI {
-
-    class GUI : public AUMWorkstationItem {
-    public:
-        string Name;
-        GUI(string name) : AUMWorkstationItem() {
-            this->Name = name;
-        };
-        int Run() override;
-    };
-
-}
+#ifndef AUM_GRAPHICS_H
+#include "Output/Graphics.h"
+using namespace AUMGraphics;
+#define AUM_GRAPHICS_H
+#endif // !AUM_OUTPUT_GRAPHICS_H

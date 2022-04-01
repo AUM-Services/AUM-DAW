@@ -30,12 +30,21 @@
     <ClInclude Include="Source\Log\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Workstation\AUMWorkstationItemFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\AUMApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Workstation\WorkStationItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Log\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Workstation\AUMWorkstationItemFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

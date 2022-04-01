@@ -154,9 +154,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Output\Graphics.cpp" />
     <ClCompile Include="Source\Runtime.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Output\Graphics.h" />
     <ClInclude Include="Source\Runtime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

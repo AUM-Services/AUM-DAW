@@ -4,9 +4,9 @@
 
 // For use by AUM plugins.
 
-#include "Workstation/WorkStationItem.h"
-#include "Log/Log.h"
-
+#ifndef AUM_HOST_H
 /****************
 ***** Entry point
 */ #include "Host.h"
+#define AUM_HOST_H
+#endif // !AUM_HOST_H

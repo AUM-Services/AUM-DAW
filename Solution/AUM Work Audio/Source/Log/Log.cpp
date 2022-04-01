@@ -1,6 +1,8 @@
+// Written by Eric Dee.
+
 #include "Log.h"
 
-namespace AUMLogs {
+namespace AUMLog {
 
     // Static/class only.
     shared_ptr<spdlog::logger> Log::static_statusLogger;

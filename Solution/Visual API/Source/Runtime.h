@@ -1,4 +1,4 @@
-// Written by Eric Dee
+//Written by Eric Dee.
 
 #pragma once
 

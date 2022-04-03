@@ -1,4 +1,4 @@
-// Written by Eric Dee
+//Written by Eric Dee.
 
 #include "WorkStationItem.h"
 
@@ -21,7 +21,7 @@ namespace AUMWorkstation {
         {
             AUMAPIInfo("Welcome to AUM Work Audio API.");
             AUMAPIInfo("Method #1 for creating runtimes:");
-            AUMAPIInfo("Create a class that inherits the AUMWorkStationItem to define the 'Run()' method");
+            AUMAPIInfo("Create a class that inherits the AUMWorkStationItem to define the 'Run()' method.");
         }
     }
 
@@ -35,8 +35,9 @@ namespace AUMWorkstation {
 
     int AUMWorkstationItem::Run() const {
         this->PresentationMode();
-        AUMAPIInfo("Status: {0}, {1}", this->DelegateRun(), this->Name);
-        AUMAPIInfo("____\n");
+        AUMAPIWarn("Plugin status:");
+        AUMAPIInfo("Status: {0}, {1}.", this->DelegateRun(), this->Name);
+        AUMAPIInfo("____");
         return 0;
     }
 

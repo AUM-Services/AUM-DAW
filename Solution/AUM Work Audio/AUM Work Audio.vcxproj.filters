@@ -30,10 +30,16 @@
     <ClInclude Include="Source\Log\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Workstation\AUMWorkstationItemFactory.h">
+    <ClInclude Include="Source\Workstation\WorkstationItemFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\AUMApplication.h">
+    <ClInclude Include="Source\Runtime\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enumeration\Enumerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enumeration\EnumeratorAbstract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +50,10 @@
     <ClCompile Include="Source\Log\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Workstation\AUMWorkstationItemFactory.cpp">
+    <ClCompile Include="Source\Workstation\WorkstationItemFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enumeration\EnumeratorAbstract.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

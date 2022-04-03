@@ -1,4 +1,4 @@
-// Written by Eric Dee
+//Written by Eric Dee.
 
 #pragma once
 
@@ -20,6 +20,7 @@ using namespace std;
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace AUMLog {
+
     static class AUMBuildMacro Log {
     public:
         Log(const Log&) = delete;
@@ -43,4 +44,5 @@ namespace AUMLog {
 #define AUMPluginDebug(...) Log::GetPluginLogger()->debug(__VA_ARGS__)
 #define AUMPluginCritical(...) Log::GetPluginLogger()->critical(__VA_ARGS__)
 #define AUMPluginError(...) Log::GetPluginLogger()->error(__VA_ARGS__)
+
 }

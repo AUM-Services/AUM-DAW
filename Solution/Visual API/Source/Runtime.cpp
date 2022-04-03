@@ -1,10 +1,14 @@
-// Written by Eric Dee
+//Written by Eric Dee.
 
 #include "Runtime.h"
 
 #ifndef AUM_WORK_AUDIO_IO_H
 #include <stdio.h>
 #include <iostream>
+#include <map>
+#include <memory.h>
+#include <vector>
+using namespace std;
 #define AUM_WORK_AUDIO_IO_H
 #endif // !AUM_WORK_AUDIO_IO_H
 
@@ -33,8 +37,7 @@ using namespace Runtime;
 #endif // !AUM_DIGITAL_AUDIO_API_H
 
 AUMApplication AUMWorkAudio::AUMWorkstationInitMain() {
-
-    AUMRuntime newRuntime = Runtime::AUMRuntime();
+    AUMRuntime newRuntime = AUMRuntime();
     newRuntime.InitWorkstationItems();
     AUMPluginCritical("****End of init workstation items****************");
     

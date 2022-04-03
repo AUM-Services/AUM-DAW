@@ -1,4 +1,4 @@
-// Written by Eric Dee
+//Written by Eric Dee.
 
 #pragma once
 
@@ -10,15 +10,12 @@
 #ifndef AUM_WORK_AUDIO_IO_H
 #include <stdio.h>
 #include <iostream>
-#define AUM_WORK_AUDIO_IO_H
-#endif // !AUM_WORK_AUDIO_IO_H
-
-#ifndef AUM_WORK_AUDIO_POINTERS_H
+#include <map>
 #include <memory.h>
 #include <vector>
 using namespace std;
-#define AUM_WORK_AUDIO_POINTERS_H
-#endif // !AUM_WORK_AUDIO_POINTERS_H
+#define AUM_WORK_AUDIO_IO_H
+#endif // !AUM_WORK_AUDIO_IO_H
 
 #ifndef AUM_WORK_AUDIO_LOGS_H
 #include "../Log/Log.h"
@@ -38,6 +35,7 @@ namespace AUMWorkstation {
         virtual void PresentationMode() const;
         int Start() const;
         int StartDelegate() const;
+
     private:
         virtual int Run() const;
         int(*DelegateRun)();

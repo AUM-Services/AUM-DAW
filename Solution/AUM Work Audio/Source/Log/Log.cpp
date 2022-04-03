@@ -1,4 +1,4 @@
-// Written by Eric Dee.
+//Written by Eric Dee.
 
 #include "Log.h"
 
@@ -21,4 +21,5 @@ namespace AUMLog {
         static_pluginLogger = spdlog::stderr_color_mt(pluginString);
         static_pluginLogger->set_level(spdlog::level::trace);
     }
+
 }

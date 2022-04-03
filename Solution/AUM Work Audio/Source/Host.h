@@ -1,4 +1,4 @@
-// Written by Eric Dee
+//Written by Eric Dee.
 
 #pragma once
 
@@ -7,26 +7,18 @@
 #ifndef AUM_WORK_AUDIO_IO_H
 #include <stdio.h>
 #include <iostream>
-#define AUM_WORK_AUDIO_IO_H
-#endif // !AUM_WORK_AUDIO_IO_H
-
-#ifndef AUM_WORK_AUDIO_POINTERS_H
+#include <map>
 #include <memory.h>
 #include <vector>
 using namespace std;
-#define AUM_WORK_AUDIO_POINTERS_H
-#endif // !AUM_WORK_AUDIO_POINTERS_H
-
-#ifndef AUM_WORK_AUDIO_LOGS_H
-#include "Log/Log.h"
-using namespace AUMLog;
-#define AUM_WORK_AUDIO_LOGS_H
-#endif // !AUM_WORK_AUDIO_LOGS_H
+#define AUM_WORK_AUDIO_IO_H
+#endif // !AUM_WORK_AUDIO_IO_H
 
 #ifndef AUM_WORK_AUDIO_HOST_FUNCTIONS_H
+#include "Enumeration/Enumerator.h"
 #include "Workstation/WorkStationItem.h"
-#include "Workstation/AUMWorkstationItemFactory.h"
-#include "Runtime/AUMApplication.h"
+#include "Workstation/WorkstationItemFactory.h"
+#include "Runtime/Application.h"
 using namespace AUMWorkstation;
 using namespace AUMWorkAudio;
 #define AUM_WORK_AUDIO_HOST_FUNCTIONS_H
@@ -40,7 +32,6 @@ int main(int argc, char** argv) {
     {
         runtime->Start();
     }
-    AUMAPIInfo("Status: {0}, {1}", DAWRuntimes.WorkstationItems[0]->StartDelegate(), DAWRuntimes.WorkstationItems[0]->Name);
     AUMAPICritical("All functions have stopped looping.");
     AUMAPIDebug("****End of the Host application****************");
     return 0;

@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Runtime\AUMApplication.h" />
-    <ClInclude Include="Source\Workstation\AUMWorkstationItemFactory.h" />
+    <ClInclude Include="Source\Enumeration\EnumeratorAbstract.h" />
+    <ClInclude Include="Source\Enumeration\Enumerator.h" />
+    <ClInclude Include="Source\Runtime\Application.h" />
+    <ClInclude Include="Source\Workstation\WorkstationItemFactory.h" />
     <ClInclude Include="Source\Log\Log.h" />
     <ClInclude Include="Source\AUMWorkAudio.h" />
     <ClInclude Include="Source\Workstation\WorkStationItem.h" />
@@ -28,7 +30,8 @@
     <ClInclude Include="Source\Host.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Workstation\AUMWorkstationItemFactory.cpp" />
+    <ClCompile Include="Source\Enumeration\EnumeratorAbstract.cpp" />
+    <ClCompile Include="Source\Workstation\WorkstationItemFactory.cpp" />
     <ClCompile Include="Source\Log\Log.cpp" />
     <ClCompile Include="Source\Workstation\WorkStationItem.cpp" />
   </ItemGroup>

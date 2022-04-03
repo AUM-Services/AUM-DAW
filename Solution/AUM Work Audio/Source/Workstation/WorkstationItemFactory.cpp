@@ -1,6 +1,6 @@
-// Written by Eric Dee.
+//Written by Eric Dee.
 
-#include "AUMWorkstationItemFactory.h"
+#include "WorkstationItemFactory.h"
 
 namespace AUMWorkstation {
 
@@ -10,7 +10,7 @@ namespace AUMWorkstation {
             AUMPluginInfo("Welcome to AUM Work Audio Plugins.");
             AUMPluginInfo("Method #1 for creating plugins:");
             AUMPluginInfo("Create an item by defining a method/function.");
-            AUMPluginInfo("then pass the method/function to AUMWorkstationItemFactory::CreateItemFunctionality()");
+            AUMPluginInfo("then pass the method/function to AUMWorkstationItemFactory::CreateItemFunctionality().");
         }
     };
 
@@ -28,8 +28,8 @@ namespace AUMWorkstation {
         else {
             this->PresentationMode(name);
         }
-        AUMPluginInfo("Status: {0}, {1}", runDelegate(), name);
-        AUMPluginInfo("________________\n");
+        AUMPluginInfo("Status: {0}, {1}.", runDelegate(), name);
+        AUMPluginInfo("________________");
     }
 
 }

@@ -29,5 +29,8 @@
     <ClInclude Include="Source\Output\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Enumeration\GraphicsEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

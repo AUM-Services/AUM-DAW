@@ -25,11 +25,11 @@ using namespace AUMLog;
 
 namespace AUMEnumeration {
 
-    /// <summary>
-    /// Class base to runtime enums; allows enum inheritance to be local, and mapping.
-    /// </summary>
     class AUMBuildMacro AUMEnumerator : public AUMEnumeratorAbstract{
-    public: 
+    public:
+        AUMEnumerator() {};
+        AUMEnumerator(const char* name, string strings[], int elementCount)
+            : AUMEnumeratorAbstract(name, strings, elementCount) {};
         enum AUMEnum{ AUM_UNDEFINED, AUM_SUCCESS, AUM_TRACE, AUM_DEBUG, AUM_ERROR, AUM_CRITICAL };
     };
 

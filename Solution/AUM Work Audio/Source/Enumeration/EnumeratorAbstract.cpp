@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #include "EnumeratorAbstract.h"
 
 namespace AUMEnumeration {

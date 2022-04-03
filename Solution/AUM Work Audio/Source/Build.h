@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #pragma once
 
 #ifdef AUMPlatformWindows

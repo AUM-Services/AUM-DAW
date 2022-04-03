@@ -40,4 +40,5 @@ namespace AUMGraphics {
         GLFWwindow* InitializeGLFW() const;
         void InitializeGLEW() const;
     };
+
 }

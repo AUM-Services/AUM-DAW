@@ -33,11 +33,11 @@ namespace AUMWorkstation {
         AUMWorkstationItem(IntegerFunction runDelegate, string name);
         virtual ~AUMWorkstationItem() {}
         virtual void PresentationMode() const;
-        int Start() const;
+        int Start();
         int StartDelegate() const;
 
     private:
-        virtual int Run() const;
+        virtual int Run();
         int(*DelegateRun)();
     };
 

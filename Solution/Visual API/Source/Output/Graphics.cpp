@@ -6,7 +6,7 @@
 
 namespace AUMGraphics {
 
-    int IAUMGraphicsOutput::Run() const {
+    int IAUMGraphicsOutput::Run() {
 
     StartMessage:
         AUMPluginTrace("----------------Plugin update----------------");
@@ -19,9 +19,11 @@ namespace AUMGraphics {
             window = this->InitializeGLFW();
             this->InitializeGLEW();
         }
-        catch (string errorType)
+        catch (AUMGraphicsErrorEnum::AUMEnum errorCatch)
         {
-            cout << "Error type: " << errorType << endl;
+            string error = this->Errors.Map[errorCatch];
+            string errorType = this->ErrorTypes.Map[this->ErrorTypes.INITIALIZATION];
+            AUMAPIError("{0} failed during {1}.", error, errorType);
             return 0;
         }
 
@@ -74,8 +76,7 @@ namespace AUMGraphics {
         GLFWwindow* newWindow = nullptr;
         if (!glfwInit())
         {
-            AUMPluginCritical("GLFW could not initialize.");
-            throw (string)"GLFW Error.";
+            throw this->Errors.GLFW;
         }
         else {
             AUMPluginDebug("GLFW initialized.");
@@ -84,9 +85,8 @@ namespace AUMGraphics {
         newWindow = glfwCreateWindow(640, 480, "GLFW Init", NULL, NULL);
         if (!newWindow)
         {
-            AUMPluginCritical("The window in GLFW could not initialize.");
             glfwTerminate();
-            throw "GLFW window error";
+            throw this->Errors.GLFW_WINDOW;
         }
         else {
             AUMPluginDebug("Window using GLFW initialized.");
@@ -106,7 +106,7 @@ namespace AUMGraphics {
     void IAUMGraphicsOutput::InitializeGLEW() const {
         if (glewInit() != GLEW_OK)
         {
-            AUMPluginError("Glew could not init.");
+            throw this->Errors.GLEW;
         }
         else {
             AUMPluginDebug("Glew initialized.");

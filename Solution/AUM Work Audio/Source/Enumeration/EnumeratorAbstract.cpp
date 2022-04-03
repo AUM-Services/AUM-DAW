@@ -3,6 +3,7 @@
 namespace AUMEnumeration {
 
     AUMEnumeratorAbstract::AUMEnumeratorAbstract() {
+        this->Name = "Default name";
         const int enumSize = 1;
         string enumStrings[enumSize] = { "AUM_NULL" };
         this->Map = this->MakeMap(this->Map, enumStrings, enumSize);
@@ -11,7 +12,8 @@ namespace AUMEnumeration {
     /// <summary>
     /// Inherit the class for quick enum mapping. Not supposed to be a singleton.
     /// </summary>
-    AUMEnumeratorAbstract::AUMEnumeratorAbstract(string strings[], int elementCount) {
+    AUMEnumeratorAbstract::AUMEnumeratorAbstract(const char* name, string strings[], int elementCount) {
+        this->Name = name;
         this->Map = this->MakeMap(this->Map, strings, elementCount);
         this->Map[0] = "AUM_NULL";
     }
@@ -25,7 +27,7 @@ namespace AUMEnumeration {
             newMap[i+1] = strings[i];
             amount++;
         }
-        AUMPluginTrace("Enums:");
+        AUMPluginTrace("Enums for {0}:", this->Name);
         AUMPluginTrace("_________");
         for (int i = 0; i < amount; i++)
         {

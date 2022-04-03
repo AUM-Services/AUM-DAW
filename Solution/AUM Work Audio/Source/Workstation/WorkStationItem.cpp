@@ -25,7 +25,7 @@ namespace AUMWorkstation {
         }
     }
 
-    int AUMWorkstationItem::Start() const {
+    int AUMWorkstationItem::Start() {
         return this->Run();
     }
 
@@ -33,7 +33,7 @@ namespace AUMWorkstation {
         return this->DelegateRun();
     }
 
-    int AUMWorkstationItem::Run() const {
+    int AUMWorkstationItem::Run() {
         this->PresentationMode();
         AUMAPIWarn("Plugin status:");
         AUMAPIInfo("Status: {0}, {1}.", this->DelegateRun(), this->Name);

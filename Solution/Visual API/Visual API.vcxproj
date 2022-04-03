@@ -158,7 +158,8 @@
     <ClCompile Include="Source\Runtime.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Enumeration\GraphicsEnum.h" />
+    <ClInclude Include="Source\Enumeration\GraphicsErrorType.h" />
+    <ClInclude Include="Source\Enumeration\GraphicsError.h" />
     <ClInclude Include="Source\Output\Graphics.h" />
     <ClInclude Include="Source\Runtime.h" />
   </ItemGroup>

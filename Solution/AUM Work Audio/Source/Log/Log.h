@@ -14,10 +14,8 @@ using namespace std;
 #define AUM_WORK_AUDIO_POINTERS_H
 #endif // !AUM_WORK_AUDIO_POINTERS_H
 
-// I use vcpkg to maintain C++ includes, but this has been included in the Ext-Dependencies folder.
-// If needed, use #include "Vendors/spdlog/include/spdlog/spdlog.h".
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include "Vendors/spdlog/include/spdlog/spdlog.h".
+#include "Vendors/spdlog/include/spdlog/sinks/stdout_color_sinks.h"
 
 namespace AUMLog {
 

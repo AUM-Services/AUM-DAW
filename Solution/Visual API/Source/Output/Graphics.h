@@ -18,6 +18,9 @@ using namespace AUMWorkstation;
 #include "Vendors/glew//include/GL/glew.h"
 #include "Vendors/glfw/include/GLFW/glfw3.h"
 
+#pragma comment(lib, "glew32s.lib")
+#pragma comment(lib, "glfw3.lib")
+
 namespace AUMGraphics {
 
     class IAUMGraphicsOutput : public AUMWorkstationItem {

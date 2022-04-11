@@ -58,7 +58,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Source Coding Templates\premake-5.0.0-beta1-windows\premake5.exe" />
     <None Include="Ext-Dependencies\Vendors\premake\premake5.lua" />
   </ItemGroup>
   <ItemGroup>

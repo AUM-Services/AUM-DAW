@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #pragma once
 
 #ifndef AUM_WORK_AUDIO_IO_H

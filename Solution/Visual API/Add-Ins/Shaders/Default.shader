@@ -13,7 +13,9 @@ Read shader fragment
 
 layout(location = 0) out vec4 color;
 
+uniform vec4 UNIFORM_COLOR = vec4(.81, 0.81, 0.81, .81);
+
 void main()
 {
-color = vec4(.81, 0.81, 0.81, .81);
+	color = UNIFORM_COLOR;
 }

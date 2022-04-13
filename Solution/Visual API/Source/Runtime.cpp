@@ -18,9 +18,6 @@ using namespace std;
 ////                                                   ////
 ///////////////////////////////////////////////////////////
 
-#include "Validator/APIValidator.h"
-using namespace AUMAPIValidation;
-
 namespace Runtime {
 
     class AUMRuntime : public AUMApplication {
@@ -42,20 +39,22 @@ namespace Runtime {
 /////////////////////////////////////////////
 
 #ifndef AUM_DIGITAL_AUDIO_API_H
-using namespace Runtime;
 RuntimeValidator apiValidator = RuntimeValidator();
+#include "Validator/APIValidator.h"
+using namespace Runtime;
+using namespace AUMAPIValidation;
 #define VALIDATE_BUILD false
 #define AUM_DIGITAL_AUDIO_API_H
 #endif // !AUM_DIGITAL_AUDIO_API_H
 
 AUMApplication AUMWorkAudio::AUMWorkstationInitMain() {
-    AUMPluginCritical("*Start of AUM Visual API items****");
+    AUMPluginCritical("*Start of AUM Runtime API items****");
     AUMRuntime newRuntime = AUMRuntime();
     newRuntime.InitWorkstationItems();
     if (VALIDATE_BUILD)
     {
         apiValidator.ValidateRuntimeFunctionality(&newRuntime.WorkstationItems);
     }
-    AUMPluginCritical("****End of AUM Visual API items****************");
+    AUMPluginCritical("****End of AUM Runtime API items****************");
     return newRuntime;
 };

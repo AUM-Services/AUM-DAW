@@ -25,6 +25,8 @@ using namespace AUMWorkstation;
 
 #ifndef AUM_GRAPHICS_PERIPHERALS_H
 #include "Shader.h"
+#include "../Validator/APIValidator.h"
+using namespace AUMAPIValidation;
 #define AUM_GRAPHICS_PERIPHERALS_H
 #endif // !AUM_GRAPHICS_PERIPHRIALS_H
 
@@ -34,6 +36,9 @@ namespace AUMGraphics {
     public:
         IAUMGraphicsOutput(string name);
         ~IAUMGraphicsOutput();
+        GLuint DynamicShader;
+        // Debugger:
+        #define _AssertGLErrorFree_(x) this->CleanGLErrors(); x; _Assert_(this->ListenForGLErrorEvent(__FILE__, #x, __LINE__));
     private:
         string Name;
         AUMGraphicsErrorEnum Errors;
@@ -45,6 +50,10 @@ namespace AUMGraphics {
         void InitializeGLEW() const;
         void BuildGraphicsOutput();
         void DrawItem(GLFWwindow* graphicalItem) const;
+        void CleanGLErrors() const;
+        void GetGLErrors() const;
+        bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
+        void DynamicallyUpdateShaderColor(float red, float green, float blue, float alpha) const;
     };
 
 }

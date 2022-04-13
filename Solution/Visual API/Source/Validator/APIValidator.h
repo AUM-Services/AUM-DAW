@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #pragma once
 
 #ifndef AUM_WORK_AUDIO_LOGS_H
@@ -14,6 +16,8 @@ using namespace AUMWorkstation;
 #endif // !AUM_WORK_AUDIO_H
 
 namespace AUMAPIValidation {
+
+	#define _Assert_(x) if(!(x)) __debugbreak();
 
 	class RuntimeValidator
 	{

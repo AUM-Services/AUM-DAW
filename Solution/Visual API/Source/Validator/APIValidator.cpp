@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #include "APIValidator.h"
 
 namespace AUMAPIValidation {

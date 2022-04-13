@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #include "Shader.h"
 
 namespace AUMGraphics {

@@ -51,4 +51,41 @@ namespace AUMGraphics {
         this->fragmentShader = value;
     }
 
+    void Shader::ReadShaderFile(const string& filePath) {
+        ifstream stream(filePath);
+        string line;
+        stringstream shaders[2];
+        // Sets none out of range in a visually pleasing way.
+        const int none = -1;
+        enum class SHADERTYPE
+        {
+            NONE=(none+0), VERTEX=(none+1), FRAGMENT=(none+2)
+        };
+        SHADERTYPE type = SHADERTYPE::NONE;
+        while (getline(stream, line))
+        {
+            if (line.find("Read shader") != string::npos)
+            {
+                if (line.find("vertex") != string::npos)
+                {
+                    type = SHADERTYPE::VERTEX;
+                }
+                else if (line.find("fragment") != string::npos) {
+                    type = SHADERTYPE::FRAGMENT;
+                }
+            }
+            else {
+                shaders[(int)type] << line << '\n';
+            }
+        }
+        this->vertexShader = shaders[(int)SHADERTYPE::VERTEX].str();
+        this->fragmentShader = shaders[(int)SHADERTYPE::FRAGMENT].str();
+        AUMPluginWarn("* SHADER DETAILS ****");
+        AUMPluginWarn("**** ****************");
+        AUMPluginDebug("Vertex shader:");
+        AUMPluginInfo("\n\n"+this->vertexShader);
+        AUMPluginDebug("Fragment shader:");
+        AUMAPIInfo("\n\n"+this->fragmentShader);
+    }
+
 }

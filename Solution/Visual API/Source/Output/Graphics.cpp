@@ -16,24 +16,7 @@ namespace AUMGraphics {
         string enum2Strings[enumSize] = { "INITIALIZATION" };
         this->ErrorTypes = AUMGraphicsErrorTypeEnum("Graphics readout types", enum2Strings, enum2Size);
         this->ShaderCompiler = Shader();
-        this->ShaderCompiler.SetVertexShader(
-            "#version 330 core\n"
-            "\n"
-            "layout(location = 0) in vec4 position;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "gl_Position = position;\n"
-            "}\n");
-        this->ShaderCompiler.SetFragmentShader(
-            "#version 330 core\n"
-            "\n"
-            "layout(location = 0) out vec4 color;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-            "}\n");
+        this->ShaderCompiler.ReadShaderFile("Add-Ins/Shaders/Default.shader");
     };
 
     /////////////////////////////

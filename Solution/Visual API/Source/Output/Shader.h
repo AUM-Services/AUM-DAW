@@ -6,6 +6,8 @@
 #include <map>
 #include <memory.h>
 #include <vector>
+#include <fstream>
+#include <sstream>
 using namespace std;
 #define AUM_WORK_AUDIO_IO_H
 #endif // !AUM_WORK_AUDIO_IO_H
@@ -34,6 +36,7 @@ namespace AUMGraphics {
 		unsigned int CreateShader();
 		void SetVertexShader(string value);
 		void SetFragmentShader(string value);
+		void ReadShaderFile(const string& filePath);
 	private:
 		string vertexShader;
 		string fragmentShader;

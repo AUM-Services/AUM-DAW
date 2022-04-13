@@ -31,7 +31,7 @@ namespace AUMWorkstation {
     public:
         typedef int (*IntegerFunction)();
         virtual void PresentationMode(string name) const;
-        virtual void CreateItemFunctionality(IntegerFunction runDelegate, string name) const;
+        virtual void CreateItemFunctionality(IntegerFunction itemFunctionality, string name = "Default Name") const;
     };
 
 }

@@ -29,14 +29,14 @@ namespace AUMEnumeration {
             newMap[i+1] = strings[i];
             amount++;
         }
-        AUMPluginTrace("Enums for {0}:", this->Name);
-        AUMPluginTrace("_________");
+        AUMAPITrace("Enums for {0}:", this->Name);
+        AUMAPIInfo("---- ----------------");
         for (int i = 0; i < amount; i++)
         {
             AUMPluginTrace(newMap[i+1]);
         }
-        AUMPluginTrace("End of enums printout.");
-        AUMPluginTrace("___\n");
+        AUMAPIInfo("---- ----------------");
+        AUMAPITrace("End of enums printout.");
         return newMap;
     }
 

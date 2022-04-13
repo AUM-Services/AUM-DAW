@@ -12,9 +12,16 @@ using namespace std;
 #define AUM_WORK_AUDIO_IO_H
 #endif // !AUM_WORK_AUDIO_IO_H
 
-namespace Runtime {
+///////////////////////////////////////////////////////////
+////                                                   ////
+//// Design the API, and tell it which runtimes to use ////
+////                                                   ////
+///////////////////////////////////////////////////////////
 
-    int ExampleDelegate() { return 4; };
+#include "Validator/APIValidator.h"
+using namespace AUMAPIValidation;
+
+namespace Runtime {
 
     class AUMRuntime : public AUMApplication {
     public:
@@ -23,36 +30,32 @@ namespace Runtime {
 
     void AUMRuntime::InitWorkstationItems()
     {
-        AUMPluginCritical("*Start of init workstation items****");
-        this->WorkstationItems.emplace_back(make_unique<AUMWorkstationItem>());
-        this->WorkstationItems.emplace_back(make_unique<AUMWorkstationItem>(ExampleDelegate, "ExampleRuntime"));
         this->WorkstationItems.emplace_back(make_unique<IAUMGraphicsOutput>("GLFW GUI"));
     }
 
 }
 
+/////////////////////////////////////////////
+////                                     ////
+//// Send them to the application's host ////
+////                                     ////
+/////////////////////////////////////////////
+
 #ifndef AUM_DIGITAL_AUDIO_API_H
 using namespace Runtime;
+RuntimeValidator apiValidator = RuntimeValidator();
+#define VALIDATE_BUILD false
 #define AUM_DIGITAL_AUDIO_API_H
 #endif // !AUM_DIGITAL_AUDIO_API_H
 
 AUMApplication AUMWorkAudio::AUMWorkstationInitMain() {
+    AUMPluginCritical("*Start of AUM Visual API items****");
     AUMRuntime newRuntime = AUMRuntime();
     newRuntime.InitWorkstationItems();
-    AUMPluginCritical("****End of init workstation items****************");
-    
-    AUMWorkstationItemFactory itemFactory = AUMWorkstationItemFactory();
-    auto exampleDelegate = []()
+    if (VALIDATE_BUILD)
     {
-        return 4;
-    };
-    printf("\n- -- --- ----\n");
-    printf("How to create plugins:\n");
-    printf("- -- --- ----\n");
-    itemFactory.CreateItemFunctionality(exampleDelegate, "ExamplePlugin");
-    printf("\n- -- --- ----\n");
-    printf("How to create runtimes:\n");
-    printf("- -- --- ----\n");
-
+        apiValidator.ValidateRuntimeFunctionality(&newRuntime.WorkstationItems);
+    }
+    AUMPluginCritical("****End of AUM Visual API items****************");
     return newRuntime;
 };

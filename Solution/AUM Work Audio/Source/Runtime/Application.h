@@ -27,6 +27,8 @@ namespace AUMWorkAudio {
     public:
         vector<unique_ptr<AUMWorkstationItem>> WorkstationItems;
         virtual void InitWorkstationItems();
+        void MakeAllWorkItemsAvailable();
+        void CompletePendingWorkloads();
     };
 
     // The compiler generates errors if this is moved into a .cpp file.
@@ -42,5 +44,20 @@ namespace AUMWorkAudio {
     /// Each interface is required to implement the run method, as it gets called in the main entrypoint.
     /// </returns>
     AUMApplication AUMWorkstationInitMain();
+
+    void AUMApplication::MakeAllWorkItemsAvailable() {
+        for (auto const& runtime : this->WorkstationItems)
+        {
+            runtime->MakeAvailable();
+        }
+    }
+
+    void AUMApplication::CompletePendingWorkloads() {
+        for (auto const& runtime : this->WorkstationItems)
+        {
+            runtime->EntryPoint();
+            runtime->RunAssignments();
+        }
+    }
 
 }

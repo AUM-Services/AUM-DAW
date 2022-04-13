@@ -80,11 +80,10 @@ namespace AUMGraphics {
         }
         this->vertexShader = shaders[(int)SHADERTYPE::VERTEX].str();
         this->fragmentShader = shaders[(int)SHADERTYPE::FRAGMENT].str();
-        AUMPluginWarn("* SHADER DETAILS ****");
-        AUMPluginWarn("**** ****************");
-        AUMPluginDebug("Vertex shader:");
-        AUMPluginInfo("\n\n"+this->vertexShader);
-        AUMPluginDebug("Fragment shader:");
+        AUMAPIWarn("*SHADER DETAILS****");
+        AUMAPIInfo("Vertex shader:");
+        AUMAPIInfo("\n\n"+this->vertexShader);
+        AUMAPIInfo("Fragment shader:");
         AUMAPIInfo("\n\n"+this->fragmentShader);
     }
 

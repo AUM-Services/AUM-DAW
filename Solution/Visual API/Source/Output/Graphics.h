@@ -32,15 +32,19 @@ namespace AUMGraphics {
 
     class IAUMGraphicsOutput : public AUMWorkstationItem {
     public:
+        IAUMGraphicsOutput(string name);
+        ~IAUMGraphicsOutput();
+    private:
         string Name;
         AUMGraphicsErrorEnum Errors;
         AUMGraphicsErrorTypeEnum ErrorTypes;
         Shader ShaderCompiler;
-        IAUMGraphicsOutput(string name);
-    private:
+        GLFWwindow* graphicalOutput;
         virtual int Run() override;
-        GLFWwindow* InitializeGLFW() const;
+        void InitializeGLFW();
         void InitializeGLEW() const;
+        void BuildGraphicsOutput();
+        void DrawItem(GLFWwindow* graphicalItem) const;
     };
 
 }

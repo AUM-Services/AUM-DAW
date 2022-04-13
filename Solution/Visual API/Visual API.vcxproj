@@ -149,11 +149,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Validator\APIValidator.cpp" />
     <ClCompile Include="Source\Output\Shader.cpp" />
     <ClCompile Include="Source\Output\Graphics.cpp" />
     <ClCompile Include="Source\Runtime.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Validator\APIValidator.h" />
     <ClInclude Include="Source\Output\Shader.h" />
     <ClInclude Include="Source\Enumeration\GraphicsErrorType.h" />
     <ClInclude Include="Source\Enumeration\GraphicsError.h" />

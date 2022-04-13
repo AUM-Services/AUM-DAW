@@ -26,14 +26,15 @@ using namespace AUMWorkAudio;
 
 int main(int argc, char** argv) {
     Log::AppendSettingsToAllLoggers("AUM Work Audio log", "AUM Plugin log");
-    AUMAPIDebug("*Start of the Host application****");
+    AUMAPIWarn("*Start of the Host application****");
     AUMApplication DAWRuntimes = AUMWorkAudio::AUMWorkstationInitMain();
-    for (auto const& runtime : DAWRuntimes.WorkstationItems)
+    DAWRuntimes.MakeAllWorkItemsAvailable();
+    while (1)
     {
-        runtime->Start();
+        DAWRuntimes.CompletePendingWorkloads();
     }
     AUMAPICritical("All functions have stopped looping.");
-    AUMAPIDebug("****End of the Host application****************");
+    AUMAPIWarn("****End of the Host application****************");
     return 0;
 }
 

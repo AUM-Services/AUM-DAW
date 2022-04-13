@@ -5,22 +5,25 @@
 namespace AUMWorkstation {
 
     void AUMWorkstationItemFactory::PresentationMode(string name) const {
-        if (name == "ExamplePlugin")
+        if (name == "Validation Name")
         {
-            AUMPluginInfo("Welcome to AUM Work Audio Plugins.");
+            AUMPluginInfo("- ----");
+            AUMPluginInfo("How to create AUM workstation plugins:");
+            AUMPluginInfo("---- ----------------");
+            AUMPluginInfo("Welcome to an AUM Workstation plugin.");
             AUMPluginInfo("Method #1 for creating plugins:");
-            AUMPluginInfo("Create an item by defining a method/function.");
-            AUMPluginInfo("then pass the method/function to AUMWorkstationItemFactory::CreateItemFunctionality().");
+            AUMPluginInfo("Define a function using a method, or lambda operation.");
+            AUMPluginInfo("Pass the function and a name to an AUMWorkstationItemFactory using CreateItemFunctionality().");
         }
     };
 
-    void AUMWorkstationItemFactory::CreateItemFunctionality(IntegerFunction runDelegate, string name) const {
-        if (name == "Default" || name == "")
+    void AUMWorkstationItemFactory::CreateItemFunctionality(IntegerFunction itemFunctionality, string name) const {
+        if (name == "Default Name" || name == "")
         {
             AUMPluginError("A name was not given for the plugin, which is required.", name);
             return;
         }
-        if (runDelegate == nullptr)
+        if (itemFunctionality == nullptr)
         {
             AUMPluginError("A run method was not given for the plugin named {0}, which is required.", name);
             return;
@@ -28,8 +31,8 @@ namespace AUMWorkstation {
         else {
             this->PresentationMode(name);
         }
-        AUMPluginInfo("Status: {0}, {1}.", runDelegate(), name);
-        AUMPluginInfo("________________");
+        AUMPluginWarn("New status:");
+        AUMPluginTrace("Status: Not yet run, {0}.", name);
     }
 
 }

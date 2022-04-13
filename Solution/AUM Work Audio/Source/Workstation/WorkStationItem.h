@@ -27,18 +27,20 @@ namespace AUMWorkstation {
 
     struct AUMBuildMacro AUMWorkstationItem {
     public:
-        typedef int (*IntegerFunction)();
+        typedef int (*Integer_Delegate)();
         string Name;
-        AUMWorkstationItem();
-        AUMWorkstationItem(IntegerFunction runDelegate, string name);
+        AUMWorkstationItem(string name = "Default Name");
+        AUMWorkstationItem(Integer_Delegate entryPoint, string name = "Default Name");
         virtual ~AUMWorkstationItem() {}
         virtual void PresentationMode() const;
-        int Start();
-        int StartDelegate() const;
+        bool IsAvailable;
+        void MakeAvailable();
+        int RunAssignments();
+        int EntryPoint() const;
 
     private:
         virtual int Run();
-        int(*DelegateRun)();
+        int(*DelegatedEntry)();
     };
 
 }

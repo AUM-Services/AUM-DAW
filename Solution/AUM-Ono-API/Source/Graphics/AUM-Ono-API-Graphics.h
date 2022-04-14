@@ -40,6 +40,7 @@ namespace AUM_Ono_API_Graphics {
         string Name;
         AUMOnoAPIGraphicsShader ShaderCompiler;
         GLFWwindow* graphicalOutput;
+        GLuint vertexArrayObject;
         virtual int Run() override;
         void InitializeGLFW();
         void InitializeGLEW() const;
@@ -49,6 +50,7 @@ namespace AUM_Ono_API_Graphics {
         void GetGLErrors() const;
         bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
         void DynamicallyUpdateShaderColor(float red, float green, float blue, float alpha) const;
+        void SetupVertexArray();
         void Shutdown();
     };
 

@@ -17,9 +17,9 @@ namespace AUM_Ono_API_Graphics {
     {
         this->Name = name;
         this->ShaderCompiler = AUMOnoAPIGraphicsShader();
-        this->ShaderCompiler.ReadShaderFile("Add-Ins/Shaders/Default.shader");
         this->BuildGraphicsOutput();
-        this->DynamicShader = this->ShaderCompiler.CreateShader();
+        this->DynamicShader = this->ShaderCompiler.CreateShader("Add-Ins/Shaders/Default.shader");
+        this->SetupVertexArray();
     };
 
     /////////////////////////////
@@ -34,23 +34,6 @@ namespace AUM_Ono_API_Graphics {
         if (this->IsAvailable)
         {
             _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
-
-            unsigned int vertexArrayObject;
-            _TestGL_(glGenVertexArrays(1, &vertexArrayObject));
-            _TestGL_(glBindVertexArray(vertexArrayObject));
-            if (_Graphics.Catch.ValidateAndReset())
-            {
-                AUMWorkstationItemCritical("OpenGL failed to instantiate a VAO in {0}.", this->Name);
-                this->Shutdown();
-                throw _Graphics.Catch.Errors.AUM_WORKSTATION_ITEM_ERROR;
-            }
-            else {
-                _TestGL_(glEnableVertexAttribArray(0));
-                if (_Graphics.Catch.ValidateAndReset()) 
-                { 
-                    AUMWorkstationError("glEnableVertexAttribArray failed in {0}.", this->Name);
-                }
-            }
 
         Buffering:
             float positions[] = {
@@ -90,7 +73,7 @@ namespace AUM_Ono_API_Graphics {
             while (!glfwWindowShouldClose(this->graphicalOutput))
             {
                 this->DynamicallyUpdateShaderColor(.51, green, .81, 0.81);
-                _AssertGL_(this->DrawBuffer(vertexArrayObject, indicesBufferObject));
+                _AssertGL_(this->DrawBuffer(this->vertexArrayObject, indicesBufferObject));
                 if (green <= 0.0f || green >= 1.0f) { colorIncrement *= -1; }
                 green -= colorIncrement;
             }
@@ -280,6 +263,29 @@ namespace AUM_Ono_API_Graphics {
             return false;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Sets up references for a vertex array.
+    /// </summary>
+    void IAUMOnoAPIGraphics::SetupVertexArray
+        () 
+    {
+        _TestGL_(glGenVertexArrays(1, &this->vertexArrayObject));
+        _TestGL_(glBindVertexArray(this->vertexArrayObject));
+        if (_Graphics.Catch.ValidateAndReset())
+        {
+            AUMWorkstationItemCritical("OpenGL failed to instantiate a VAO in {0}.", this->Name);
+            this->Shutdown();
+            throw _Graphics.Catch.Errors.AUM_WORKSTATION_ITEM_ERROR;
+        }
+        else {
+            _TestGL_(glEnableVertexAttribArray(0));
+            if (_Graphics.Catch.ValidateAndReset())
+            {
+                AUMWorkstationError("glEnableVertexAttribArray failed in {0}.", this->Name);
+            }
+        }
     }
 
     /// <summary>

@@ -28,7 +28,7 @@ namespace AUM_Ono_API_Graphics {
 	{
 	public:
 		unsigned int CompileShader(unsigned int type, const string& source);
-		unsigned int CreateShader();
+		unsigned int CreateShader(const string& filePath);
 		void SetVertexShader(string value);
 		void SetFragmentShader(string value);
 		void ReadShaderFile(const string& filePath);

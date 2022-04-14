@@ -32,8 +32,10 @@ namespace AUM_Ono_API_Graphics {
     }
 
     unsigned int AUMOnoAPIGraphicsShader::CreateShader
-        ()
+        (const string& filePath)
     {
+        this->ReadShaderFile(filePath);
+
         unsigned int program = glCreateProgram();
         unsigned int vs = this->CompileShader(GL_VERTEX_SHADER, this->vertexShader);
         unsigned int fs = this->CompileShader(GL_FRAGMENT_SHADER, this->fragmentShader);

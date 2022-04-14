@@ -150,6 +150,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Index-Buffer.cpp" />
+    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer.cpp" />
     <ClCompile Include="Source\Contextual-Scope\Graphics\AUM-Ono-API-Context-Graphics.cpp" />
     <ClCompile Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.cpp" />
     <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Shader.cpp" />
@@ -157,6 +159,8 @@
     <ClCompile Include="Source\AUM-Ono-API-Runtime.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Index-Buffer.h" />
+    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer.h" />
     <ClInclude Include="Source\Contextual-Scope\Graphics\AUM-Ono-API-Context-Graphics.h" />
     <ClInclude Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.h" />
     <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Shader.h" />

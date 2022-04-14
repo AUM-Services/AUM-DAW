@@ -1,3 +1,5 @@
+//Written by Eric Dee.
+
 #include "AUM-Workstation-Enumerate.h"
 
 namespace AUM_Workstation_Enumerate {

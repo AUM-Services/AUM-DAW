@@ -7,7 +7,7 @@
 namespace AUM_Ono_API_Graphics {
 
     IAUMOnoAPIGraphics::~IAUMOnoAPIGraphics
-    ()
+        ()
     {
         delete this->graphicalOutput;
     }
@@ -43,23 +43,15 @@ namespace AUM_Ono_API_Graphics {
                  0.5f,  0.5f,
                 -0.5f,  0.5f,
             };
-
             unsigned int indices[] =
             { 0, 1, 2, 3, 0, 2 };
-
-            unsigned int phaseBuffer;
-            glGenBuffers(1, &phaseBuffer);
-            glBindBuffer(GL_ARRAY_BUFFER, phaseBuffer);
-            glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(GL_FLOAT), positions, GL_STATIC_DRAW);
-
-            unsigned int indicesBufferObject;
-            glGenBuffers(1, &indicesBufferObject);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBufferObject);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), indices, GL_STATIC_DRAW);
             
+            this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(4 * 2 * sizeof(float), positions);
+            this->IndexBuffer = AUMOnoAPIGraphicsIndexBuffer(6, indices);
+
             /* Says to use the vao information bound to the vertex array as first arg with the buffer as second arg. */
             glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, 0);
-            
+
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         Shader:
@@ -73,7 +65,7 @@ namespace AUM_Ono_API_Graphics {
             while (!glfwWindowShouldClose(this->graphicalOutput))
             {
                 this->DynamicallyUpdateShaderColor(.51, green, .81, 0.81);
-                _AssertGL_(this->DrawBuffer(this->vertexArrayObject, indicesBufferObject));
+                _AssertGL_(this->DrawBuffer());
                 if (green <= 0.0f || green >= 1.0f) { colorIncrement *= -1; }
                 green -= colorIncrement;
             }
@@ -206,13 +198,13 @@ namespace AUM_Ono_API_Graphics {
     /// </summary>
     /// <param name="graphicalItem">The GLFWwindow object to draw.</param>
     void IAUMOnoAPIGraphics::DrawBuffer
-        (GLuint vertexArrayObject, GLuint ibo)
+        ()
     {
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(this->DynamicShader);
 
-        glBindBuffer(GL_ARRAY_BUFFER, vertexArrayObject);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glBindBuffer(GL_ARRAY_BUFFER, this->vertexArrayObject);
+        this->IndexBuffer.Bind();
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         glfwSwapBuffers(this->graphicalOutput);
@@ -294,6 +286,10 @@ namespace AUM_Ono_API_Graphics {
     void IAUMOnoAPIGraphics::Shutdown
         ()
     {
+        glDeleteBuffers(1, this->IndexBuffer.GetAddress());
+        glDeleteBuffers(1, this->VertexBuffer.GetAddress());
+        delete &this->VertexBuffer;
+        delete &this->IndexBuffer;
         glfwTerminate();
         this->IsAvailable = false;
     }

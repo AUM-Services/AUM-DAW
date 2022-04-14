@@ -28,6 +28,16 @@ using namespace AUM_Ono_API_Context_Graphics;
 #define AUM_ONO_API_GRAPHICS_CONTEXT_H
 #endif // !AUM_API_GRAPHICS_CONTEXT_H
 
+#ifndef AUM_ONO_API_VERTEX_BUFFER_H
+#include "AUM-Ono-API-Graphics-Vertex-Buffer.h"
+#define AUM_ONO_API_VERTEX_BUFFER_H
+#endif // !AUM_ONO_API_VERTEX_BUFFER_H
+
+#ifndef AUM_ONO_API_INDEX_BUFFER_H
+#include "AUM-Ono-API-Graphics-Index-Buffer.h"
+#define AUM_ONO_API_INDEX_BUFFER_H
+#endif // !AUM_ONO_API_INDEX_BUFFER_H
+
 namespace AUM_Ono_API_Graphics {
 
     class IAUMOnoAPIGraphics : public AUMWorkstationItem {
@@ -35,7 +45,9 @@ namespace AUM_Ono_API_Graphics {
         IAUMOnoAPIGraphics(string name);
         ~IAUMOnoAPIGraphics();
         GLuint DynamicShader;
-        // Debugger:
+        AUMOnoAPIGraphicsVertexBuffer VertexBuffer;
+        AUMOnoAPIGraphicsIndexBuffer IndexBuffer;
+
     private:
         string Name;
         AUMOnoAPIGraphicsShader ShaderCompiler;
@@ -45,7 +57,7 @@ namespace AUM_Ono_API_Graphics {
         void InitializeGLFW();
         void InitializeGLEW() const;
         void BuildGraphicsOutput();
-        void DrawBuffer(GLuint vertexArrayObject, GLuint ibo);
+        void DrawBuffer();
         void CleanGLErrors() const;
         void GetGLErrors() const;
         bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;

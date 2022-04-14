@@ -18,9 +18,6 @@ namespace AUM_Ono_API_Graphics {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) *typeCount, phaseIndicies, GL_STATIC_DRAW);
 	}
 
-	AUMOnoAPIGraphicsIndexBuffer::~AUMOnoAPIGraphicsIndexBuffer
-		(){}
-
 	void AUMOnoAPIGraphicsIndexBuffer::Bind
 		()
 	{

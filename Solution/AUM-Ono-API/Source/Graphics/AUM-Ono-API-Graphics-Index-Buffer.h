@@ -18,7 +18,6 @@ namespace AUM_Ono_API_Graphics {
 	public:
 		AUMOnoAPIGraphicsIndexBuffer();
 		AUMOnoAPIGraphicsIndexBuffer(unsigned int typeCount, const unsigned int* phaseIndicies);
-		~AUMOnoAPIGraphicsIndexBuffer();
 		void Bind();
 		void Unbind() const;
 		unsigned int GetCount();

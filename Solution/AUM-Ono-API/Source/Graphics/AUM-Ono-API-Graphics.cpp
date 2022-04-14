@@ -6,12 +6,6 @@
 
 namespace AUM_Ono_API_Graphics {
 
-    IAUMOnoAPIGraphics::~IAUMOnoAPIGraphics
-        ()
-    {
-        delete this->graphicalOutput;
-    }
-
     IAUMOnoAPIGraphics::IAUMOnoAPIGraphics
         (string name) : AUMWorkstationItem()
     {
@@ -21,6 +15,15 @@ namespace AUM_Ono_API_Graphics {
         this->DynamicShader = this->ShaderCompiler.CreateShader("Add-Ins/Shaders/Default.shader");
         this->SetupVertexArray();
     };
+
+    IAUMOnoAPIGraphics::~IAUMOnoAPIGraphics
+    ()
+    {
+        if (this->graphicalOutput)
+        {
+            glfwTerminate();
+        };
+    }
 
     /////////////////////////////
     ////                     ////
@@ -288,9 +291,6 @@ namespace AUM_Ono_API_Graphics {
     {
         glDeleteBuffers(1, this->IndexBuffer.GetAddress());
         glDeleteBuffers(1, this->VertexBuffer.GetAddress());
-        delete &this->VertexBuffer;
-        delete &this->IndexBuffer;
-        glfwTerminate();
         this->IsAvailable = false;
     }
 

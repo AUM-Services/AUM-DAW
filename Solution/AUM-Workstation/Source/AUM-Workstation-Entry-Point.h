@@ -15,10 +15,11 @@ using namespace AUM_Workstation_Runtime;
 
 int main(int argc, char** argv) {
     AUMWorkstationLog::AppendSettingsToAllLoggers("AUM Workstation log", "AUM Workstation runtime log", "AUM Workstation item log");
-    AUMWorkstationDebug("*Start of the Host application****");
+    AUMWorkstationCritical("*Start of the Host application****");
     AUMWorkstationRuntime DAWRuntimes = AUMWorkstationInitMain();
     DAWRuntimes.MakeAllWorkItemsAvailable();
-    while (1)
+    // While there is a primary window:
+    while (DAWRuntimes.WorkstationItems[0]->IsAvailable)
     {
         DAWRuntimes.CompletePendingWorkloads();
     }

@@ -18,7 +18,6 @@ namespace AUM_Ono_API_Graphics {
 	public:
 		AUMOnoAPIGraphicsVertexBuffer();
 		AUMOnoAPIGraphicsVertexBuffer(unsigned int size, const void* plotPoints);
-		~AUMOnoAPIGraphicsVertexBuffer();
 		void Bind();
 		void Unbind() const;
 		unsigned int* GetAddress();

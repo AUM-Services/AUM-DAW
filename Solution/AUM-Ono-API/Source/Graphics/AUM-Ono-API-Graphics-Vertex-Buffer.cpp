@@ -18,9 +18,6 @@ namespace AUM_Ono_API_Graphics {
 		glBufferData(GL_ARRAY_BUFFER, size, plotPoints, GL_STATIC_DRAW);
 	}
 
-	AUMOnoAPIGraphicsVertexBuffer::~AUMOnoAPIGraphicsVertexBuffer
-		(){}
-
 	void AUMOnoAPIGraphicsVertexBuffer::Bind
 		()
 	{

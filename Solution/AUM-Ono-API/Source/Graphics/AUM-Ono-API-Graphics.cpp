@@ -94,17 +94,16 @@ namespace AUM_Ono_API_Graphics {
     ////                ////
     ////////////////////////
 
-    //Initializers:
-
+    /// <summary>
+    /// Initializes GLFW, and GLEW.
+    /// </summary>
     void IAUMOnoAPIGraphics::BuildGraphicsOutput
         ()
     {
-    StartMessage:
         AUMWorkstationItemInfo("----------------Graphics update----------------");
         AUMWorkstationItemTrace("OpenGL:");
         AUMWorkstationItemTrace("{0} is building.", this->Name);
 
-    Startup:
         try {
             this->graphicalOutput = nullptr;
             this->InitializeGLFW();

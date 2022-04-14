@@ -14,9 +14,8 @@ namespace AUM_Ono_API_Enumerate_Graphics {
     {
     public:
         enum AUMEnum {
-            AUM_ONO_API_GRAPHICS_NULL,
-            INITIALIZATION,
-            UPDATE
+            INITIALIZATION = 1,
+            UPDATE = 2
         };
         AUMOnoAPIGraphicsErrorTypeEnum() {
             this->Name = "AUM Ono API Graphics Error Types";

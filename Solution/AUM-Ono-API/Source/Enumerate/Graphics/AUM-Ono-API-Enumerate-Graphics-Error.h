@@ -14,12 +14,12 @@ namespace AUM_Ono_API_Enumerate_Graphics {
     {
     public:
         enum AUMEnum { 
-            AUM_ONO_API_GRAPHICS_NULL,
-            AUM_ONO_API_GRAPHICS_SUCCESS,
-            GLFW,
-            GLFW_WINDOW,
-            GLEW,
-            SHADER };
+            AUM_ONO_API_GRAPHICS_SUCCESS = 1,
+            GLFW = 2,
+            GLFW_WINDOW = 3,
+            GLEW = 4,
+            SHADER = 5
+        };
         //Default map
         AUMOnoAPIGraphicsErrorEnum() {
             this->Name = "AUM Ono API Graphics Errors";
@@ -29,7 +29,8 @@ namespace AUM_Ono_API_Enumerate_Graphics {
                 "GLFW",
                 "GLFW_WINDOW",
                 "GLEW",
-                "SHADER"};
+                "SHADER"
+            };
             this->Map = this->MakeMap(enumStrings, enumSize);
         };
         //Custom map

@@ -30,11 +30,9 @@ namespace AUM_Workstation_Enumerate {
         AUMWorkstationEnumerateAbstract(const char* name, string strings[], int elementCount);
         virtual map<int, string> MakeMap(string strings[], int elementCount) const;
         enum AUMEnum{ 
-            AUM_WORKSTATION_NULL
+            AUM_WORKSTATION_UNDEFINED = 1
         };
-        map<int, string> Map = {
-            {0, "AUM_WORKSTATION_NULL"}
-        };
+        map<int, string> Map;
     };
 
 }

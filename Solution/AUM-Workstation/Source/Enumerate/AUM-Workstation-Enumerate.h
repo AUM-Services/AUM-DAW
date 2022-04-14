@@ -15,12 +15,17 @@ namespace AUM_Workstation_Enumerate {
         AUMWorkstationEnumerate(const char* name, string strings[], int elementCount)
             : AUMWorkstationEnumerateAbstract(name, strings, elementCount) {};
         enum AUMWorkstationEnum{ 
-            AUM_WORKSTATION_UNDEFINED,
-            AUM_WORKSTATION_SUCCESS,
-            AUM_WORKSTATION_TRACE,
-            AUM_WORKSTATION_DEBUG,
-            AUM_WORKSTATION_ERROR,
-            AUM_WORKSTATION_CRITICAL };
+            AUM_WORKSTATION_SUCCESS = 1,
+            AUM_WORKSTATION_TRACE = 2,
+            AUM_WORKSTATION_DEBUG = 3,
+            AUM_WORKSTATION_ERROR = 4,
+            AUM_WORKSTATION_CRITICAL = 5,
+            AUM_WORKSTATION_ITEM_SUCCESS = 6,
+            AUM_WORKSTATION_ITEM_TRACE = 7,
+            AUM_WORKSTATION_ITEM_DEBUG = 8,
+            AUM_WORKSTATION_ITEM_ERROR = 9,
+            AUM_WORKSTATION_ITEM_CRITICAL = 10,
+        };
     };
 
 }

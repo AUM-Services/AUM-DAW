@@ -35,33 +35,48 @@ namespace AUM_Ono_API_Graphics {
         {
             _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
 
-            //Fragment shaders are also called pixel shaders. They are called upon an exponential amount of times compared to vertex shaders.
+            unsigned int vertexArrayObject;
+            _TestGL_(glGenVertexArrays(1, &vertexArrayObject));
+            _TestGL_(glBindVertexArray(vertexArrayObject));
+            if (_Graphics.Catch.ValidateAndReset())
+            {
+                AUMWorkstationItemCritical("OpenGL failed to instantiate a VAO in {0}.", this->Name);
+                this->Shutdown();
+                throw _Graphics.Catch.Errors.AUM_WORKSTATION_ITEM_ERROR;
+            }
+            else {
+                _TestGL_(glEnableVertexAttribArray(0));
+                if (_Graphics.Catch.ValidateAndReset()) 
+                { 
+                    AUMWorkstationError("glEnableVertexAttribArray failed in {0}.", this->Name);
+                }
+            }
+
         Buffering:
-            unsigned int buffer;
-            //Assigns a number/buffer page number also called a shader onto the unsigned buffer int.
-            glGenBuffers(1, &buffer);
-            //Assigns the buffer block to the buffer define for frontal context
-            glBindBuffer(GL_ARRAY_BUFFER, buffer);
             float positions[] = {
-                //X    //Y ---- Has to be given the layout
+                //X    //Y
                 -0.5f, -0.5f,
                  0.5f, -0.5f,
                  0.5f,  0.5f,
                 -0.5f,  0.5f,
             };
-            glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
 
             unsigned int indices[] =
             { 0, 1, 2, 3, 0, 2 };
-            unsigned int ibo;
-            glGenBuffers(1, &ibo);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indices, GL_STATIC_DRAW);
-            /*Size = elements per vertex for this. Stride is the total byte value of the struct/array to get to the next item/block.*/
-            /*Offset at the end is used if you want to use actual structs to hold different vertext values.*/
-            //Enable the array at index:
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+
+            unsigned int phaseBuffer;
+            glGenBuffers(1, &phaseBuffer);
+            glBindBuffer(GL_ARRAY_BUFFER, phaseBuffer);
+            glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(GL_FLOAT), positions, GL_STATIC_DRAW);
+
+            unsigned int indicesBufferObject;
+            glGenBuffers(1, &indicesBufferObject);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBufferObject);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), indices, GL_STATIC_DRAW);
+            
+            /* Says to use the vao information bound to the vertex array as first arg with the buffer as second arg. */
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, 0);
+            
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         Shader:
@@ -75,20 +90,24 @@ namespace AUM_Ono_API_Graphics {
             while (!glfwWindowShouldClose(this->graphicalOutput))
             {
                 this->DynamicallyUpdateShaderColor(.51, green, .81, 0.81);
-                _AssertGL_(this->DrawItem(this->graphicalOutput, buffer, ibo));
+                _AssertGL_(this->DrawBuffer(vertexArrayObject, indicesBufferObject));
                 if (green <= 0.0f || green >= 1.0f) { colorIncrement *= -1; }
                 green -= colorIncrement;
             }
 
         Exit:
-
-            _AssertGL_(glDeleteProgram(this->DynamicShader));
-
-            glfwTerminate();
-            this->IsAvailable = false;
+            _TestGL_(glDeleteProgram(this->DynamicShader));
+            if (_Graphics.Catch.ValidateAndReset())
+            {
+                AUMWorkstationItemCritical("glDeleteProgram failed in {0}.", this->Name);
+                this->Shutdown();
+                throw _Graphics.Catch.Errors.AUM_WORKSTATION_ITEM_ERROR;
+            }
+            else {
+                this->Shutdown();
+                return 0;
+            }
         }
-
-        return 0;
     }
 
     ////////////////////////
@@ -132,8 +151,10 @@ namespace AUM_Ono_API_Graphics {
         }
         else {
             AUMWorkstationItemTrace("GLFW initialized.");
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         }
-        /*Create a windowed mode window and its OpenGL context*/
         this->graphicalOutput = glfwCreateWindow(640, 480, "GLFW Init", NULL, NULL);
         if (!this->graphicalOutput)
         {
@@ -188,15 +209,11 @@ namespace AUM_Ono_API_Graphics {
                 throw _Graphics.Catch.Errors.SHADER;
             }
         }
-        // <summary>
-        // If the shader was not set, this will catch that, and set it.
-        // </summary>
         catch (AUMOnoAPIGraphicsError errorCatch) {
             _Graphics.PrintUpdateError(errorCatch);
             glUseProgram(this->DynamicShader);
             int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
             _Assert_(currentGLLocation != -1);
-            // If the shader still errors, it will assert it this time.
             _AssertGL_(glUniform4f(currentGLLocation, red, green, blue, alpha));
         }
     }
@@ -205,20 +222,17 @@ namespace AUM_Ono_API_Graphics {
     /// Draws an item that is input into it.
     /// </summary>
     /// <param name="graphicalItem">The GLFWwindow object to draw.</param>
-    void IAUMOnoAPIGraphics::DrawItem
-        (GLFWwindow* graphicalItem, GLuint indexBuffer, GLuint ibo) const
+    void IAUMOnoAPIGraphics::DrawBuffer
+        (GLuint vertexArrayObject, GLuint ibo)
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        //glUseProgram(this->DynamicShader);
-        //glEnableVertexAttribArray(0);
-        //glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
-        //glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glUseProgram(this->DynamicShader);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vertexArrayObject);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-        /*Swap front and back buffers*/
-        glfwSwapBuffers(graphicalItem);
-        /*Poll for and process events*/
+        glfwSwapBuffers(this->graphicalOutput);
         glfwPollEvents();
     }
 
@@ -266,6 +280,16 @@ namespace AUM_Ono_API_Graphics {
             return false;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Event call to ensure that all the needed items are broken down.
+    /// </summary>
+    void IAUMOnoAPIGraphics::Shutdown
+        ()
+    {
+        glfwTerminate();
+        this->IsAvailable = false;
     }
 
 }

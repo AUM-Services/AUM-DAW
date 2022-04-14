@@ -44,11 +44,12 @@ namespace AUM_Ono_API_Graphics {
         void InitializeGLFW();
         void InitializeGLEW() const;
         void BuildGraphicsOutput();
-        void DrawItem(GLFWwindow* graphicalItem, GLuint indexBuffer, GLuint ibo) const;
+        void DrawBuffer(GLuint vertexArrayObject, GLuint ibo);
         void CleanGLErrors() const;
         void GetGLErrors() const;
         bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
         void DynamicallyUpdateShaderColor(float red, float green, float blue, float alpha) const;
+        void Shutdown();
     };
 
 }

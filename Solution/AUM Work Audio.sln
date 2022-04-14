@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Visual API", "Visual API\Visual API.vcxproj", "{6B3239A1-EA8F-4033-9139-C9B8B82F393B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AUM-Ono-API", "AUM-Ono-API\AUM-Ono-API.vcxproj", "{6B3239A1-EA8F-4033-9139-C9B8B82F393B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AUM Work Audio", "AUM Work Audio\AUM Work Audio.vcxproj", "{D0FC3545-1936-4BA0-9421-4C132D0139D5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AUM-Workstation", "AUM-Workstation\AUM-Workstation.vcxproj", "{D0FC3545-1936-4BA0-9421-4C132D0139D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

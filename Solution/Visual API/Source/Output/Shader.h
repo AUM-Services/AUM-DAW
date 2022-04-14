@@ -23,11 +23,11 @@ using namespace std;
 #define AUM_GRAPHICS_DEPENDENCIES_H
 #endif
 
-#ifndef AUM_GRAPHICS_ERRORS_H
-#include "../Enumeration/GraphicsError.h"
-#include "../Enumeration/GraphicsErrorType.h"
-#define AUM_GRAPHICS_ERRORS_H
-#endif // !AUM_GRAPHICS_ERRORS_H
+#ifndef AUM_WORK_AUDIO_LOGS_H
+#include "Log/Log.h"
+using namespace AUMLog;
+#define AUM_WORK_AUDIO_LOGS_H
+#endif // !AUM_WORK_AUDIO_LOGS_H
 
 namespace AUMGraphics {
 

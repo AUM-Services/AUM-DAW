@@ -24,7 +24,16 @@
     <ClCompile Include="Source\Output\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Validator\APIValidator.cpp">
+    <ClCompile Include="Source\Unit-Testing\RuntimeUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Unit-Testing\UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Unit-Testing\GraphicsUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Contextual-Scoping\GraphicsContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,16 +44,25 @@
     <ClInclude Include="Source\Output\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Enumeration\GraphicsError.h">
+    <ClInclude Include="Source\Graphics-Enumeration\GraphicsError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Enumeration\GraphicsErrorType.h">
+    <ClInclude Include="Source\Graphics-Enumeration\GraphicsErrorType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Output\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Validator\APIValidator.h">
+    <ClInclude Include="Source\Unit-Testing\RuntimeUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Unit-Testing\UnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Unit-Testing\GraphicsUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Contextual-Scoping\GraphicsContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,18 +17,16 @@ using namespace AUMWorkstation;
 #define AUM_GRAPHICS_DEPENDENCIES_H
 #endif
 
-#ifndef AUM_GRAPHICS_ERRORS_H
-#include "../Enumeration/GraphicsError.h"
-#include "../Enumeration/GraphicsErrorType.h"
-#define AUM_GRAPHICS_ERRORS_H
-#endif // !AUM_GRAPHICS_ERRORS_H
-
 #ifndef AUM_GRAPHICS_PERIPHERALS_H
 #include "Shader.h"
-#include "../Validator/APIValidator.h"
-using namespace AUMAPIValidation;
 #define AUM_GRAPHICS_PERIPHERALS_H
 #endif // !AUM_GRAPHICS_PERIPHRIALS_H
+
+#ifndef AUM_GRAPHICS_CONTEXT_H
+#include "../Contextual-Scoping/GraphicsContext.h"
+using namespace AUMContext;
+#define AUM_GRAPHICS_CONTEXT_H
+#endif
 
 namespace AUMGraphics {
 
@@ -38,18 +36,15 @@ namespace AUMGraphics {
         ~IAUMGraphicsOutput();
         GLuint DynamicShader;
         // Debugger:
-        #define _AssertGLErrorFree_(x) this->CleanGLErrors(); x; _Assert_(this->ListenForGLErrorEvent(__FILE__, #x, __LINE__));
     private:
         string Name;
-        AUMGraphicsErrorEnum Errors;
-        AUMGraphicsErrorTypeEnum ErrorTypes;
         Shader ShaderCompiler;
         GLFWwindow* graphicalOutput;
         virtual int Run() override;
         void InitializeGLFW();
         void InitializeGLEW() const;
         void BuildGraphicsOutput();
-        void DrawItem(GLFWwindow* graphicalItem) const;
+        void DrawItem(GLFWwindow* graphicalItem, GLuint indexBuffer, GLuint ibo) const;
         void CleanGLErrors() const;
         void GetGLErrors() const;
         bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;

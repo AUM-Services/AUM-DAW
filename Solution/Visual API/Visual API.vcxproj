@@ -149,18 +149,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Validator\APIValidator.cpp" />
+    <ClCompile Include="Source\Contextual-Scoping\GraphicsContext.cpp" />
+    <ClCompile Include="Source\Unit-Testing\GraphicsUnitTest.cpp" />
+    <ClCompile Include="Source\Unit-Testing\RuntimeUnitTest.cpp" />
     <ClCompile Include="Source\Output\Shader.cpp" />
     <ClCompile Include="Source\Output\Graphics.cpp" />
     <ClCompile Include="Source\Runtime.cpp" />
+    <ClCompile Include="Source\Unit-Testing\UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Validator\APIValidator.h" />
+    <ClInclude Include="Source\Contextual-Scoping\GraphicsContext.h" />
+    <ClInclude Include="Source\Unit-Testing\GraphicsUnitTest.h" />
+    <ClInclude Include="Source\Unit-Testing\RuntimeUnitTest.h" />
     <ClInclude Include="Source\Output\Shader.h" />
-    <ClInclude Include="Source\Enumeration\GraphicsErrorType.h" />
-    <ClInclude Include="Source\Enumeration\GraphicsError.h" />
+    <ClInclude Include="Source\Graphics-Enumeration\GraphicsErrorType.h" />
+    <ClInclude Include="Source\Graphics-Enumeration\GraphicsError.h" />
     <ClInclude Include="Source\Output\Graphics.h" />
     <ClInclude Include="Source\Runtime.h" />
+    <ClInclude Include="Source\Unit-Testing\UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AUM Work Audio\AUM Work Audio.vcxproj">

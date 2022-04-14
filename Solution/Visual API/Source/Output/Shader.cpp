@@ -4,7 +4,8 @@
 
 namespace AUMGraphics {
 
-    unsigned int Shader::CompileShader(unsigned int type, const string& source)
+    unsigned int Shader::CompileShader
+        (unsigned int type, const string& source)
     {
         unsigned int id = glCreateShader(type);
         // c_str makes a const char* out of strings. Same as &source[0], which is a pointer to the start of the array.
@@ -30,7 +31,9 @@ namespace AUMGraphics {
         return id;
     }
 
-    unsigned int Shader::CreateShader() {
+    unsigned int Shader::CreateShader
+        ()
+    {
         unsigned int program = glCreateProgram();
         unsigned int vs = this->CompileShader(GL_VERTEX_SHADER, this->vertexShader);
         unsigned int fs = this->CompileShader(GL_FRAGMENT_SHADER, this->fragmentShader);
@@ -45,15 +48,21 @@ namespace AUMGraphics {
         glDeleteShader(vs); glDeleteShader(fs); return program;
     }
 
-    void Shader::SetVertexShader(string value) {
+    void Shader::SetVertexShader
+        (string value)
+    {
         this->vertexShader = value;
     }
 
-    void Shader::SetFragmentShader(string value) {
+    void Shader::SetFragmentShader
+        (string value)
+    {
         this->fragmentShader = value;
     }
 
-    void Shader::ReadShaderFile(const string& filePath) {
+    void Shader::ReadShaderFile
+        (const string& filePath)
+    {
         ifstream stream(filePath);
         string line;
         stringstream shaders[2];

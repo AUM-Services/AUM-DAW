@@ -1,10 +1,12 @@
 //Written by Eric Dee.
 
-#include "APIValidator.h"
+#include "RuntimeUnitTest.h"
 
-namespace AUMAPIValidation {
+namespace AUMUnitTest {
 
-    void RuntimeValidator::ValidateRuntimeFunctionality(vector<unique_ptr<AUMWorkstationItem>>* hostItemBlock) {
+    void RuntimeUnitTest::ValidateRuntimeFunctionality
+        (vector<unique_ptr<AUMWorkstationItem>>* hostItemBlock)
+    {
         hostItemBlock->emplace_back(make_unique<AUMWorkstationItem>());
         auto validationDelegate = []() {
             AUMPluginTrace("The validation delegate has been called.");

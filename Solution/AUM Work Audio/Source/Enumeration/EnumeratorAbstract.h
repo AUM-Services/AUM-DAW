@@ -33,7 +33,7 @@ namespace AUMEnumeration {
         const char* Name;
         AUMEnumeratorAbstract();
         AUMEnumeratorAbstract(const char* name, string strings[], int elementCount);
-        virtual map<int, string> MakeMap(map<int, string> mapReference, string strings[], int elementCount) const;
+        virtual map<int, string> MakeMap(string strings[], int elementCount) const;
         enum AUMEnum{ AUM_NULL };
         map<int, string> Map = { {0, "AUM_NULL"} };
     };

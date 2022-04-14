@@ -8,7 +8,7 @@ namespace AUMEnumeration {
         this->Name = "Default name";
         const int enumSize = 1;
         string enumStrings[enumSize] = { "AUM_NULL" };
-        this->Map = this->MakeMap(this->Map, enumStrings, enumSize);
+        this->Map = this->MakeMap(enumStrings, enumSize);
     }
 
     /// <summary>
@@ -16,11 +16,11 @@ namespace AUMEnumeration {
     /// </summary>
     AUMEnumeratorAbstract::AUMEnumeratorAbstract(const char* name, string strings[], int elementCount) {
         this->Name = name;
-        this->Map = this->MakeMap(this->Map, strings, elementCount);
+        this->Map = this->MakeMap(strings, elementCount);
         this->Map[0] = "AUM_NULL";
     }
 
-    map<int, string> AUMEnumeratorAbstract::MakeMap(map<int, string> mapReference, string strings[], int elementCount) const {
+    map<int, string> AUMEnumeratorAbstract::MakeMap(string strings[], int elementCount) const {
         map<int, string> newMap;
         int amount = 0;
         // Leaves zero alone.
@@ -29,14 +29,6 @@ namespace AUMEnumeration {
             newMap[i+1] = strings[i];
             amount++;
         }
-        AUMAPITrace("Enums for {0}:", this->Name);
-        AUMAPIInfo("---- ----------------");
-        for (int i = 0; i < amount; i++)
-        {
-            AUMPluginTrace(newMap[i+1]);
-        }
-        AUMAPIInfo("---- ----------------");
-        AUMAPITrace("End of enums printout.");
         return newMap;
     }
 

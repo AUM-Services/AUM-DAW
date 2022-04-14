@@ -6,28 +6,21 @@
 
 namespace AUMGraphics {
 
+    IAUMGraphicsOutput::~IAUMGraphicsOutput
+    ()
+    {
+        delete this->graphicalOutput;
+    }
+
     IAUMGraphicsOutput::IAUMGraphicsOutput
         (string name) : AUMWorkstationItem()
     {
         this->Name = name;
-        const int enumSize = 4;
-        string enumStrings[enumSize] = { "AUM_GRAPHICS_SUCCESS", "GLFW", "GLFW_WINDOW", "GLEW" };
-        this->Errors = AUMGraphicsErrorEnum("Graphics readouts", enumStrings, enumSize);
-        const int enum2Size = 1;
-        string enum2Strings[enumSize] = { "INITIALIZATION" };
-        this->ErrorTypes = AUMGraphicsErrorTypeEnum("Graphics readout types", enum2Strings, enum2Size);
         this->ShaderCompiler = Shader();
         this->ShaderCompiler.ReadShaderFile("Add-Ins/Shaders/Default.shader");
         this->BuildGraphicsOutput();
         this->DynamicShader = this->ShaderCompiler.CreateShader();
-        glUseProgram(this->DynamicShader);
     };
-
-    IAUMGraphicsOutput::~IAUMGraphicsOutput
-        ()
-    {
-        delete this->graphicalOutput;
-    }
 
     /////////////////////////////
     ////                     ////
@@ -40,35 +33,30 @@ namespace AUMGraphics {
     {
         if (this->IsAvailable)
         {
-            _AssertGLErrorFree_(glfwMakeContextCurrent(this->graphicalOutput));
+            _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
 
             //Fragment shaders are also called pixel shaders. They are called upon an exponential amount of times compared to vertex shaders.
         Buffering:
-            auto AssignBuffer = []() {
-                unsigned int buffer;
-                //Assigns a number/buffer page number also called a shader onto the unsigned buffer int.
-                glGenBuffers(1, &buffer);
-                //Assigns the buffer block to the buffer define for frontal context
-                glBindBuffer(GL_ARRAY_BUFFER, buffer);
-                float positions[] = {
-                    //X    //Y ---- Has to be given the layout
-                    -0.5f, -0.5f,
-                     0.5f, -0.5f,
-                     0.5f,  0.5f,
-                    -0.5f,  0.5f,
-                };
-                glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
-
-                unsigned int indices[] =
-                { 0, 1, 2, 3, 0, 2 };
-                unsigned int ibo;
-                glGenBuffers(1, &ibo);
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indices, GL_STATIC_DRAW);
+            unsigned int buffer;
+            //Assigns a number/buffer page number also called a shader onto the unsigned buffer int.
+            glGenBuffers(1, &buffer);
+            //Assigns the buffer block to the buffer define for frontal context
+            glBindBuffer(GL_ARRAY_BUFFER, buffer);
+            float positions[] = {
+                //X    //Y ---- Has to be given the layout
+                -0.5f, -0.5f,
+                 0.5f, -0.5f,
+                 0.5f,  0.5f,
+                -0.5f,  0.5f,
             };
+            glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
 
-            _AssertGLErrorFree_(AssignBuffer());
-
+            unsigned int indices[] =
+            { 0, 1, 2, 3, 0, 2 };
+            unsigned int ibo;
+            glGenBuffers(1, &ibo);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indices, GL_STATIC_DRAW);
             /*Size = elements per vertex for this. Stride is the total byte value of the struct/array to get to the next item/block.*/
             /*Offset at the end is used if you want to use actual structs to hold different vertext values.*/
             //Enable the array at index:
@@ -77,6 +65,7 @@ namespace AUMGraphics {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         Shader:
+            glUseProgram(this->DynamicShader);
             this->DynamicallyUpdateShaderColor(.51, .51, .81, 0.81);
 
         Writing:
@@ -86,15 +75,14 @@ namespace AUMGraphics {
             while (!glfwWindowShouldClose(this->graphicalOutput))
             {
                 this->DynamicallyUpdateShaderColor(.51, green, .81, 0.81);
-                _AssertGLErrorFree_(this->DrawItem(this->graphicalOutput));
-                if (green <= 0.0f) { colorIncrement = colorIncrement * -1; }
-                if (green >= 1.0f) { colorIncrement = colorIncrement * -1; }
+                _AssertGL_(this->DrawItem(this->graphicalOutput, buffer, ibo));
+                if (green <= 0.0f || green >= 1.0f) { colorIncrement *= -1; }
                 green -= colorIncrement;
             }
 
         Exit:
 
-            _AssertGLErrorFree_(glDeleteProgram(this->DynamicShader));
+            _AssertGL_(glDeleteProgram(this->DynamicShader));
 
             glfwTerminate();
             this->IsAvailable = false;
@@ -125,11 +113,9 @@ namespace AUMGraphics {
             this->InitializeGLFW();
             this->InitializeGLEW();
         }
-        catch (AUMGraphicsErrorEnum::AUMEnum errorCatch)
+        catch (AUMGraphicsError errorCatch)
         {
-            string error = this->Errors.Map[errorCatch];
-            string errorType = this->ErrorTypes.Map[this->ErrorTypes.INITIALIZATION];
-            AUMAPIError("{0} failed during {1}.", error, errorType);
+            _Graphics.PrintInitilizationError(errorCatch);
         }
     }
 
@@ -142,7 +128,7 @@ namespace AUMGraphics {
     {
         if (!glfwInit())
         {
-            throw this->Errors.GLFW;
+            throw _Graphics.Catch.Errors.GLFW;
         }
         else {
             AUMPluginTrace("GLFW initialized.");
@@ -152,7 +138,7 @@ namespace AUMGraphics {
         if (!this->graphicalOutput)
         {
             glfwTerminate();
-            throw this->Errors.GLFW_WINDOW;
+            throw _Graphics.Catch.Errors.GLFW_WINDOW;
         }
         else {
             AUMPluginTrace("Window using GLFW initialized.");
@@ -173,12 +159,14 @@ namespace AUMGraphics {
     {
         if (glewInit() != GLEW_OK)
         {
-            throw this->Errors.GLEW;
+            throw _Graphics.Catch.Errors.GLEW;
         }
         else {
             AUMPluginTrace("Glew initialized.");
         }
     }
+
+    // Views:
 
     /// <summary>
     /// Updates the shader specific to this class.
@@ -190,9 +178,27 @@ namespace AUMGraphics {
     void IAUMGraphicsOutput::DynamicallyUpdateShaderColor
         (float red, float green, float blue, float alpha) const
     {
-        int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
-        _Assert_(currentGLLocation != -1);
-        _AssertGLErrorFree_(glUniform4f(currentGLLocation, red, green, blue, alpha));
+        try 
+        {
+            int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
+            _Test_(currentGLLocation != -1, _Graphics.Catch);
+            _TestGL_(glUniform4f(currentGLLocation, red, green, blue, alpha))
+            if (_Graphics.Catch.ValidateAndReset())
+            {
+                throw _Graphics.Catch.Errors.SHADER;
+            }
+        }
+        // <summary>
+        // If the shader was not set, this will catch that, and set it.
+        // </summary>
+        catch (AUMGraphicsError errorCatch) {
+            _Graphics.PrintUpdateError(errorCatch);
+            glUseProgram(this->DynamicShader);
+            int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
+            _Assert_(currentGLLocation != -1);
+            // If the shader still errors, it will assert it this time.
+            _AssertGL_(glUniform4f(currentGLLocation, red, green, blue, alpha));
+        }
     }
 
     /// <summary>
@@ -200,15 +206,27 @@ namespace AUMGraphics {
     /// </summary>
     /// <param name="graphicalItem">The GLFWwindow object to draw.</param>
     void IAUMGraphicsOutput::DrawItem
-        (GLFWwindow* graphicalItem) const
+        (GLFWwindow* graphicalItem, GLuint indexBuffer, GLuint ibo) const
     {
         glClear(GL_COLOR_BUFFER_BIT);
+        //glUseProgram(this->DynamicShader);
+        //glEnableVertexAttribArray(0);
+        //glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+        //glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         /*Swap front and back buffers*/
         glfwSwapBuffers(graphicalItem);
         /*Poll for and process events*/
         glfwPollEvents();
     }
+
+    //////////////////////////
+    ////                  ////
+    //// GL error getters ////
+    ////                  ////
+    //////////////////////////
 
     /// <summary>
     /// Cleans out the error backlog from OpenGL.

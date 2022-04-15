@@ -9,7 +9,7 @@
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3.lib")
 #define AUM_ONO_API_GRAPHICS_DEPENDENCIES_H
-#endif
+#endif // !AUM_ONO_API_GRAPHICS_DEPENDENCIES_H
 
 namespace AUM_Ono_API_Graphics {
 
@@ -18,9 +18,9 @@ namespace AUM_Ono_API_Graphics {
 	public:
 		AUMOnoAPIGraphicsVertexBuffer();
 		AUMOnoAPIGraphicsVertexBuffer(unsigned int size, const void* plotPoints);
-		void Bind();
+		void Bind() const;
 		void Unbind() const;
-		unsigned int* GetAddress();
+		const unsigned int* GetAddress() const;
 	private:
 		unsigned int phaseBufferId;
 	};

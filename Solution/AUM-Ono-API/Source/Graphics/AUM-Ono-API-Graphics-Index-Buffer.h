@@ -21,7 +21,7 @@ namespace AUM_Ono_API_Graphics {
 		void Bind();
 		void Unbind() const;
 		unsigned int GetCount();
-		unsigned int* GetAddress();
+		const unsigned int* GetAddress() const;
 	private:
 		unsigned int indiciesBufferId;
 		unsigned int typeCount;

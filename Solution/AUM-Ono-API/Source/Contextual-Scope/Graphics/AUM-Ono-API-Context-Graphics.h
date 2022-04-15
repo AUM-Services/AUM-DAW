@@ -11,7 +11,7 @@
 #include "../../Unit-Test/Graphics/AUM-Ono-API-Unit-Test-Graphics.h"
 using namespace AUM_Ono_API_Unit_Test;
 #define AUM_ONO_API_UNIT_TEST_GRAPHICS_H
-#endif // !AUM_GRAPHICS_UNIT_TEST_H
+#endif // !AUM_ONO_API_UNIT_TEST_GRAPHICS_H
 
 namespace AUM_Ono_API_Context_Graphics {
 
@@ -23,6 +23,10 @@ namespace AUM_Ono_API_Context_Graphics {
 		static string GetErrorType(int error);
 		static void PrintInitilizationError(int error);
 		static void PrintUpdateError(int error);
+		static void CleanGLErrors();
+		static void GetGLErrors();
+		static bool ListenForGLErrorEvent(const char* file, const char* function, int line);
+
 	};
 
 	static AUMOnoAPIContextGraphics _Graphics = AUMOnoAPIContextGraphics();

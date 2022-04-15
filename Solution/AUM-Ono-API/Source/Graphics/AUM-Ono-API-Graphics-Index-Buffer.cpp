@@ -36,8 +36,8 @@ namespace AUM_Ono_API_Graphics {
 		return this->typeCount;
 	}
 
-	unsigned int* AUMOnoAPIGraphicsIndexBuffer::GetAddress
-	()
+	const unsigned int* AUMOnoAPIGraphicsIndexBuffer::GetAddress
+	() const
 	{
 		return &this->indiciesBufferId;
 	}

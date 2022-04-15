@@ -80,5 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Ext-Dependencies\Vendors\premake\LICENSE.txt" />
+    <Text Include="Source\AUM-Workstation-Common-Include-Guards.txt" />
   </ItemGroup>
 </Project>

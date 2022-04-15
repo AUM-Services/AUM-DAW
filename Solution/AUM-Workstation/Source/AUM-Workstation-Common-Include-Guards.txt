@@ -1,0 +1,6 @@
+//Written by Eric Dee.
+
+#ifndef AUM_WORKSTATION_IO_H
+#include <IO/AUM-Workstation-IO.h>
+#define AUM_WORKSTATION_IO_H
+#endif // !AUM_WORKSTATION_IO_H

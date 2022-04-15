@@ -13,7 +13,7 @@ using namespace AUM_Workstation_Unit_Test;
 #include "../../Enumerate/Graphics/AUM-Ono-API-Enumerate-Graphics-Error-Type.h"
 using namespace AUM_Ono_API_Enumerate_Graphics;
 #define AUM_ONO_API_ENUMERATE_GRAPHICS_H
-#endif
+#endif // !AUM_ONO_API_ENUMERATE_GRAPHICS_H
 
 #ifndef AUM_ONO_API_GRAPHICS_DEPENDENCIES_H
 // Include glew before glfw
@@ -22,12 +22,12 @@ using namespace AUM_Ono_API_Enumerate_Graphics;
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "glfw3.lib")
 #define AUM_ONO_API_GRAPHICS_DEPENDENCIES_H
-#endif
+#endif // !AUM_ONO_API_GRAPHICS_DEPENDENCIES_H
 
 namespace AUM_Ono_API_Unit_Test {
 
-	#define _AssertGL_(x) this->CleanGLErrors(); x; _Assert_(this->ListenForGLErrorEvent(__FILE__, #x, __LINE__));
-	#define _TestGL_(x) this->CleanGLErrors(); x; _Test_(this->ListenForGLErrorEvent(__FILE__, #x, __LINE__), _Graphics.Catch);
+	#define _AssertGL_(x) _Graphics.CleanGLErrors(); x; _Assert_(_Graphics.ListenForGLErrorEvent(__FILE__, #x, __LINE__));
+	#define _TestGL_(x) _Graphics.CleanGLErrors(); x; _Test_(_Graphics.ListenForGLErrorEvent(__FILE__, #x, __LINE__), _Graphics.Catch);
 
 	class AUMOnoAPIGraphicsUnitTest : public AUMWorkstationUnitTest
 	{

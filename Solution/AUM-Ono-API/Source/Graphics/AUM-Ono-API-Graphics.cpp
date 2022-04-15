@@ -52,8 +52,14 @@ namespace AUM_Ono_API_Graphics {
             this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(4 * 2 * sizeof(float), positions);
             this->IndexBuffer = AUMOnoAPIGraphicsIndexBuffer(6, indices);
 
-            /* Says to use the vao information bound to the vertex array as first arg with the buffer as second arg. */
-            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, 0);
+            AUMOnoAPIGraphicsVertexArray va;
+            AUMOnoAPIGraphicsVertexBufferLayout layout;
+            layout.Push<float>(2);
+            va.AddToBuffer(this->VertexBuffer, layout);
+
+            ///* Says to use the vao information bound to the vertex array as first arg
+            //with the buffer as second arg. */
+            //glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, 0);
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -211,52 +217,6 @@ namespace AUM_Ono_API_Graphics {
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
         glfwSwapBuffers(this->graphicalOutput);
         glfwPollEvents();
-    }
-
-    //////////////////////////
-    ////                  ////
-    //// GL error getters ////
-    ////                  ////
-    //////////////////////////
-
-    /// <summary>
-    /// Cleans out the error backlog from OpenGL.
-    /// </summary>
-    void IAUMOnoAPIGraphics::CleanGLErrors
-        () const
-    {
-        while (glGetError() != GL_NO_ERROR);
-    }
-
-    /// <summary>
-    /// Prints held errors while retrieving them from OpenGL.
-    /// </summary>
-    void IAUMOnoAPIGraphics::GetGLErrors
-        () const
-    {
-        while (GLenum error = glGetError())
-        {
-            AUMWorkstationItemError("OpenGL had this error: {0}", error);
-        }
-    }
-
-    /// <summary>
-    /// Wrapped/Decorated event that uses an assert defined from the APIValidator class to throw debug errors if a gl error is found,
-    /// and tell you where the error happened.
-    /// </summary>
-    /// <param name="file">The file name.</param>
-    /// <param name="function">The function being called.</param>
-    /// <param name="line">The line of code it is being called from.</param>
-    /// <returns>Success or fail.</returns>
-    bool IAUMOnoAPIGraphics::ListenForGLErrorEvent
-        (const char* file, const char* function, int line) const
-    {
-        while (GLenum error = glGetError())
-        {
-            AUMWorkstationItemError("OpenGL had this error: {0} from file {1}, calling function {2}, on line {3}", error, file, function, line);
-            return false;
-        }
-        return true;
     }
 
     /// <summary>

@@ -8,6 +8,12 @@ using namespace AUM_Workstation_Item;
 #define AUM_WORKSTATION_ITEM_H
 #endif // !AUM_WORKSTATION_ITEM_H
 
+#ifndef AUM_ONO_API_GRAPHICS_CONTEXT_H
+#include "../Contextual-Scope/Graphics/AUM-Ono-API-Context-Graphics.h"
+using namespace AUM_Ono_API_Context_Graphics;
+#define AUM_ONO_API_GRAPHICS_CONTEXT_H
+#endif // !AUM_API_GRAPHICS_CONTEXT_H
+
 #ifndef AUM_ONO_API_GRAPHICS_DEPENDENCIES_H
 // Include glew before glfw
 #include "Vendors/glew//include/GL/glew.h"
@@ -19,24 +25,27 @@ using namespace AUM_Workstation_Item;
 
 #ifndef AUM_ONO_API_GRAPHICS_SHADER_H
 #include "AUM-Ono-Api-Graphics-Shader.h"
+using namespace AUM_Ono_API_Graphics;
 #define AUM_ONO_API_GRAPHICS_SHADER_H
 #endif // !AUM_ONO_API_GRAPHICS_SHADER_H
 
-#ifndef AUM_ONO_API_GRAPHICS_CONTEXT_H
-#include "../Contextual-Scope/Graphics/AUM-Ono-API-Context-Graphics.h"
-using namespace AUM_Ono_API_Context_Graphics;
-#define AUM_ONO_API_GRAPHICS_CONTEXT_H
-#endif // !AUM_API_GRAPHICS_CONTEXT_H
-
-#ifndef AUM_ONO_API_VERTEX_BUFFER_H
+#ifndef AUM_ONO_API_GRAPHICS_VERTEX_BUFFER_H
 #include "AUM-Ono-API-Graphics-Vertex-Buffer.h"
-#define AUM_ONO_API_VERTEX_BUFFER_H
-#endif // !AUM_ONO_API_VERTEX_BUFFER_H
+using namespace AUM_Ono_API_Graphics;
+#define AUM_ONO_API_GRAPHICS_VERTEX_BUFFER_H
+#endif // !AUM_ONO_API_GRAPHICS_VERTEX_BUFFER_H
 
-#ifndef AUM_ONO_API_INDEX_BUFFER_H
+#ifndef AUM_ONO_API_GRAPHICS_INDEX_BUFFER_H
 #include "AUM-Ono-API-Graphics-Index-Buffer.h"
-#define AUM_ONO_API_INDEX_BUFFER_H
-#endif // !AUM_ONO_API_INDEX_BUFFER_H
+using namespace AUM_Ono_API_Graphics;
+#define AUM_ONO_API_GRAPHICS_INDEX_BUFFER_H
+#endif // !AUM_ONO_API_GRAPHICS_INDEX_BUFFER_H
+
+#ifndef AUM_ONO_API_GRAPHICS_VERTEX_ARRAY_H
+#include "AUM-Ono-API-Graphics-Vertex-Array.h"
+using namespace AUM_Ono_API_Graphics;
+#define AUM_ONO_API_GRAPHICS_VERTEX_ARRAY_H
+#endif // !AUM_ONO_API_GRAPHICS_VERTEX_ARRAY_H
 
 namespace AUM_Ono_API_Graphics {
 
@@ -44,7 +53,7 @@ namespace AUM_Ono_API_Graphics {
     public:
         IAUMOnoAPIGraphics(string name);
         ~IAUMOnoAPIGraphics();
-        GLuint DynamicShader;
+        unsigned int DynamicShader;
         AUMOnoAPIGraphicsVertexBuffer VertexBuffer;
         AUMOnoAPIGraphicsIndexBuffer IndexBuffer;
 
@@ -52,15 +61,15 @@ namespace AUM_Ono_API_Graphics {
         string Name;
         AUMOnoAPIGraphicsShader ShaderCompiler;
         GLFWwindow* graphicalOutput;
-        GLuint vertexArrayObject;
+        unsigned int vertexArrayObject;
         virtual int Run() override;
         void InitializeGLFW();
         void InitializeGLEW() const;
         void BuildGraphicsOutput();
         void DrawBuffer();
-        void CleanGLErrors() const;
-        void GetGLErrors() const;
-        bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
+        //void CleanGLErrors() const;
+        //void GetGLErrors() const;
+        //bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
         void DynamicallyUpdateShaderColor(float red, float green, float blue, float alpha) const;
         void SetupVertexArray();
         void Shutdown();

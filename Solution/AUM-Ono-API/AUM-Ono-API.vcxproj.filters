@@ -36,6 +36,12 @@
     <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Index-Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Array.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer-Layout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AUM-Ono-API-Runtime.h">
@@ -63,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Index-Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer-Layout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

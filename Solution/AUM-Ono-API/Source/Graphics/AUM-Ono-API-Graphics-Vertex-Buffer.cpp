@@ -19,9 +19,9 @@ namespace AUM_Ono_API_Graphics {
 	}
 
 	void AUMOnoAPIGraphicsVertexBuffer::Bind
-		()
+		() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, this->phaseBufferId);
+		glBindBuffer(GL_ARRAY_BUFFER, phaseBufferId);
 	}
 
 	void AUMOnoAPIGraphicsVertexBuffer::Unbind
@@ -30,8 +30,8 @@ namespace AUM_Ono_API_Graphics {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	unsigned int* AUMOnoAPIGraphicsVertexBuffer::GetAddress
-	()
+	const unsigned int* AUMOnoAPIGraphicsVertexBuffer::GetAddress
+	() const
 	{
 		return &this->phaseBufferId;
 	}

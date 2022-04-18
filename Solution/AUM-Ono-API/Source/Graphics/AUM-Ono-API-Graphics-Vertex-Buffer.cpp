@@ -16,6 +16,8 @@ namespace AUM_Ono_API_Graphics {
 		glGenBuffers(1, &this->phaseBufferId);
 		glBindBuffer(GL_ARRAY_BUFFER, this->phaseBufferId);
 		glBufferData(GL_ARRAY_BUFFER, size, plotPoints, GL_STATIC_DRAW);
+		// GL static draw indicates this data won't be written to the buffer too often.
+		// As such, GL stores a copy of the buffer in the GPU AM.
 	}
 
 	void AUMOnoAPIGraphicsVertexBuffer::Bind

@@ -80,5 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Add-Ins\Shaders\Default.shader" />
+    <None Include="Add-Ins\Shaders\2d.shader" />
   </ItemGroup>
 </Project>

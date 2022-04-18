@@ -18,6 +18,8 @@ namespace AUM_Ono_API_Context_Graphics {
 	class AUMOnoAPIContextGraphics
 	{
 	public:
+		AUMOnoAPIContextGraphics(const AUMOnoAPIContextGraphics&) = delete;
+		AUMOnoAPIContextGraphics();
 		static AUMOnoAPIGraphicsUnitTest Catch;
 		static string GetError(int error);
 		static string GetErrorType(int error);
@@ -29,6 +31,6 @@ namespace AUM_Ono_API_Context_Graphics {
 
 	};
 
-	static AUMOnoAPIContextGraphics _Graphics = AUMOnoAPIContextGraphics();
+	static const AUMOnoAPIContextGraphics _Graphics;
 
 }

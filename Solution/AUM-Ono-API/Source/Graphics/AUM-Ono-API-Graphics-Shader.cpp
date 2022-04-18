@@ -47,7 +47,9 @@ namespace AUM_Ono_API_Graphics {
         glLinkProgram(program);
         glValidateProgram(program);
 
-        glDeleteShader(vs); glDeleteShader(fs); return program;
+        glDeleteShader(vs); glDeleteShader(fs);
+        
+        return program;
     }
 
     void AUMOnoAPIGraphicsShader::SetVertexShader

@@ -66,12 +66,14 @@ namespace AUM_Ono_API_Graphics {
         void InitializeGLFW();
         void InitializeGLEW() const;
         void BuildGraphicsOutput();
-        void DrawBuffer();
+        void DrawASineWave();
+        void SetupATestingBuffer();
+        void DrawTheTestingBuffer();
         //void CleanGLErrors() const;
         //void GetGLErrors() const;
         //bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
-        void DynamicallyUpdateShaderColor(float red, float green, float blue, float alpha) const;
-        void SetupVertexArray();
+        void UpdateTheShaderColor(float red, float green, float blue, float alpha) const;
+        void SetupTheVertexArrayObject();
         void Shutdown();
     };
 

@@ -2,6 +2,11 @@
 
 #pragma once
 
+#ifndef AUM_WORKSTATION_MATH_H
+#include <Math/AUM-Workstation-Math.h>
+#define AUM_WORKSTATION_MATH_H
+#endif // !AUM_WORKSTATION_MATH_H
+
 #ifndef AUM_WORKSTATION_CONTEXT_RUNTIME_H
 #include "Runtime/AUM-Workstation-Context-Runtime.h"
 #define AUM_WORKSTATION_CONTEXT_RUNTIME_H
@@ -64,13 +69,6 @@ namespace AUM_Ono_API_Graphics {
         AUMOnoAPIGraphicsVertexBuffer VertexBuffer;
         AUMOnoAPIGraphicsIndexBuffer IndexBuffer;
         bool IsRunning;
-        struct colors {
-            float Red_ = 0.51f;
-            float Green_ = 0.0f;
-            float Blue_ = 0.64f;
-            float Alpha_ = 0.64f;
-            float ColorIncrement_ = 0.01f;
-        } ShaderColors;
 
     private:
         //Field
@@ -78,6 +76,18 @@ namespace AUM_Ono_API_Graphics {
         AUMOnoAPIGraphicsShader ShaderCompiler;
         GLFWwindow* graphicalOutput;
         unsigned int defaultVertexArray;
+
+        //Member
+        struct Colors {
+            float Red_ = 0.64f;
+            float Green_ = 0.0f;
+            float Blue_ = 0.64f;
+            float Alpha_ = 0.64f;
+            float ColorIncrement_ = 0.01f;
+        } ShaderColors;
+        static struct Oscillator {
+            float Frequency_ = 64.0f;
+        } Oscillator_staticMember;
 
         //Method
         virtual int Run() override;
@@ -92,6 +102,10 @@ namespace AUM_Ono_API_Graphics {
         void SetAndUseTheDynamicShader(const string filePath);
         void RotateGreen();
         void Shutdown();
+
+        //Hardware
+        void SetTheCallbacks();
+        static void KeyEvent_ChangeFrequency(GLFWwindow* window, int key, int scancode, int action, int mods);
 
     public:
         //Ctr

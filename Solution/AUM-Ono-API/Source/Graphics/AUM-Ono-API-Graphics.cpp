@@ -12,6 +12,8 @@ namespace AUM_Ono_API_Graphics {
     ////              ////
     //////////////////////
 
+    IAUMOnoAPIGraphics::Oscillator IAUMOnoAPIGraphics::Oscillator_staticMember;
+
     IAUMOnoAPIGraphics::IAUMOnoAPIGraphics
     
         (string name) : AUMWorkstationItem() {
@@ -171,6 +173,15 @@ namespace AUM_Ono_API_Graphics {
     }
 
     /// <summary>
+    /// Initialize all the hardware functions here.
+    /// </summary>
+    void IAUMOnoAPIGraphics::SetTheCallbacks
+
+        () {
+        glfwSetKeyCallback(this->graphicalOutput, this->KeyEvent_ChangeFrequency);
+    }
+
+    /// <summary>
     /// Initializes GLFW, and GLEW.
     /// </summary>
     void IAUMOnoAPIGraphics::BuildTheGraphicsOutput
@@ -184,6 +195,7 @@ namespace AUM_Ono_API_Graphics {
             this->graphicalOutput = nullptr;
             this->InitializeGLFW();
             this->InitializeGLEW();
+            this->SetTheCallbacks();
         }
         catch (AUMOnoAPIGraphicsError errorCatch)
         {
@@ -278,7 +290,9 @@ namespace AUM_Ono_API_Graphics {
     /// <summary>
     /// Helper method to change the green level incrementally.
     /// </summary>
-    void IAUMOnoAPIGraphics::RotateGreen() {
+    void IAUMOnoAPIGraphics::RotateGreen
+    
+        () {
         if (this->ShaderColors.Green_ <= 0.0f || this->ShaderColors.Green_ >= 1.0f)
         {
             this->ShaderColors.ColorIncrement_ *= -1;
@@ -291,7 +305,7 @@ namespace AUM_Ono_API_Graphics {
     /// </summary>
     void IAUMOnoAPIGraphics::Shutdown
 
-    () {
+        () {
         glDeleteVertexArrays(1, &this->defaultVertexArray);
         glDeleteVertexArrays(1, this->VertexBuffer.GetAddress());
         glDeleteBuffers(1, this->IndexBuffer.GetAddress());
@@ -300,14 +314,33 @@ namespace AUM_Ono_API_Graphics {
         this->IsAvailable = false;
     }
 
+    /// <summary>
+    /// Changes frequency up or down based on which key is pressed.
+    /// </summary>
+    /// <param name="window">The GLFW window to focus.</param>
+    /// <param name="key">The key value.</param>
+    /// <param name="scancode">The key scancode.</param>
+    /// <param name="action">The present action on the scancode.</param>
+    /// <param name="mods">Any decorators tied to the read.</param>
+    void IAUMOnoAPIGraphics::KeyEvent_ChangeFrequency
+    
+        (GLFWwindow* window, int key, int scancode, int action, int mods) {
+        if (key == GLFW_KEY_Q && action == GLFW_PRESS)
+        {
+            Oscillator_staticMember.Frequency_ -= 16.0f;
+        }
+        if (key == GLFW_KEY_E && action == GLFW_PRESS)
+        {
+            Oscillator_staticMember.Frequency_ += 16.0f;
+        }
+    }
+
 /********************************************************************************************************/
     ////                         ////
     //// Wave function generator ////
     ////                         ////
     /////////////////////////////////
 
-    #define _USE_MATH_DEFINES
-    #include <math.h>
     void IAUMOnoAPIGraphics::DrawASineWave
 
         // https://en.wikibooks.org/wiki/OpenGL_Programming/Scientific_OpenGL_Tutorial_01
@@ -332,7 +365,10 @@ namespace AUM_Ono_API_Graphics {
         for (int i = 0; i < sampleRate; i++)
         {
             graph[i].x = (float)(i - this->Width) / (pointCount / 2.0f);
-            graph[i].y = amplitude * getSine(graph[i].x, frequency, sampleRate);
+            graph[i].y = amplitude * getSine(
+                graph[i].x,
+                this->Oscillator_staticMember.Frequency_,
+                sampleRate);
         }
 
         this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
@@ -357,6 +393,8 @@ namespace AUM_Ono_API_Graphics {
             0,
             0
         );
+
+        glClear(GL_COLOR_BUFFER_BIT);
 
         glDrawArrays(GL_POINTS, 0, 2000);
         

@@ -21,20 +21,33 @@ using namespace AUM_Workstation_Log;
 namespace AUM_Workstation_Item {
 
     struct AUMWorkstationBuildMacro AUMWorkstationItem {
+
     public:
-        typedef int (*Integer_Delegate)();
+        //Field
         string Name;
-        AUMWorkstationItem(string name = "Default Name");
-        AUMWorkstationItem(Integer_Delegate entryPoint, string name = "Default Name");
+        bool IsAvailable;
+
+        //Member
+        typedef int (*Integer_Delegate)();
+
+        //Method
         virtual ~AUMWorkstationItem() {}
         virtual void PresentationMode() const;
-        bool IsAvailable;
         void MakeAvailable();
         int RunAssignments();
         int EntryPoint() const;
+    
     private:
+        //Method
         virtual int Run();
+
+        //Member
         int(*DelegatedEntry)();
+
+    public:
+        //Ctr
+        AUMWorkstationItem(string name = "Default Name");
+        AUMWorkstationItem(Integer_Delegate entryPoint, string name = "Default Name");
     };
 
 }

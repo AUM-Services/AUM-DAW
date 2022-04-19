@@ -24,17 +24,30 @@ using namespace AUM_Workstation_Log;
 
 namespace AUM_Ono_API_Graphics {
 
-	class AUMOnoAPIGraphicsShader
-	{
-	public:
-		unsigned int CompileShader(unsigned int type, const string& source);
-		unsigned int CreateShader(const string& filePath);
-		void SetVertexShader(string value);
-		void SetFragmentShader(string value);
-		void ReadShaderFile(const string& filePath);
+	class AUMOnoAPIGraphicsShader {
+
 	private:
+		//Fields
+		string filePath;
 		string vertexShader;
 		string fragmentShader;
+		int uniformLocation;
+
+	public:
+		//Methods
+		unsigned int CompileVertexAndFragmentShaders(unsigned int type, const string& source) const;
+		unsigned int BuildVertexAndFragmentShaders(const string& filePath);
+		void SetTheVertexShader(string value);
+		void SetTheFragmentShader(string value);
+		void ReadAndSetTheShaderFromShaderFile(const string& filePath);
+		void SetUniformLocation(unsigned int shader, const char* name);
+		int GetUniformLocation();
+		void SetUniform4f(float v0, float v1, float v2, float v3);
+		void UseShader(unsigned int shader);
+		void UnbindThisUniformLocation();
+
+		//Ctr
+		AUMOnoAPIGraphicsShader();
 	};
 
 }

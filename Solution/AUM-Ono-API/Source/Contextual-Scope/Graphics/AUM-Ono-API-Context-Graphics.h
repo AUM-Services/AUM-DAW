@@ -15,12 +15,13 @@ using namespace AUM_Ono_API_Unit_Test;
 
 namespace AUM_Ono_API_Context_Graphics {
 
-	class AUMOnoAPIContextGraphics
-	{
+	class AUMOnoAPIContextGraphics {
+
 	public:
-		AUMOnoAPIContextGraphics(const AUMOnoAPIContextGraphics&) = delete;
-		AUMOnoAPIContextGraphics();
+		//Field
 		static AUMOnoAPIGraphicsUnitTest Catch;
+
+		//Method
 		static string GetError(int error);
 		static string GetErrorType(int error);
 		static void PrintInitilizationError(int error);
@@ -29,8 +30,11 @@ namespace AUM_Ono_API_Context_Graphics {
 		static void GetGLErrors();
 		static bool ListenForGLErrorEvent(const char* file, const char* function, int line);
 
+		//Ctr
+		AUMOnoAPIContextGraphics(const AUMOnoAPIContextGraphics&) = delete;
+		AUMOnoAPIContextGraphics();
 	};
-
+	//Namespace scoped
 	static const AUMOnoAPIContextGraphics _Graphics;
 
 }

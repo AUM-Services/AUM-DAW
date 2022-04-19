@@ -51,6 +51,9 @@
     <ClInclude Include="Source\IO\AUM-Workstation-IO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\AUM-Workstation-Context-Runtime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Workstation\AUM-Workstation-Item.cpp">

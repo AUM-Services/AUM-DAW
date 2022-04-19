@@ -6,7 +6,7 @@ namespace AUM_Ono_API_Context_Graphics {
 
     AUMOnoAPIContextGraphics::AUMOnoAPIContextGraphics() {}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+/********************************************************************************************************/
     ////                                                                                        ////
     ////  This is a static const singleton found in the AUM_Ono_API_Context_Graphics namespace. ////
     ////                                                                                        ////
@@ -48,7 +48,7 @@ namespace AUM_Ono_API_Context_Graphics {
 
 	}
 
-    //////////////////////////
+/********************************************************************************************************/
     ////                  ////
     //// GL error getters ////
     ////                  ////

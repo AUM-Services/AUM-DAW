@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <map>
+#include <unordered_map>
 #include <memory.h>
 #include <vector>
 #include <fstream>

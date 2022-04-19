@@ -10,34 +10,35 @@ using namespace AUM_Workstation_Enumerate;
 
 namespace AUM_Ono_API_Enumerate_Graphics {
     
-    class AUMOnoAPIGraphicsErrorEnum : public AUMWorkstationEnumerate
-    {
+    class AUMOnoAPIGraphicsErrorEnum : public AUMWorkstationEnumerate {
+
     public:
+        //Member
         enum AUMEnum { 
             AUM_ONO_API_GRAPHICS_SUCCESS = 1,
             GLFW = 2,
             GLFW_WINDOW = 3,
             GLEW = 4,
-            SHADER = 5
+            SHADER = 5,
+            SHADER_CAUGHT_INTERNALLY = 6
         };
-        //Default map
+
+        //Ctr
         AUMOnoAPIGraphicsErrorEnum() {
             this->Name = "AUM Ono API Graphics Errors";
-            const int enumSize = 5;
+            const int enumSize = 6;
             string enumStrings[enumSize] = { 
                 "AUM_ONO_API_GRAPHICS_SUCCESS",
                 "GLFW",
                 "GLFW_WINDOW",
                 "GLEW",
-                "SHADER"
+                "SHADER",
+                "SHADER_CAUGHT_INTERNALLY"
             };
             this->Map = this->MakeMap(enumStrings, enumSize);
-        };
-        //Custom map
-        AUMOnoAPIGraphicsErrorEnum(const char* name, string strings[], int elementCount)
-            : AUMWorkstationEnumerate(name, strings, elementCount) {};
+        }
     };
+    //Namespace scoped
+    typedef AUM_Ono_API_Enumerate_Graphics::AUMOnoAPIGraphicsErrorEnum::AUMEnum AUMOnoAPIGraphicsError;
 
 }
-
-typedef AUM_Ono_API_Enumerate_Graphics::AUMOnoAPIGraphicsErrorEnum::AUMEnum AUMOnoAPIGraphicsError;

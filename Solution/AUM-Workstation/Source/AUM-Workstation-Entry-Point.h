@@ -15,7 +15,7 @@ using namespace AUM_Workstation_Runtime;
 
 int main(int argc, char** argv) {
     AUMWorkstationLog::AppendSettingsToAllLoggers("AUM Workstation log", "AUM Workstation runtime log", "AUM Workstation item log");
-    AUMWorkstationCritical("*Start of the Host application****");
+    AUMWorkstationCritical("*Start of the Host application**");
     AUMWorkstationRuntime DAWRuntimes = AUMWorkstationInitMain();
     DAWRuntimes.MakeAllWorkItemsAvailable();
     // While there is a primary window:
@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
         DAWRuntimes.CompletePendingWorkloads();
     }
     AUMWorkstationCritical("All functions have stopped looping.");
-    AUMWorkstationCritical("****End of the Host application****************");
+    AUMWorkstationCritical("**End of the Host application****");
     return 0;
 }
 

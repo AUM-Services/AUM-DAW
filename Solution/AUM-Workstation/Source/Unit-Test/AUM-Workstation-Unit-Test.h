@@ -12,15 +12,22 @@ namespace AUM_Workstation_Unit_Test {
 	#define _Test_(x, unitTest) if(!(x)) unitTest.SetError();
 
 	class AUMWorkstationBuildMacro AUMWorkstationUnitTest {
+
+	private:
+		//Field
+		static bool hasError;
+
 	public:
-		AUMWorkstationUnitTest();
+		//Method
 		static bool Validate();
 		static void ResetError();
 		static bool ValidateAndReset();
 		static void SetError();
 		static bool HasError();
-	private:
-		static bool hasError;
+
+	public:
+		//Ctr
+		AUMWorkstationUnitTest();
 	};
 
 }

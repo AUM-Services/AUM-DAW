@@ -28,9 +28,9 @@ namespace AUM_Workstation_Item {
     void AUMWorkstationItem::PresentationMode() const {
         if (this->Name == "Validation Name")
         {
-            AUMWorkstationRuntimeInfo("- ----");
+            AUMWorkstationRuntimeInfo("- --");
             AUMWorkstationRuntimeInfo("How to create AUM runtimes:");
-            AUMWorkstationRuntimeInfo("---- ----------------");
+            AUMWorkstationRuntimeInfo("-- ----");
             AUMWorkstationRuntimeInfo("Welcome to an AUM Workstation item.");
             AUMWorkstationRuntimeInfo("Create a class that inherits the AUMWorkStationItem to define the 'Run()' method.");
             AUMWorkstationRuntimeInfo("Then add it to the WorkstationItems vector using an instance of the Application class.");

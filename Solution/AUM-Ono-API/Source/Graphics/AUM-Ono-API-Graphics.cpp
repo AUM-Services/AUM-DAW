@@ -4,76 +4,102 @@
 
 #include "AUM-Ono-API-Graphics.h"
 
-#define RUN_CASE 1;
-
 namespace AUM_Ono_API_Graphics {
+
+/********************************************************************************************************/
+    ////              ////
+    //// Construction ////
+    ////              ////
+    //////////////////////
 
     IAUMOnoAPIGraphics::IAUMOnoAPIGraphics
     
-    (string name) : AUMWorkstationItem() {
+        (string name) : AUMWorkstationItem() {
         this->Name = name;
+        this->Width = 1296;
+        this->Height = 1296;
         this->ShaderCompiler = AUMOnoAPIGraphicsShader();
-        this->BuildGraphicsOutput();
+        this->BuildTheGraphicsOutput();
         this->SetupTheVertexArrayObject();
     };
 
     IAUMOnoAPIGraphics::~IAUMOnoAPIGraphics
     
-    () {
+        () {
         if (this->graphicalOutput)
         {
             glfwTerminate();
         };
     }
 
-    /////////////////////////////
-    ////                     ////
-    //// Class functionality ////
-    ////                     ////
-    /////////////////////////////
+/********************************************************************************************************/
+    ////               ////
+    //// Main function ////
+    ////               ////
+    ///////////////////////
 
     int IAUMOnoAPIGraphics::Run
 
-        // Make an enum for run types
-
-    () {
+        // At a more complete stage, separate function generators from unit tests
+        // by making this into a base class.
+        // Make an enum for run types.
+        () {
         if (this->IsAvailable)
         {
             _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
+          
+#ifdef AUM_WORKSTATION_RUN_CASE
+            
+            bool overrideToTest = false;
+            int runCase = overrideToTest? 0 : AUM_WORKSTATION_RUN_CASE;
 
-            float green = 0.0f;
-            float colorIncrement = 0.01f;
-
-#ifdef RUN_CASE
-            int CASE = RUN_CASE
-            switch (CASE)
+            switch (runCase)
             {
                 case 1:
-                    this->DynamicShader = this->ShaderCompiler.CreateShader("Add-Ins/Shaders/2d.shader");
-                    glUseProgram(this->DynamicShader);
-                    while (!glfwWindowShouldClose(this->graphicalOutput))
+                    if (this->IsRunning)
                     {
-                        this->UpdateTheShaderColor(.51, green, .81, 0.81);
+                        goto FunctionGeneratorRuntime;
+                    }
+                    else {
+                        this->SetAndUseTheDynamicShader("Add-Ins/Shaders/2d.shader");
+                    }
+                    FunctionGeneratorRuntime:
+                    if (!glfwWindowShouldClose(this->graphicalOutput))
+                    {
+                        this->IsRunning = true;
+                        this->UpdateTheShaderColor();
                         _AssertGL_(this->DrawASineWave());
-                        if (green <= 0.0f || green >= 1.0f) { colorIncrement *= -1; }
-                        green -= colorIncrement;
+                        this->RotateGreen();
+                        return 1;
                     }
+                    this->IsRunning = false;
                     break;
+
                 default:
-                    this->DynamicShader = this->ShaderCompiler.CreateShader("Add-Ins/Shaders/Default.shader");
-                    glUseProgram(this->DynamicShader);
-                    this->SetupATestingBuffer();
-                    while (!glfwWindowShouldClose(this->graphicalOutput))
+                    if (this->IsRunning)
                     {
-                        this->UpdateTheShaderColor(.51, green, .81, 0.81);
-                        _AssertGL_(this->DrawTheTestingBuffer());
-                        if (green <= 0.0f || green >= 1.0f) { colorIncrement *= -1; }
-                        green -= colorIncrement;
+                        goto TestingRuntime;
                     }
+                    else {
+                        this->SetAndUseTheDynamicShader("Add-Ins/Shaders/Default.shader");
+                        this->SetupATestingBuffer();
+                        this->VertexBuffer.Bind();
+                        this->IndexBuffer.Bind();
+                        this->ShaderColors.ColorIncrement_ = 0.01f;
+                    }
+                    TestingRuntime:
+                    if (!glfwWindowShouldClose(this->graphicalOutput))
+                    {
+                        this->IsRunning = true;
+                        this->UpdateTheShaderColor();
+                        _AssertGL_(this->DrawTheTestingBuffer());
+                        this->RotateGreen();
+                        return 1;
+                    }
+                    this->IsRunning = false;
                     break;
             }
-#endif // RUN_CASE
-
+#endif
             Exit:
             _TestGL_(glDeleteProgram(this->DynamicShader));
             if (_Graphics.Catch.ValidateAndReset())
@@ -84,29 +110,24 @@ namespace AUM_Ono_API_Graphics {
             }
             else {
                 this->Shutdown();
-                return 0;
+                return _Graphics.Catch.Errors.AUM_WORKSTATION_NULL;
             }
         }
     }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    ////////////////////////
+/********************************************************************************************************/
     ////                ////
-    //// Helper methods ////
+    //// Build methods  ////
     ////                ////
     ////////////////////////
-
 
     /// <summary>
     /// Initializes an instance of a GLFW window.
     /// </summary>
-    /// <returns>The new GLFW window</returns>
+    /// <returns>The new GLFW window instance.</returns>
     void IAUMOnoAPIGraphics::InitializeGLFW
 
-    () {
+        () {
         if (!glfwInit())
         {
             throw _Graphics.Catch.Errors.GLFW;
@@ -117,7 +138,7 @@ namespace AUM_Ono_API_Graphics {
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         }
-        this->graphicalOutput = glfwCreateWindow(640, 480, "GLFW Init", NULL, NULL);
+        this->graphicalOutput = glfwCreateWindow(this->Width, this->Height, "GLFW Init", NULL, NULL);
         if (!this->graphicalOutput)
         {
             glfwTerminate();
@@ -134,12 +155,12 @@ namespace AUM_Ono_API_Graphics {
     }
 
     /// <summary>
-    /// Initializes the GLEW functionality.
+    /// Initializes GLEW.
     /// </summary>
-    /// <returns>void</returns>
+    /// <returns>void.</returns>
     void IAUMOnoAPIGraphics::InitializeGLEW
     
-    () const {
+        () const {
         if (glewInit() != GLEW_OK)
         {
             throw _Graphics.Catch.Errors.GLEW;
@@ -152,9 +173,9 @@ namespace AUM_Ono_API_Graphics {
     /// <summary>
     /// Initializes GLFW, and GLEW.
     /// </summary>
-    void IAUMOnoAPIGraphics::BuildGraphicsOutput
+    void IAUMOnoAPIGraphics::BuildTheGraphicsOutput
 
-    () {
+        () {
         AUMWorkstationItemInfo("----------------Graphics update----------------");
         AUMWorkstationItemTrace("OpenGL:");
         AUMWorkstationItemTrace("{0} is building.", this->Name);
@@ -171,13 +192,13 @@ namespace AUM_Ono_API_Graphics {
     }
 
     /// <summary>
-    /// Sets up references for a vertex array.
+    /// Sets up references for the vertex array attached to this class.
     /// </summary>
     void IAUMOnoAPIGraphics::SetupTheVertexArrayObject
 
-    () {
-        _TestGL_(glGenVertexArrays(1, &this->vertexArrayObject));
-        _TestGL_(glBindVertexArray(this->vertexArrayObject));
+        () {
+        _TestGL_(glGenVertexArrays(1, &this->defaultVertexArray));
+        _TestGL_(glBindVertexArray(this->defaultVertexArray));
         if (_Graphics.Catch.ValidateAndReset())
         {
             AUMWorkstationItemCritical("OpenGL failed to instantiate a VAO in {0}.", this->Name);
@@ -193,8 +214,23 @@ namespace AUM_Ono_API_Graphics {
         }
     }
 
+/********************************************************************************************************/
+    ////                  ////
+    //// Reliant methods  ////
+    ////                  ////
+    //////////////////////////
+
+    void IAUMOnoAPIGraphics::SetAndUseTheDynamicShader
+
+        (const string filePath) {
+        this->ShaderCompiler.UnbindThisUniformLocation();
+        this->DynamicShader = this->ShaderCompiler.BuildVertexAndFragmentShaders(filePath);
+        this->ShaderCompiler.UseShader(this->DynamicShader);
+        this->ShaderCompiler.SetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
+    }
+
     /// <summary>
-    /// Updates the shader specific to this class.
+    /// Updates the shader attached to this class.
     /// </summary>
     /// <param name="red">The red level.</param>
     /// <param name="green">The green level.</param>
@@ -202,64 +238,101 @@ namespace AUM_Ono_API_Graphics {
     /// <param name="alpha">The alpha level.</param>
     void IAUMOnoAPIGraphics::UpdateTheShaderColor
 
-    (float red, float green, float blue, float alpha) const {
+        () {
         try 
         {
-            int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
-            _Test_(currentGLLocation != -1, _Graphics.Catch);
-            _TestGL_(glUniform4f(currentGLLocation, red, green, blue, alpha))
+            _Test_(this->ShaderCompiler.GetUniformLocation() != -1, _Graphics.Catch);
+            _TestGL_(
+                this->ShaderCompiler.SetUniform4f(
+                    this->ShaderColors.Red_,
+                    this->ShaderColors.Green_,
+                    this->ShaderColors.Blue_,
+                    this->ShaderColors.Alpha_
+                )
+            );
             if (_Graphics.Catch.ValidateAndReset())
             {
-                throw _Graphics.Catch.Errors.SHADER;
+                AUMWorkstationItemError("Shader error. The next lines will have more details.");
+                AUMWorkstationItemWarn("Attempting to use the {0}->DynamicShader instead.", this->Name);
+                throw _Graphics.Catch.Errors.SHADER_CAUGHT_INTERNALLY;
             }
         }
         catch (AUMOnoAPIGraphicsError errorCatch) {
             _Graphics.PrintUpdateError(errorCatch);
-            glUseProgram(this->DynamicShader);
+            this->ShaderCompiler.UseShader(this->DynamicShader);
             int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
             _Assert_(currentGLLocation != -1);
-            _AssertGL_(glUniform4f(currentGLLocation, red, green, blue, alpha));
+            _AssertGL_(
+                this->ShaderCompiler.SetUniform4f(
+                    this->ShaderColors.Red_,
+                    this->ShaderColors.Green_,
+                    this->ShaderColors.Blue_,
+                    this->ShaderColors.Alpha_
+                )
+            );
+            AUMWorkstationItemDebug(
+                "Successfully replaced the broken shader with the {0}->DynamicShader.", this->Name);
         }
     }
 
     /// <summary>
-    /// Event call to ensure that all the needed items are broken down.
+    /// Helper method to change the green level incrementally.
+    /// </summary>
+    void IAUMOnoAPIGraphics::RotateGreen() {
+        if (this->ShaderColors.Green_ <= 0.0f || this->ShaderColors.Green_ >= 1.0f)
+        {
+            this->ShaderColors.ColorIncrement_ *= -1;
+        }
+        this->ShaderColors.Green_ -= this->ShaderColors.ColorIncrement_;
+    }
+
+    /// <summary>
+    /// Event call to ensure that all the used items are broken down.
     /// </summary>
     void IAUMOnoAPIGraphics::Shutdown
 
     () {
+        glDeleteVertexArrays(1, &this->defaultVertexArray);
+        glDeleteVertexArrays(1, this->VertexBuffer.GetAddress());
         glDeleteBuffers(1, this->IndexBuffer.GetAddress());
         glDeleteBuffers(1, this->VertexBuffer.GetAddress());
+        this->IsRunning = false;
         this->IsAvailable = false;
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    /////////////////////////////////
+/********************************************************************************************************/
     ////                         ////
     //// Wave function generator ////
     ////                         ////
     /////////////////////////////////
 
+    #define _USE_MATH_DEFINES
+    #include <math.h>
     void IAUMOnoAPIGraphics::DrawASineWave
 
-    // https://en.wikibooks.org/wiki/OpenGL_Programming/Scientific_OpenGL_Tutorial_01
-
-    () {
+        // https://en.wikibooks.org/wiki/OpenGL_Programming/Scientific_OpenGL_Tutorial_01
+        () {
         struct point {
             GLfloat x;
             GLfloat y;
         };
 
-        point graph[2000];
+        const int sampleRate = 44100;
+        const float amplitude = 4096.0f;
+        const float pointCount = (float)this->Width;
 
-        // Get y height using an inconsistent value (AKA frequency).
-        for (int i = 0; i < 2000; i++)
+        point graph[sampleRate];
+
+        float frequency = 16.0f;
+
+        auto getSine = [](float i, float frequency, const int sampleRate) {
+            return (float)(sin(2 * M_PI * i * frequency / 2) / sampleRate);
+        };
+
+        for (int i = 0; i < sampleRate; i++)
         {
-            float x = (i - 1000.0f) / 100.0f;
-            graph[i].x = x;
-            graph[i].y = sin(x * 16);
+            graph[i].x = (float)(i - this->Width) / (pointCount / 2.0f);
+            graph[i].y = amplitude * getSine(graph[i].x, frequency, sampleRate);
         }
 
         this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
@@ -285,7 +358,7 @@ namespace AUM_Ono_API_Graphics {
             0
         );
 
-        glDrawArrays(GL_LINE_STRIP, 0, 2000);
+        glDrawArrays(GL_POINTS, 0, 2000);
         
         glDisableVertexAttribArray(shaderAttribute);
         
@@ -295,11 +368,7 @@ namespace AUM_Ono_API_Graphics {
         glfwPollEvents();
     }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    //////////////////////
+/********************************************************************************************************/
     ////              ////
     //// Unit Testing ////
     ////              ////
@@ -307,7 +376,7 @@ namespace AUM_Ono_API_Graphics {
 
     void IAUMOnoAPIGraphics::SetupATestingBuffer
 
-    () {
+        () {
     Buffering:
         float positions[] = {
             //X    //Y
@@ -326,16 +395,7 @@ namespace AUM_Ono_API_Graphics {
         AUMOnoAPIGraphicsVertexBufferLayout layout;
         layout.Push<float>(2);
         va.AddToBuffer(this->VertexBuffer, layout);
-
-        ///* Says to use the vao information bound to the vertex array as first arg
-        //with the buffer as second arg. */
-        //glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 2, 0);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    Shader:
-        glUseProgram(this->DynamicShader);
-        this->UpdateTheShaderColor(.51, .51, .81, 0.81);
+        // Binds the array details and the index buffer at once.
     }
 
     /// <summary>
@@ -344,14 +404,14 @@ namespace AUM_Ono_API_Graphics {
     /// <param name="graphicalItem">The GLFWwindow object to draw.</param>
     void IAUMOnoAPIGraphics::DrawTheTestingBuffer
 
-    () {
+        () {
         glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(this->DynamicShader);
 
-        glBindBuffer(GL_ARRAY_BUFFER, this->vertexArrayObject);
-        this->IndexBuffer.Bind();
+        // Intended to draw from the indicies
+        // And update (bind) them or the vertex outside when needed (Wave tables).
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
         glfwSwapBuffers(this->graphicalOutput);
         glfwPollEvents();
     }

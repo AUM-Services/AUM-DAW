@@ -26,17 +26,19 @@ using namespace AUM_Ono_API_Enumerate_Graphics;
 
 namespace AUM_Ono_API_Unit_Test {
 
+	//Relative defines
 	#define _AssertGL_(x) _Graphics.CleanGLErrors(); x; _Assert_(_Graphics.ListenForGLErrorEvent(__FILE__, #x, __LINE__));
 	#define _TestGL_(x) _Graphics.CleanGLErrors(); x; _Test_(_Graphics.ListenForGLErrorEvent(__FILE__, #x, __LINE__), _Graphics.Catch);
 
-	class AUMOnoAPIGraphicsUnitTest : public AUMWorkstationUnitTest
-	{
+	class AUMOnoAPIGraphicsUnitTest : public AUMWorkstationUnitTest {
+	
 	public:
+		//Field
 		AUMOnoAPIGraphicsErrorEnum Errors;
 		AUMOnoAPIGraphicsErrorTypeEnum ErrorTypes;
-		//Construct:
+
+		//Ctr
 		AUMOnoAPIGraphicsUnitTest();
 	};
-
 
 }

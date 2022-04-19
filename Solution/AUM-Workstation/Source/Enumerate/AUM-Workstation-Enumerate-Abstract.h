@@ -24,15 +24,23 @@ namespace AUM_Workstation_Enumerate {
     /// Class base to runtime enums; allows enum inheritance to be local, and mapping.
     /// </summary>
     class AUMWorkstationBuildMacro AUMWorkstationEnumerateAbstract {
+
     public:
+        //Field
         const char* Name;
+        map<int, string> Map;
+
+        //Member
+        enum AUMEnum {
+            AUM_WORKSTATION_NULL = 0
+        };
+        
+        //Method
+        virtual map<int, string> MakeMap(string strings[], int elementCount) const;
+
+        //Ctr
         AUMWorkstationEnumerateAbstract();
         AUMWorkstationEnumerateAbstract(const char* name, string strings[], int elementCount);
-        virtual map<int, string> MakeMap(string strings[], int elementCount) const;
-        enum AUMEnum{ 
-            AUM_WORKSTATION_UNDEFINED = 1
-        };
-        map<int, string> Map;
     };
 
 }

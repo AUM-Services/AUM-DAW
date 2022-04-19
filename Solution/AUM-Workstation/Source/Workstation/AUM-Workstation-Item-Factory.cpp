@@ -7,9 +7,9 @@ namespace AUM_Workstation_Item_Factory {
     void AUMWorkstationItemFactory::PresentationMode(string name) const {
         if (name == "Validation Name")
         {
-            AUMWorkstationItemInfo("- ----");
+            AUMWorkstationItemInfo("- --");
             AUMWorkstationItemInfo("How to create AUM workstation plugins:");
-            AUMWorkstationItemInfo("---- ----------------");
+            AUMWorkstationItemInfo("-- ----");
             AUMWorkstationItemInfo("Welcome to an AUM Workstation plugin.");
             AUMWorkstationItemInfo("Method #1 for creating plugins:");
             AUMWorkstationItemInfo("Define a function using a method, or lambda operation.");

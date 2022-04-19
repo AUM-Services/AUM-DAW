@@ -7,7 +7,8 @@ namespace AUM_Ono_API_Graphics {
 	AUMOnoAPIGraphicsVertexBuffer::AUMOnoAPIGraphicsVertexBuffer
 		()
 	{
-		this->phaseBufferId = 0;
+		// Initialize out of range for error checking.
+		this->phaseBufferId = -256;
 	}
 
 	AUMOnoAPIGraphicsVertexBuffer::AUMOnoAPIGraphicsVertexBuffer

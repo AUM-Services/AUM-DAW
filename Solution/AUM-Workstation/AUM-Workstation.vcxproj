@@ -22,6 +22,7 @@
     <ClInclude Include="Source\Enumerate\AUM-Workstation-Enumerate-Abstract.h" />
     <ClInclude Include="Source\Enumerate\AUM-Workstation-Enumerate.h" />
     <ClInclude Include="Source\IO\AUM-Workstation-IO.h" />
+    <ClInclude Include="Source\Runtime\AUM-Workstation-Context-Runtime.h" />
     <ClInclude Include="Source\Runtime\AUM-Workstation-Runtime.h" />
     <ClInclude Include="Source\Unit-Test\AUM-Workstation-Runtime-Unit-Test.h" />
     <ClInclude Include="Source\Unit-Test\AUM-Workstation-Unit-Test.h" />

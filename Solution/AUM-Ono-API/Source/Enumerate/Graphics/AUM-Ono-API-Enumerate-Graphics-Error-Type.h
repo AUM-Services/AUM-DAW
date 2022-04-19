@@ -10,13 +10,16 @@ using namespace AUM_Workstation_Enumerate;
 
 namespace AUM_Ono_API_Enumerate_Graphics {
 
-    class AUMOnoAPIGraphicsErrorTypeEnum : public AUMWorkstationEnumerate
-    {
+    class AUMOnoAPIGraphicsErrorTypeEnum : public AUMWorkstationEnumerate {
+
     public:
+        //Member
         enum AUMEnum {
             INITIALIZATION = 1,
             UPDATE = 2
         };
+
+        //Ctr
         AUMOnoAPIGraphicsErrorTypeEnum() {
             this->Name = "AUM Ono API Graphics Error Types";
             const int enumSize = 2;
@@ -25,11 +28,9 @@ namespace AUM_Ono_API_Enumerate_Graphics {
                 "UPDATE"
             };
             this->Map = this->MakeMap(enumStrings, enumSize);
-        };
-        AUMOnoAPIGraphicsErrorTypeEnum(const char* name, string strings[], int elementCount)
-            : AUMWorkstationEnumerate(name, strings, elementCount) {};
+        }
+        
     };
+    typedef AUM_Ono_API_Enumerate_Graphics::AUMOnoAPIGraphicsErrorTypeEnum::AUMEnum AUMOnoAPIGraphicsErrorType;
 
 }
-
-typedef AUM_Ono_API_Enumerate_Graphics::AUMOnoAPIGraphicsErrorTypeEnum::AUMEnum AUMOnoAPIGraphicsErrorType;

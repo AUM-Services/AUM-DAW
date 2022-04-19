@@ -5,8 +5,9 @@
 namespace AUM_Workstation_Enumerate {
 
 	AUMWorkstationEnumerate::AUMWorkstationEnumerate
-		() : AUMWorkstationEnumerateAbstract()
-	{
+		
+        () : AUMWorkstationEnumerateAbstract() {
+
         this->Name = "AUM Workstation Errors";
         const int enumSize = 10;
         string enumStrings[enumSize] = {

@@ -2,6 +2,11 @@
 
 #pragma once
 
+#ifndef AUM_WORKSTATION_CONTEXT_RUNTIME_H
+#include "Runtime/AUM-Workstation-Context-Runtime.h"
+#define AUM_WORKSTATION_CONTEXT_RUNTIME_H
+#endif // !AUM_WORKSTATION_CONTEXT_RUNTIME_H
+
 #ifndef AUM_WORKSTATION_ITEM_H
 #include <Workstation/AUM-Workstation-Item.h>
 using namespace AUM_Workstation_Item;
@@ -50,31 +55,48 @@ using namespace AUM_Ono_API_Graphics;
 namespace AUM_Ono_API_Graphics {
 
     class IAUMOnoAPIGraphics : public AUMWorkstationItem {
+
     public:
-        IAUMOnoAPIGraphics(string name);
-        ~IAUMOnoAPIGraphics();
+        //Field
+        int Width;
+        int Height;
         unsigned int DynamicShader;
         AUMOnoAPIGraphicsVertexBuffer VertexBuffer;
         AUMOnoAPIGraphicsIndexBuffer IndexBuffer;
+        bool IsRunning;
+        struct colors {
+            float Red_ = 0.51f;
+            float Green_ = 0.0f;
+            float Blue_ = 0.64f;
+            float Alpha_ = 0.64f;
+            float ColorIncrement_ = 0.01f;
+        } ShaderColors;
 
     private:
+        //Field
         string Name;
         AUMOnoAPIGraphicsShader ShaderCompiler;
         GLFWwindow* graphicalOutput;
-        unsigned int vertexArrayObject;
+        unsigned int defaultVertexArray;
+
+        //Method
         virtual int Run() override;
         void InitializeGLFW();
         void InitializeGLEW() const;
-        void BuildGraphicsOutput();
+        void BuildTheGraphicsOutput();
         void DrawASineWave();
         void SetupATestingBuffer();
         void DrawTheTestingBuffer();
-        //void CleanGLErrors() const;
-        //void GetGLErrors() const;
-        //bool ListenForGLErrorEvent(const char* function, const char* file, int line) const;
-        void UpdateTheShaderColor(float red, float green, float blue, float alpha) const;
+        void UpdateTheShaderColor();
         void SetupTheVertexArrayObject();
+        void SetAndUseTheDynamicShader(const string filePath);
+        void RotateGreen();
         void Shutdown();
+
+    public:
+        //Ctr
+        IAUMOnoAPIGraphics(string name);
+        ~IAUMOnoAPIGraphics();
     };
 
 }

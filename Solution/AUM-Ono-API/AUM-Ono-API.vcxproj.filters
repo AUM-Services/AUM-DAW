@@ -21,7 +21,7 @@
     <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Shader.cpp">
+    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Shader-Compiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.cpp">
@@ -56,7 +56,7 @@
     <ClInclude Include="Source\Enumerate\Graphics\AUM-Ono-API-Enumerate-Graphics-Error-Type.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Shader.h">
+    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Shader-Compiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.h">

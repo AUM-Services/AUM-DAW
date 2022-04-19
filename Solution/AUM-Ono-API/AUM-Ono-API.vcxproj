@@ -155,7 +155,7 @@
     <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer.cpp" />
     <ClCompile Include="Source\Contextual-Scope\Graphics\AUM-Ono-API-Context-Graphics.cpp" />
     <ClCompile Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.cpp" />
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Shader.cpp" />
+    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Shader-Compiler.cpp" />
     <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics.cpp" />
     <ClCompile Include="Source\AUM-Ono-API-Runtime.cpp" />
     <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Array.cpp" />
@@ -166,7 +166,7 @@
     <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer.h" />
     <ClInclude Include="Source\Contextual-Scope\Graphics\AUM-Ono-API-Context-Graphics.h" />
     <ClInclude Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.h" />
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Shader.h" />
+    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Shader-Compiler.h" />
     <ClInclude Include="Source\Enumerate\Graphics\AUM-Ono-API-Enumerate-Graphics-Error-Type.h" />
     <ClInclude Include="Source\Enumerate\Graphics\AUM-Ono-API-Enumerate-Graphics-Error.h" />
     <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics.h" />

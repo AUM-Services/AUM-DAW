@@ -20,7 +20,7 @@ namespace AUM_Ono_API_Graphics {
         this->Name = name;
         this->Width = 1296;
         this->Height = 1296;
-        this->ShaderCompiler = AUMOnoAPIGraphicsShader();
+        this->ShaderCompiler = AUMOnoAPIGraphicsShaderCompiler();
         this->BuildTheGraphicsOutput();
         this->SetupTheVertexArrayObject();
     };

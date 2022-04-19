@@ -1,6 +1,6 @@
 //Written by Eric Dee.
 
-#include "AUM-Ono-API-Graphics-Shader.h"
+#include "AUM-Ono-API-Graphics-Shader-Compiler.h"
 
 namespace AUM_Ono_API_Graphics {
 
@@ -10,7 +10,7 @@ namespace AUM_Ono_API_Graphics {
     ////              ////
     //////////////////////
 
-    AUMOnoAPIGraphicsShader::AUMOnoAPIGraphicsShader
+    AUMOnoAPIGraphicsShaderCompiler::AUMOnoAPIGraphicsShaderCompiler
 
         () {
         this->filePath = "No info.";
@@ -24,7 +24,7 @@ namespace AUM_Ono_API_Graphics {
     ////               ////
     ///////////////////////
 
-    unsigned int AUMOnoAPIGraphicsShader::CompileVertexAndFragmentShaders
+    unsigned int AUMOnoAPIGraphicsShaderCompiler::CompileVertexAndFragmentShaders
         
         (unsigned int type, const string& source) const {
         unsigned int id = glCreateShader(type);
@@ -51,7 +51,7 @@ namespace AUM_Ono_API_Graphics {
         return id;
     }
 
-    unsigned int AUMOnoAPIGraphicsShader::BuildVertexAndFragmentShaders
+    unsigned int AUMOnoAPIGraphicsShaderCompiler::BuildVertexAndFragmentShaders
         
         (const string& filePath) {
         this->ReadAndSetTheShaderFromShaderFile(filePath);
@@ -72,19 +72,19 @@ namespace AUM_Ono_API_Graphics {
         return program;
     }
 
-    void AUMOnoAPIGraphicsShader::SetTheVertexShader
+    void AUMOnoAPIGraphicsShaderCompiler::SetTheVertexShader
         
         (string value) {
         this->vertexShader = value;
     }
 
-    void AUMOnoAPIGraphicsShader::SetTheFragmentShader
+    void AUMOnoAPIGraphicsShaderCompiler::SetTheFragmentShader
         
         (string value) {
         this->fragmentShader = value;
     }
 
-    void AUMOnoAPIGraphicsShader::ReadAndSetTheShaderFromShaderFile
+    void AUMOnoAPIGraphicsShaderCompiler::ReadAndSetTheShaderFromShaderFile
         
         (const string& filePath) {
         this->filePath = (string)filePath;
@@ -129,29 +129,29 @@ namespace AUM_Ono_API_Graphics {
     ////                ////
     ////////////////////////
 
-    void AUMOnoAPIGraphicsShader::UseShader(unsigned int shader) {
+    void AUMOnoAPIGraphicsShaderCompiler::UseShader(unsigned int shader) {
         glUseProgram(shader);
     }
 
-    void AUMOnoAPIGraphicsShader::SetUniformLocation
+    void AUMOnoAPIGraphicsShaderCompiler::SetUniformLocation
         
         (unsigned int shader, const char* name) {
         this->uniformLocation = glGetUniformLocation(shader, name);
     }
 
-    int AUMOnoAPIGraphicsShader::GetUniformLocation
+    int AUMOnoAPIGraphicsShaderCompiler::GetUniformLocation
 
         () {
         return this->uniformLocation;
     }
 
-    void AUMOnoAPIGraphicsShader::SetUniform4f
+    void AUMOnoAPIGraphicsShaderCompiler::SetUniform4f
     
         (float v0, float v1, float v2, float v3) {
         glUniform4f(this->GetUniformLocation(), v0, v1, v2, v3);
     }
 
-    void AUMOnoAPIGraphicsShader::UnbindThisUniformLocation
+    void AUMOnoAPIGraphicsShaderCompiler::UnbindThisUniformLocation
     
         () {
         glUseProgram(0);

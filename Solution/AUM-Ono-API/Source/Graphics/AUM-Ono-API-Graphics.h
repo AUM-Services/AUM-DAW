@@ -34,7 +34,7 @@ using namespace AUM_Ono_API_Context_Graphics;
 #endif
 
 #ifndef AUM_ONO_API_GRAPHICS_SHADER_H
-#include "AUM-Ono-Api-Graphics-Shader.h"
+#include "AUM-Ono-Api-Graphics-Shader-Compiler.h"
 using namespace AUM_Ono_API_Graphics;
 #define AUM_ONO_API_GRAPHICS_SHADER_H
 #endif // !AUM_ONO_API_GRAPHICS_SHADER_H
@@ -73,7 +73,7 @@ namespace AUM_Ono_API_Graphics {
     private:
         //Field
         string Name;
-        AUMOnoAPIGraphicsShader ShaderCompiler;
+        AUMOnoAPIGraphicsShaderCompiler ShaderCompiler;
         GLFWwindow* graphicalOutput;
         unsigned int defaultVertexArray;
 

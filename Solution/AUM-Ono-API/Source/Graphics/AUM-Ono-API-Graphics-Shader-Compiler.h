@@ -24,7 +24,7 @@ using namespace AUM_Workstation_Log;
 
 namespace AUM_Ono_API_Graphics {
 
-	class AUMOnoAPIGraphicsShader {
+	class AUMOnoAPIGraphicsShaderCompiler {
 
 	private:
 		//Fields
@@ -47,7 +47,7 @@ namespace AUM_Ono_API_Graphics {
 		void UnbindThisUniformLocation();
 
 		//Ctr
-		AUMOnoAPIGraphicsShader();
+		AUMOnoAPIGraphicsShaderCompiler();
 	};
 
 }

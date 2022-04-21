@@ -178,7 +178,7 @@ namespace AUM_Ono_API_Graphics {
     void IAUMOnoAPIGraphics::SetTheCallbacks
 
         () {
-        glfwSetKeyCallback(this->graphicalOutput, this->KeyEvent_ChangeFrequency);
+        glfwSetKeyCallback(this->graphicalOutput, this->KeyEvent_KeyHandler);
     }
 
     /// <summary>
@@ -322,14 +322,22 @@ namespace AUM_Ono_API_Graphics {
     /// <param name="scancode">The key scancode.</param>
     /// <param name="action">The present action on the scancode.</param>
     /// <param name="mods">Any decorators tied to the read.</param>
-    void IAUMOnoAPIGraphics::KeyEvent_ChangeFrequency
+    void IAUMOnoAPIGraphics::KeyEvent_KeyHandler
     
         (GLFWwindow* window, int key, int scancode, int action, int mods) {
         if (key == GLFW_KEY_Q && action == GLFW_PRESS)
         {
-            Oscillator_staticMember.Frequency_ -= 16.0f;
+            Oscillator_staticMember.Resolution_ = 1;
         }
         if (key == GLFW_KEY_E && action == GLFW_PRESS)
+        {
+            Oscillator_staticMember.Resolution_ = 2;
+        }
+        if (key == GLFW_KEY_MINUS && action == GLFW_PRESS)
+        {
+            Oscillator_staticMember.Frequency_ -= 16.0f;
+        }
+        if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS)
         {
             Oscillator_staticMember.Frequency_ += 16.0f;
         }
@@ -342,57 +350,109 @@ namespace AUM_Ono_API_Graphics {
         return this->frequency;
     }
 
+    int IAUMOnoAPIGraphics::CheckAndGetResolution
+
+    () {
+        this->resolution = Oscillator_staticMember.Resolution_;
+        return this->resolution;
+    }
+
 /********************************************************************************************************/
+#define AUM_DAW_SAMPLE_RATE_44100 44100
+#define AUM_DAW_SAMPLE_RATE_88200 88200
     ////                         ////
     //// Wave function generator ////
     ////                         ////
     /////////////////////////////////
 
-    void IAUMOnoAPIGraphics::DrawASineWave
+    float IAUMOnoAPIGraphics::GetSineData
+        
+        (float i, float frequency, float sampleRate) {
+        return (float)(sin(2 * M_PI * frequency * i) / sampleRate);
+    }
 
-        /* Press q or e to change the frequency while this is running. */
+    void IAUMOnoAPIGraphics::UseFFOZZSamplerateAndBufferTheWave
 
         () {
-
-        auto getSine = [&](float i, float frequency, float sampleRate) {
-            return (float)(
-                sin(2 * M_PI * i * frequency) / sampleRate);
-        };
 
         struct point {
             float x;
             float y;
         };
 
-        const float windowWidth = (float)this->Width;
-        const float windowHeight = (float)this->Height;
-
-        const int xSectionCount = 1;
-        const int sampleRate = 44100 *xSectionCount;
+        const int sampleRate = AUM_DAW_SAMPLE_RATE_44100;
         point graph[sampleRate];
 
-        float frequency = this->CheckAndGetFrequency();
+        float frequency;
+        float amplitude = sampleRate/4;
 
-        float amplitude = 256;
-
-        float xOffset = 0;
+        frequency = this->CheckAndGetFrequency();
+        int index;
         for (float i = 0; i < sampleRate; i++)
         {
             int index = (int)i;
-            switch (xSectionCount)
-            {
-                case 1:
-                    graph[index].x = -.5 + (i/sampleRate) *xSectionCount;
-                    break;
-                case 2:
-                    graph[index].x = -1 + (i/sampleRate) *xSectionCount;
-                    break;
-            }
-            graph[index].y = amplitude * getSine(graph[index].x, frequency, windowWidth);
+            graph[index].x = -.5 + (i/sampleRate) * resolution;
+            graph[index].y = amplitude *this->GetSineData(
+                graph[index].x, frequency, sampleRate
+            );
         }
-
         this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
         this->VertexBuffer.Bind();
+    }
+
+    void IAUMOnoAPIGraphics::UseEETZZSamplerateAndBufferTheWave
+
+        () {
+
+        struct point {
+            float x;
+            float y;
+        };
+
+        const int sampleRate = AUM_DAW_SAMPLE_RATE_88200;
+        point graph[sampleRate];
+
+        float frequency;
+        float amplitude = sampleRate/4;
+
+        frequency = this->CheckAndGetFrequency()/2;
+        int index;
+        for (float i = 0; i < sampleRate; i++)
+        {
+            int index = (int)i;
+            graph[index].x = -1 + (i/sampleRate) * resolution;
+            graph[index].y = amplitude *this->GetSineData(
+                graph[index].x, frequency, sampleRate
+            );
+        }
+        this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
+        this->VertexBuffer.Bind();
+    }
+
+    void IAUMOnoAPIGraphics::DrawASineWave
+
+        /* While running: */
+        /* Use - or + to change the frequency, and q or e to change the resolution */
+
+        () {
+
+        const float windowWidth = (float)this->Width;
+        const float windowHeight = (float)this->Height;
+
+        int sampleRate;
+        int xSectionCount = this->CheckAndGetResolution();
+        
+        switch (xSectionCount)
+        {
+            case 1:
+                this->UseFFOZZSamplerateAndBufferTheWave();
+                sampleRate = AUM_DAW_SAMPLE_RATE_44100;
+                break;
+            case 2:
+                this->UseEETZZSamplerateAndBufferTheWave();
+                sampleRate = AUM_DAW_SAMPLE_RATE_88200;
+                break;
+        }
 
         const char* attributeName = "coord2d";
         GLint shaderAttribute = glGetAttribLocation(this->DynamicShader, attributeName);

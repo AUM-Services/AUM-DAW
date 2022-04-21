@@ -87,8 +87,15 @@ namespace AUM_Ono_API_Graphics {
         } ShaderColors;
         static struct Oscillator {
             float Frequency_ = 16.0f;
+            int Resolution_ = 1;
         } Oscillator_staticMember;
+        struct point {
+            float x;
+            float y;
+        };
         float frequency = 0.0f;
+        int resolution = 2;
+        int sampleRate = 44100;
 
         //Method
         virtual int Run() override;
@@ -106,10 +113,16 @@ namespace AUM_Ono_API_Graphics {
 
         //Hardware
         void SetTheCallbacks();
-        static void KeyEvent_ChangeFrequency(GLFWwindow* window, int key, int scancode, int action, int mods);
+        static void KeyEvent_KeyHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
         
         //Interface
         float CheckAndGetFrequency();
+        int CheckAndGetResolution();
+
+        //DSP
+        float GetSineData(float i, float frequency, float sampleRate);
+        void UseFFOZZSamplerateAndBufferTheWave();
+        void UseEETZZSamplerateAndBufferTheWave();
 
     public:
         //Ctr

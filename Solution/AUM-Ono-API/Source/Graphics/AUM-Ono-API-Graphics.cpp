@@ -335,6 +335,13 @@ namespace AUM_Ono_API_Graphics {
         }
     }
 
+    float IAUMOnoAPIGraphics::CheckAndGetFrequency
+        
+        () {
+        this->frequency = Oscillator_staticMember.Frequency_;
+        return this->frequency;
+    }
+
 /********************************************************************************************************/
     ////                         ////
     //// Wave function generator ////
@@ -343,32 +350,45 @@ namespace AUM_Ono_API_Graphics {
 
     void IAUMOnoAPIGraphics::DrawASineWave
 
-        // https://en.wikibooks.org/wiki/OpenGL_Programming/Scientific_OpenGL_Tutorial_01
+        /* Press q or e to change the frequency while this is running. */
+
         () {
-        struct point {
-            GLfloat x;
-            GLfloat y;
+
+        auto getSine = [&](float i, float frequency, float sampleRate) {
+            return (float)(
+                sin(2 * M_PI * i * frequency) / sampleRate);
         };
 
-        const int sampleRate = 44100;
-        const float amplitude = 4096.0f;
-        const float pointCount = (float)this->Width;
+        struct point {
+            float x;
+            float y;
+        };
 
+        const float windowWidth = (float)this->Width;
+        const float windowHeight = (float)this->Height;
+
+        const int xSectionCount = 1;
+        const int sampleRate = 44100 *xSectionCount;
         point graph[sampleRate];
 
-        float frequency = 16.0f;
+        float frequency = this->CheckAndGetFrequency();
 
-        auto getSine = [](float i, float frequency, const int sampleRate) {
-            return (float)(sin(2 * M_PI * i * frequency / 2) / sampleRate);
-        };
+        float amplitude = 256;
 
-        for (int i = 0; i < sampleRate; i++)
+        float xOffset = 0;
+        for (float i = 0; i < sampleRate; i++)
         {
-            graph[i].x = (float)(i - this->Width) / (pointCount / 2.0f);
-            graph[i].y = amplitude * getSine(
-                graph[i].x,
-                this->Oscillator_staticMember.Frequency_,
-                sampleRate);
+            int index = (int)i;
+            switch (xSectionCount)
+            {
+                case 1:
+                    graph[index].x = -.5 + (i/sampleRate) *xSectionCount;
+                    break;
+                case 2:
+                    graph[index].x = -1 + (i/sampleRate) *xSectionCount;
+                    break;
+            }
+            graph[index].y = amplitude * getSine(graph[index].x, frequency, windowWidth);
         }
 
         this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
@@ -396,7 +416,7 @@ namespace AUM_Ono_API_Graphics {
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_POINTS, 0, 2000);
+        glDrawArrays(GL_POINTS, 0, sampleRate);
         
         glDisableVertexAttribArray(shaderAttribute);
         

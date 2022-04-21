@@ -86,8 +86,9 @@ namespace AUM_Ono_API_Graphics {
             float ColorIncrement_ = 0.01f;
         } ShaderColors;
         static struct Oscillator {
-            float Frequency_ = 64.0f;
+            float Frequency_ = 16.0f;
         } Oscillator_staticMember;
+        float frequency = 0.0f;
 
         //Method
         virtual int Run() override;
@@ -106,6 +107,9 @@ namespace AUM_Ono_API_Graphics {
         //Hardware
         void SetTheCallbacks();
         static void KeyEvent_ChangeFrequency(GLFWwindow* window, int key, int scancode, int action, int mods);
+        
+        //Interface
+        float CheckAndGetFrequency();
 
     public:
         //Ctr

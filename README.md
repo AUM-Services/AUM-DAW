@@ -1,5 +1,5 @@
 #### What is a DAW?
 
-DAW stands for Digital Audio Workstation, and one is used for Digital Signal Processing.
+DAW stands for Digital Audio Workstation. It is used for Digital Signal Processing (DSP).
 
-Some noteable DAWS of today are Ableton, REAPER, Bitwig, and Pro Tools.
+Some noteable DAWS of today are Ableton, Audacity, Bitwig, Pro Tools, and REAPER.

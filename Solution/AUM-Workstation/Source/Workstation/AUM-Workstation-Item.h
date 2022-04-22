@@ -26,6 +26,7 @@ namespace AUM_Workstation_Item {
         //Field
         string Name;
         bool IsAvailable;
+        bool IsRunning;
 
         //Member
         typedef int (*Integer_Delegate)();

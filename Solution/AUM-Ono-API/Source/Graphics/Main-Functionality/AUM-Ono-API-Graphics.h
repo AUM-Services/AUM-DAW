@@ -2,11 +2,6 @@
 
 #pragma once
 
-#ifndef AUM_WORKSTATION_MATH_H
-#include <Math/AUM-Workstation-Math.h>
-#define AUM_WORKSTATION_MATH_H
-#endif // !AUM_WORKSTATION_MATH_H
-
 #ifndef AUM_WORKSTATION_CONTEXT_RUNTIME_H
 #include "Runtime/AUM-Workstation-Context-Runtime.h"
 #define AUM_WORKSTATION_CONTEXT_RUNTIME_H
@@ -19,7 +14,7 @@ using namespace AUM_Workstation_Item;
 #endif // !AUM_WORKSTATION_ITEM_H
 
 #ifndef AUM_ONO_API_GRAPHICS_CONTEXT_H
-#include "../Contextual-Scope/Graphics/AUM-Ono-API-Context-Graphics.h"
+#include "../../Contextual-Scope/Graphics/AUM-Ono-API-Context-Graphics.h"
 using namespace AUM_Ono_API_Context_Graphics;
 #define AUM_ONO_API_GRAPHICS_CONTEXT_H
 #endif // !AUM_API_GRAPHICS_CONTEXT_H
@@ -39,12 +34,6 @@ using namespace AUM_Ono_API_Graphics;
 #define AUM_ONO_API_GRAPHICS_SHADER_H
 #endif // !AUM_ONO_API_GRAPHICS_SHADER_H
 
-#ifndef AUM_ONO_API_GRAPHICS_VERTEX_BUFFER_H
-#include "AUM-Ono-API-Graphics-Vertex-Buffer.h"
-using namespace AUM_Ono_API_Graphics;
-#define AUM_ONO_API_GRAPHICS_VERTEX_BUFFER_H
-#endif // !AUM_ONO_API_GRAPHICS_VERTEX_BUFFER_H
-
 #ifndef AUM_ONO_API_GRAPHICS_INDEX_BUFFER_H
 #include "AUM-Ono-API-Graphics-Index-Buffer.h"
 using namespace AUM_Ono_API_Graphics;
@@ -57,25 +46,24 @@ using namespace AUM_Ono_API_Graphics;
 #define AUM_ONO_API_GRAPHICS_VERTEX_ARRAY_H
 #endif // !AUM_ONO_API_GRAPHICS_VERTEX_ARRAY_H
 
-namespace AUM_Ono_API_Graphics {
+#include "../Consolidation/AUM-Graphics-Synthesizer.h"
+using namespace AUM_API_Synthesis;
 
+namespace AUM_Ono_API_Graphics {
+    
     class IAUMOnoAPIGraphics : public AUMWorkstationItem {
 
     public:
-        //Field
-        int Width;
-        int Height;
-        unsigned int DynamicShader;
-        AUMOnoAPIGraphicsVertexBuffer VertexBuffer;
-        AUMOnoAPIGraphicsIndexBuffer IndexBuffer;
-        bool IsRunning;
 
     private:
         //Field
-        string Name;
-        AUMOnoAPIGraphicsShaderCompiler ShaderCompiler;
+        int width;
+        int height;
+        AUMOnoAPIGraphicsShaderCompiler shaderCompiler;
         GLFWwindow* graphicalOutput;
         unsigned int defaultVertexArray;
+        unsigned int dynamicShader;
+        AUMOnoAPIGraphicsIndexBuffer indexBuffer;
 
         //Member
         struct Colors {
@@ -84,17 +72,15 @@ namespace AUM_Ono_API_Graphics {
             float Blue_ = 0.64f;
             float Alpha_ = 0.64f;
             float ColorIncrement_ = 0.01f;
-        } ShaderColors;
+        } shaderColors;
         static struct Oscillator {
             float Frequency_ = 16.0f;
             int Resolution_ = 1;
-        } Oscillator_staticMember;
+        } oscillator_staticMember;
         struct point {
             float x;
             float y;
         };
-        float frequency = 0.0f;
-        int resolution = 2;
         int sampleRate = 44100;
 
         //Method
@@ -102,7 +88,6 @@ namespace AUM_Ono_API_Graphics {
         void InitializeGLFW();
         void InitializeGLEW() const;
         void BuildTheGraphicsOutput();
-        void DrawASineWave();
         void SetupATestingBuffer();
         void DrawTheTestingBuffer();
         void UpdateTheShaderColor();
@@ -110,6 +95,7 @@ namespace AUM_Ono_API_Graphics {
         void SetAndUseTheDynamicShader(const string filePath);
         void RotateGreen();
         void Shutdown();
+        void DrawBuffer();
 
         //Hardware
         void SetTheCallbacks();
@@ -119,10 +105,8 @@ namespace AUM_Ono_API_Graphics {
         float CheckAndGetFrequency();
         int CheckAndGetResolution();
 
-        //DSP
-        float GetSineData(float i, float frequency, float sampleRate);
-        void UseFFOZZSamplerateAndBufferTheWave();
-        void UseEETZZSamplerateAndBufferTheWave();
+        //Events
+        void BroadcastRebind();
 
     public:
         //Ctr

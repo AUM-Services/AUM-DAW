@@ -150,28 +150,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer-Layout.cpp" />
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Index-Buffer.cpp" />
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer.cpp" />
+    <ClCompile Include="Source\Graphics\Consolidation\AUM-Graphics-Synthesizer.cpp" />
+    <ClCompile Include="Source\Digital-Audio\AUM-Oscillator.cpp" />
+    <ClCompile Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Vertex-Buffer-Layout.cpp" />
+    <ClCompile Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Index-Buffer.cpp" />
+    <ClCompile Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Vertex-Buffer.cpp" />
     <ClCompile Include="Source\Contextual-Scope\Graphics\AUM-Ono-API-Context-Graphics.cpp" />
     <ClCompile Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.cpp" />
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Shader-Compiler.cpp" />
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics.cpp" />
+    <ClCompile Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Shader-Compiler.cpp" />
+    <ClCompile Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics.cpp" />
     <ClCompile Include="Source\AUM-Ono-API-Runtime.cpp" />
-    <ClCompile Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Array.cpp" />
+    <ClCompile Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Vertex-Array.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer-Layout.h" />
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Index-Buffer.h" />
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Buffer.h" />
+    <ClInclude Include="Source\Graphics\Consolidation\AUM-Graphics-Synthesizer.h" />
+    <ClInclude Include="Source\Digital-Audio\AUM-Oscillator.h" />
+    <ClInclude Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Vertex-Buffer-Layout.h" />
+    <ClInclude Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Index-Buffer.h" />
+    <ClInclude Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Vertex-Buffer.h" />
     <ClInclude Include="Source\Contextual-Scope\Graphics\AUM-Ono-API-Context-Graphics.h" />
     <ClInclude Include="Source\Unit-Test\Graphics\AUM-Ono-API-Unit-Test-Graphics.h" />
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Shader-Compiler.h" />
+    <ClInclude Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Shader-Compiler.h" />
     <ClInclude Include="Source\Enumerate\Graphics\AUM-Ono-API-Enumerate-Graphics-Error-Type.h" />
     <ClInclude Include="Source\Enumerate\Graphics\AUM-Ono-API-Enumerate-Graphics-Error.h" />
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics.h" />
+    <ClInclude Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics.h" />
     <ClInclude Include="Source\AUM-Ono-API-Runtime.h" />
-    <ClInclude Include="Source\Graphics\AUM-Ono-API-Graphics-Vertex-Array.h" />
+    <ClInclude Include="Source\Graphics\Main-Functionality\AUM-Ono-API-Graphics-Vertex-Array.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AUM Work Audio\AUM Work Audio.vcxproj">

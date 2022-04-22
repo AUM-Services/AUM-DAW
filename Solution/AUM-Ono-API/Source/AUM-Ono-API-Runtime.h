@@ -3,10 +3,16 @@
 #pragma once
 
 #ifndef AUM_API_GRAPHICS_H
-#include "Graphics/AUM-Ono-API-Graphics.h"
+#include "Graphics/Main-Functionality/AUM-Ono-API-Graphics.h"
 using namespace AUM_Ono_API_Graphics;
 #define AUM_API_GRAPHICS_H
 #endif // !AUM_API_GRAPHICS_H
+
+#ifndef AUM_GRAPHICS_SYNTHESIZER_H
+#include "Graphics/Consolidation/AUM-Graphics-Synthesizer.h"
+using namespace AUM_API_Synthesis;
+#define AUM_GRAPHICS_SYNTHESIZER_H
+#endif // !AUM_GRAPHICS_SYNTHESIZER_H
 
 #ifndef AUM_WORKSTATION_H
 #include <AUM-Workstation.h>

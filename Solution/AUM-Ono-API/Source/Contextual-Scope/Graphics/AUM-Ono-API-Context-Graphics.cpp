@@ -4,15 +4,34 @@
 
 namespace AUM_Ono_API_Context_Graphics {
 
-    AUMOnoAPIContextGraphics::AUMOnoAPIContextGraphics() {}
+    GLFWwindow* AUMOnoAPIContextGraphics::CurrentOutput;
+    unsigned int AUMOnoAPIContextGraphics::CurrentShader;
+    int AUMOnoAPIContextGraphics::Resolution;
+    float AUMOnoAPIContextGraphics::Frequency;
+    bool AUMOnoAPIContextGraphics::ResolutionShouldRebind;
+    bool AUMOnoAPIContextGraphics::FrequencyShouldRebind;
+
+    AUMOnoAPIContextGraphics::AUMOnoAPIContextGraphics
+        
+        () {
+        this->CurrentOutput = nullptr;
+        this->CurrentShader = 0;
+        this->Resolution = 1;
+        this->Frequency = 0.0f;
+        this->ResolutionShouldRebind = false;
+        this->FrequencyShouldRebind = false;
+    }
 
 /********************************************************************************************************/
     ////                                                                                        ////
-    ////  This is a static const singleton found in the AUM_Ono_API_Context_Graphics namespace. ////
+    ////  This is a static singleton found in the AUM_Ono_API_Context_Graphics namespace. ////
     ////                                                                                        ////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    AUMOnoAPIContextGraphics::PlotAxisFFOZZ AUMOnoAPIContextGraphics::RawDataCacheFFOZZ[44100];
+    AUMOnoAPIContextGraphics::PlotAxisEETZZ AUMOnoAPIContextGraphics::RawDataCacheEETZZ[88200];
 	AUMOnoAPIGraphicsUnitTest AUMOnoAPIContextGraphics::Catch = AUMOnoAPIGraphicsUnitTest();
+    AUMOnoAPIGraphicsVertexBuffer AUMOnoAPIContextGraphics::VertexBuffer = AUMOnoAPIGraphicsVertexBuffer();
 
 	string AUMOnoAPIContextGraphics::GetError
 		(int error)

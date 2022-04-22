@@ -12,15 +12,15 @@ namespace AUM_Ono_API_Graphics {
     ////              ////
     //////////////////////
 
-    IAUMOnoAPIGraphics::Oscillator IAUMOnoAPIGraphics::Oscillator_staticMember;
+    IAUMOnoAPIGraphics::Oscillator IAUMOnoAPIGraphics::oscillator_staticMember;
 
     IAUMOnoAPIGraphics::IAUMOnoAPIGraphics
     
         (string name) : AUMWorkstationItem() {
         this->Name = name;
-        this->Width = 1296;
-        this->Height = 1296;
-        this->ShaderCompiler = AUMOnoAPIGraphicsShaderCompiler();
+        this->width = 1296;
+        this->height = 1296;
+        this->shaderCompiler = AUMOnoAPIGraphicsShaderCompiler();
         this->BuildTheGraphicsOutput();
         this->SetupTheVertexArrayObject();
     };
@@ -54,6 +54,7 @@ namespace AUM_Ono_API_Graphics {
             
             bool overrideToTest = false;
             int runCase = overrideToTest? 0 : AUM_WORKSTATION_RUN_CASE;
+            bool start = true;
 
             switch (runCase)
             {
@@ -62,19 +63,29 @@ namespace AUM_Ono_API_Graphics {
                     {
                         goto FunctionGeneratorRuntime;
                     }
-                    else {
+                    else if (start) {
+                        this->IsRunning = true;
                         this->SetAndUseTheDynamicShader("Add-Ins/Shaders/2d.shader");
+                        _Graphics.CurrentShader = this->dynamicShader;
+                        _Graphics.CurrentOutput = this->graphicalOutput;
+                        _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
+                        start = false;
+                        return 1;
                     }
-                    FunctionGeneratorRuntime:
+                FunctionGeneratorRuntime:
                     if (!glfwWindowShouldClose(this->graphicalOutput))
                     {
-                        this->IsRunning = true;
+                        //Function to checkall events.
+                        this->CheckAndGetResolution();
+                        this->CheckAndGetFrequency();
                         this->UpdateTheShaderColor();
-                        _AssertGL_(this->DrawASineWave());
+                        _AssertGL_(this->DrawBuffer());
                         this->RotateGreen();
                         return 1;
                     }
-                    this->IsRunning = false;
+                    else {
+                        this->IsRunning = false;
+                    }
                     break;
 
                 default:
@@ -85,25 +96,27 @@ namespace AUM_Ono_API_Graphics {
                     else {
                         this->SetAndUseTheDynamicShader("Add-Ins/Shaders/Default.shader");
                         this->SetupATestingBuffer();
-                        this->VertexBuffer.Bind();
-                        this->IndexBuffer.Bind();
-                        this->ShaderColors.ColorIncrement_ = 0.01f;
-                    }
+                        _Graphics.VertexBuffer.Bind();
+                        this->indexBuffer.Bind();
+                        this->shaderColors.ColorIncrement_ = 0.01f;
                     TestingRuntime:
-                    if (!glfwWindowShouldClose(this->graphicalOutput))
-                    {
-                        this->IsRunning = true;
-                        this->UpdateTheShaderColor();
-                        _AssertGL_(this->DrawTheTestingBuffer());
-                        this->RotateGreen();
-                        return 1;
+                        if (!glfwWindowShouldClose(this->graphicalOutput))
+                        {
+                            this->IsRunning = true;
+                            this->UpdateTheShaderColor();
+                            _AssertGL_(this->DrawTheTestingBuffer());
+                            this->RotateGreen();
+                            return 1;
+                        }
+                        else {
+                            this->IsRunning = false;
+                        }
                     }
-                    this->IsRunning = false;
                     break;
             }
 #endif
             Exit:
-            _TestGL_(glDeleteProgram(this->DynamicShader));
+            _TestGL_(glDeleteProgram(this->dynamicShader));
             if (_Graphics.Catch.ValidateAndReset())
             {
                 AUMWorkstationItemCritical("glDeleteProgram failed in {0}.", this->Name);
@@ -140,7 +153,7 @@ namespace AUM_Ono_API_Graphics {
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         }
-        this->graphicalOutput = glfwCreateWindow(this->Width, this->Height, "GLFW Init", NULL, NULL);
+        this->graphicalOutput = glfwCreateWindow(this->width, this->height, "GLFW Init", NULL, NULL);
         if (!this->graphicalOutput)
         {
             glfwTerminate();
@@ -235,10 +248,10 @@ namespace AUM_Ono_API_Graphics {
     void IAUMOnoAPIGraphics::SetAndUseTheDynamicShader
 
         (const string filePath) {
-        this->ShaderCompiler.UnbindThisUniformLocation();
-        this->DynamicShader = this->ShaderCompiler.BuildVertexAndFragmentShaders(filePath);
-        this->ShaderCompiler.UseShader(this->DynamicShader);
-        this->ShaderCompiler.SetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
+        this->shaderCompiler.UnbindThisUniformLocation();
+        this->dynamicShader = this->shaderCompiler.BuildVertexAndFragmentShaders(filePath);
+        this->shaderCompiler.UseShader(this->dynamicShader);
+        this->shaderCompiler.SetUniformLocation(this->dynamicShader, "UNIFORM_COLOR");
     }
 
     /// <summary>
@@ -253,13 +266,13 @@ namespace AUM_Ono_API_Graphics {
         () {
         try 
         {
-            _Test_(this->ShaderCompiler.GetUniformLocation() != -1, _Graphics.Catch);
+            _Test_(this->shaderCompiler.GetUniformLocation() != -1, _Graphics.Catch);
             _TestGL_(
-                this->ShaderCompiler.SetUniform4f(
-                    this->ShaderColors.Red_,
-                    this->ShaderColors.Green_,
-                    this->ShaderColors.Blue_,
-                    this->ShaderColors.Alpha_
+                this->shaderCompiler.SetUniform4f(
+                    this->shaderColors.Red_,
+                    this->shaderColors.Green_,
+                    this->shaderColors.Blue_,
+                    this->shaderColors.Alpha_
                 )
             );
             if (_Graphics.Catch.ValidateAndReset())
@@ -271,15 +284,15 @@ namespace AUM_Ono_API_Graphics {
         }
         catch (AUMOnoAPIGraphicsError errorCatch) {
             _Graphics.PrintUpdateError(errorCatch);
-            this->ShaderCompiler.UseShader(this->DynamicShader);
-            int currentGLLocation = glGetUniformLocation(this->DynamicShader, "UNIFORM_COLOR");
+            this->shaderCompiler.UseShader(this->dynamicShader);
+            int currentGLLocation = glGetUniformLocation(this->dynamicShader, "UNIFORM_COLOR");
             _Assert_(currentGLLocation != -1);
             _AssertGL_(
-                this->ShaderCompiler.SetUniform4f(
-                    this->ShaderColors.Red_,
-                    this->ShaderColors.Green_,
-                    this->ShaderColors.Blue_,
-                    this->ShaderColors.Alpha_
+                this->shaderCompiler.SetUniform4f(
+                    this->shaderColors.Red_,
+                    this->shaderColors.Green_,
+                    this->shaderColors.Blue_,
+                    this->shaderColors.Alpha_
                 )
             );
             AUMWorkstationItemDebug(
@@ -293,11 +306,11 @@ namespace AUM_Ono_API_Graphics {
     void IAUMOnoAPIGraphics::RotateGreen
     
         () {
-        if (this->ShaderColors.Green_ <= 0.0f || this->ShaderColors.Green_ >= 1.0f)
+        if (this->shaderColors.Green_ <= 0.0f || this->shaderColors.Green_ >= 1.0f)
         {
-            this->ShaderColors.ColorIncrement_ *= -1;
+            this->shaderColors.ColorIncrement_ *= -1;
         }
-        this->ShaderColors.Green_ -= this->ShaderColors.ColorIncrement_;
+        this->shaderColors.Green_ -= this->shaderColors.ColorIncrement_;
     }
 
     /// <summary>
@@ -307,9 +320,9 @@ namespace AUM_Ono_API_Graphics {
 
         () {
         glDeleteVertexArrays(1, &this->defaultVertexArray);
-        glDeleteVertexArrays(1, this->VertexBuffer.GetAddress());
-        glDeleteBuffers(1, this->IndexBuffer.GetAddress());
-        glDeleteBuffers(1, this->VertexBuffer.GetAddress());
+        glDeleteVertexArrays(1, _Graphics.VertexBuffer.GetAddress());
+        glDeleteBuffers(1, this->indexBuffer.GetAddress());
+        glDeleteBuffers(1, _Graphics.VertexBuffer.GetAddress());
         this->IsRunning = false;
         this->IsAvailable = false;
     }
@@ -325,138 +338,70 @@ namespace AUM_Ono_API_Graphics {
     void IAUMOnoAPIGraphics::KeyEvent_KeyHandler
     
         (GLFWwindow* window, int key, int scancode, int action, int mods) {
-        if (key == GLFW_KEY_Q && action == GLFW_PRESS)
+        if (key == GLFW_KEY_1 && action == GLFW_PRESS)
         {
-            Oscillator_staticMember.Resolution_ = 1;
+            oscillator_staticMember.Resolution_ = 1;
         }
-        if (key == GLFW_KEY_E && action == GLFW_PRESS)
+        if (key == GLFW_KEY_2 && action == GLFW_PRESS)
         {
-            Oscillator_staticMember.Resolution_ = 2;
+            oscillator_staticMember.Resolution_ = 2;
         }
         if (key == GLFW_KEY_MINUS && action == GLFW_PRESS)
         {
-            Oscillator_staticMember.Frequency_ -= 16.0f;
+            oscillator_staticMember.Frequency_ -= 16.0f;
         }
         if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS)
         {
-            Oscillator_staticMember.Frequency_ += 16.0f;
+            oscillator_staticMember.Frequency_ += 16.0f;
         }
     }
 
     float IAUMOnoAPIGraphics::CheckAndGetFrequency
         
         () {
-        this->frequency = Oscillator_staticMember.Frequency_;
-        return this->frequency;
+        if (_Graphics.Frequency != oscillator_staticMember.Frequency_)
+        {
+            _Graphics.FrequencyShouldRebind = true;
+            _Graphics.Frequency = oscillator_staticMember.Frequency_;
+        }
+        return _Graphics.Frequency;
     }
 
     int IAUMOnoAPIGraphics::CheckAndGetResolution
 
-    () {
-        this->resolution = Oscillator_staticMember.Resolution_;
-        return this->resolution;
+        () {
+        if (_Graphics.Resolution != oscillator_staticMember.Resolution_)
+        {
+            _Graphics.Resolution = oscillator_staticMember.Resolution_;
+            _Graphics.ResolutionShouldRebind = true;
+        }
+        return _Graphics.Resolution;
     }
 
-/********************************************************************************************************/
-#define AUM_DAW_SAMPLE_RATE_44100 44100
-#define AUM_DAW_SAMPLE_RATE_88200 88200
-    ////                         ////
-    //// Wave function generator ////
-    ////                         ////
-    /////////////////////////////////
+/**********************************************************************************************/
+    ////                    ////
+    //// Production runtime ////
+    ////                    ////
+    ////////////////////////////
 
-    float IAUMOnoAPIGraphics::GetSineData
+    void IAUMOnoAPIGraphics::DrawBuffer
         
-        (float i, float frequency, float sampleRate) {
-        return (float)(sin(2 * M_PI * frequency * i) / sampleRate);
-    }
-
-    void IAUMOnoAPIGraphics::UseFFOZZSamplerateAndBufferTheWave
-
         () {
-
-        struct point {
-            float x;
-            float y;
-        };
-
-        const int sampleRate = AUM_DAW_SAMPLE_RATE_44100;
-        point graph[sampleRate];
-
-        float frequency;
-        float amplitude = sampleRate/4;
-
-        frequency = this->CheckAndGetFrequency();
-        int index;
-        for (float i = 0; i < sampleRate; i++)
-        {
-            int index = (int)i;
-            graph[index].x = -.5 + (i/sampleRate) * resolution;
-            graph[index].y = amplitude *this->GetSineData(
-                graph[index].x, frequency, sampleRate
-            );
-        }
-        this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
-        this->VertexBuffer.Bind();
-    }
-
-    void IAUMOnoAPIGraphics::UseEETZZSamplerateAndBufferTheWave
-
-        () {
-
-        struct point {
-            float x;
-            float y;
-        };
-
-        const int sampleRate = AUM_DAW_SAMPLE_RATE_88200;
-        point graph[sampleRate];
-
-        float frequency;
-        float amplitude = sampleRate/4;
-
-        frequency = this->CheckAndGetFrequency()/2;
-        int index;
-        for (float i = 0; i < sampleRate; i++)
-        {
-            int index = (int)i;
-            graph[index].x = -1 + (i/sampleRate) * resolution;
-            graph[index].y = amplitude *this->GetSineData(
-                graph[index].x, frequency, sampleRate
-            );
-        }
-        this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(sizeof graph, graph);
-        this->VertexBuffer.Bind();
-    }
-
-    void IAUMOnoAPIGraphics::DrawASineWave
-
-        /* While running: */
-        /* Use - or + to change the frequency, and q or e to change the resolution */
-
-        () {
-
-        const float windowWidth = (float)this->Width;
-        const float windowHeight = (float)this->Height;
-
         int sampleRate;
-        int xSectionCount = this->CheckAndGetResolution();
-        
-        switch (xSectionCount)
+
+        switch (_Graphics.Resolution)
         {
-            case 1:
-                this->UseFFOZZSamplerateAndBufferTheWave();
-                sampleRate = AUM_DAW_SAMPLE_RATE_44100;
-                break;
-            case 2:
-                this->UseEETZZSamplerateAndBufferTheWave();
-                sampleRate = AUM_DAW_SAMPLE_RATE_88200;
-                break;
+        case 1:
+            sampleRate = 44100;
+            break;
+        case 2:
+            sampleRate = 88200;
+            break;
         }
 
         const char* attributeName = "coord2d";
-        GLint shaderAttribute = glGetAttribLocation(this->DynamicShader, attributeName);
-        
+        GLint shaderAttribute = glGetAttribLocation(this->dynamicShader, attributeName);
+
         if (shaderAttribute == -1) {
             AUMWorkstationItemError("Could not bind attribute {0} in {1}.", attributeName, this->Name);
             throw _Graphics.Catch.Errors.SHADER;
@@ -477,16 +422,15 @@ namespace AUM_Ono_API_Graphics {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glDrawArrays(GL_POINTS, 0, sampleRate);
-        
-        glDisableVertexAttribArray(shaderAttribute);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        //glDisableVertexAttribArray(shaderAttribute);
+        //glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glfwSwapBuffers(this->graphicalOutput);
         glfwPollEvents();
     }
 
-/********************************************************************************************************/
+/**********************************************************************************************/
     ////              ////
     //// Unit Testing ////
     ////              ////
@@ -506,13 +450,13 @@ namespace AUM_Ono_API_Graphics {
         unsigned int indices[] =
         { 0, 1, 2, 3, 0, 2 };
 
-        this->VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(4 * 2 * sizeof(float), positions);
-        this->IndexBuffer = AUMOnoAPIGraphicsIndexBuffer(6, indices);
+        _Graphics.VertexBuffer = AUMOnoAPIGraphicsVertexBuffer(4 * 2 * sizeof(float), positions);
+        this->indexBuffer = AUMOnoAPIGraphicsIndexBuffer(6, indices);
 
         AUMOnoAPIGraphicsVertexArray va;
         AUMOnoAPIGraphicsVertexBufferLayout layout;
         layout.Push<float>(2);
-        va.AddToBuffer(this->VertexBuffer, layout);
+        va.AddToBuffer(_Graphics.VertexBuffer, layout);
         // Binds the array details and the index buffer at once.
     }
 

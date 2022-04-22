@@ -17,7 +17,7 @@
 #endif // !AUM_GRAPHICS_DEPENDENCIES_H
 
 #ifndef AUM_ONO_API_GRAPHICS_CONTEXT_H
-#include "../Contextual-Scope/Graphics/AUM-Ono-API-Context-Graphics.h"
+#include "../../Contextual-Scope/Graphics/AUM-Ono-API-Context-Graphics.h"
 using namespace AUM_Ono_API_Context_Graphics;
 #define AUM_ONO_API_GRAPHICS_CONTEXT_H
 #endif // !AUM_API_GRAPHICS_CONTEXT_H

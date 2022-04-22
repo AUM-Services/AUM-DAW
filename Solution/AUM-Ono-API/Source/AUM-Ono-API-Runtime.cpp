@@ -19,6 +19,7 @@ namespace Runtime {
     void AUMOnoAPIRuntime::InitWorkstationItems()
     {
         this->WorkstationItems.emplace_back(make_unique<IAUMOnoAPIGraphics>("Main Window"));
+        this->WorkstationItems.emplace_back(make_unique<IAUMGraphicsSynthesizer>("Graphics Synthesizer"));
     }
 
 }

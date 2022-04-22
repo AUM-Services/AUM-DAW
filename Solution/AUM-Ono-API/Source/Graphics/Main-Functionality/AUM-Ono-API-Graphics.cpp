@@ -61,23 +61,19 @@ namespace AUM_Ono_API_Graphics {
                 case 1:
                     if (this->IsRunning)
                     {
-                        goto FunctionGeneratorRuntime;
+                        goto Runtime;
                     }
                     else if (start) {
                         this->IsRunning = true;
                         this->SetAndUseTheDynamicShader("Add-Ins/Shaders/2d.shader");
-                        _Graphics.CurrentShader = this->dynamicShader;
-                        _Graphics.CurrentOutput = this->graphicalOutput;
-                        _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
                         start = false;
                         return 1;
                     }
-                FunctionGeneratorRuntime:
+                Runtime:
                     if (!glfwWindowShouldClose(this->graphicalOutput))
                     {
-                        //Function to checkall events.
-                        this->CheckAndGetResolution();
-                        this->CheckAndGetFrequency();
+                        this->CheckForNewEvents();
+                        this->UpdateContext();
                         this->UpdateTheShaderColor();
                         _AssertGL_(this->DrawBuffer());
                         this->RotateGreen();
@@ -91,7 +87,7 @@ namespace AUM_Ono_API_Graphics {
                 default:
                     if (this->IsRunning)
                     {
-                        goto TestingRuntime;
+                        goto RuntimeTests;
                     }
                     else {
                         this->SetAndUseTheDynamicShader("Add-Ins/Shaders/Default.shader");
@@ -99,18 +95,18 @@ namespace AUM_Ono_API_Graphics {
                         _Graphics.VertexBuffer.Bind();
                         this->indexBuffer.Bind();
                         this->shaderColors.ColorIncrement_ = 0.01f;
-                    TestingRuntime:
-                        if (!glfwWindowShouldClose(this->graphicalOutput))
-                        {
-                            this->IsRunning = true;
-                            this->UpdateTheShaderColor();
-                            _AssertGL_(this->DrawTheTestingBuffer());
-                            this->RotateGreen();
-                            return 1;
-                        }
-                        else {
-                            this->IsRunning = false;
-                        }
+                    }
+                RuntimeTests:
+                    if (!glfwWindowShouldClose(this->graphicalOutput))
+                    {
+                        this->IsRunning = true;
+                        this->UpdateTheShaderColor();
+                        _AssertGL_(this->DrawTheTestingBuffer());
+                        this->RotateGreen();
+                        return 1;
+                    }
+                    else {
+                        this->IsRunning = false;
                     }
                     break;
             }
@@ -252,6 +248,7 @@ namespace AUM_Ono_API_Graphics {
         this->dynamicShader = this->shaderCompiler.BuildVertexAndFragmentShaders(filePath);
         this->shaderCompiler.UseShader(this->dynamicShader);
         this->shaderCompiler.SetUniformLocation(this->dynamicShader, "UNIFORM_COLOR");
+        _Graphics.CurrentShader = this->dynamicShader;
     }
 
     /// <summary>
@@ -327,6 +324,13 @@ namespace AUM_Ono_API_Graphics {
         this->IsAvailable = false;
     }
 
+    void IAUMOnoAPIGraphics::UpdateContext
+
+        () {
+        _AssertGL_(glfwMakeContextCurrent(this->graphicalOutput));
+        _Graphics.CurrentOutput = this->graphicalOutput;
+    }
+
     /// <summary>
     /// Changes frequency up or down based on which key is pressed.
     /// </summary>
@@ -376,6 +380,13 @@ namespace AUM_Ono_API_Graphics {
             _Graphics.ResolutionShouldRebind = true;
         }
         return _Graphics.Resolution;
+    }
+
+    void IAUMOnoAPIGraphics::CheckForNewEvents
+
+        () {
+        this->CheckAndGetResolution();
+        this->CheckAndGetFrequency();
     }
 
 /**********************************************************************************************/

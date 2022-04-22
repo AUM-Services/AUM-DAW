@@ -2,13 +2,6 @@
 
 namespace AUM_API_Synthesis {
 
-    //RENAME AS INTERFACE
-    //
-    //
-    //
-    //
-    //
-
     IAUMGraphicsSynthesizer::IAUMGraphicsSynthesizer
 
         (string name) {

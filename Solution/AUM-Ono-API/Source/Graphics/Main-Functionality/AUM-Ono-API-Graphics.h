@@ -95,6 +95,7 @@ namespace AUM_Ono_API_Graphics {
         void SetAndUseTheDynamicShader(const string filePath);
         void RotateGreen();
         void Shutdown();
+        void UpdateContext();
         void DrawBuffer();
 
         //Hardware
@@ -106,7 +107,7 @@ namespace AUM_Ono_API_Graphics {
         int CheckAndGetResolution();
 
         //Events
-        void BroadcastRebind();
+        void CheckForNewEvents();
 
     public:
         //Ctr

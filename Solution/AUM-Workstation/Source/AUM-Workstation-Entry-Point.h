@@ -13,18 +13,18 @@ using namespace AUM_Workstation_Runtime;
 #define AUM_WORKSTATION_H
 #endif // !AUM_WORKSTATION_H
 
-int main(int argc, char** argv) {
+int StartAUMApplication(int argc, char** argv) {
     AUMWorkstationLog::AppendSettingsToAllLoggers("AUM Workstation log", "AUM Workstation runtime log", "AUM Workstation item log");
-    AUMWorkstationCritical("*Start of the Host application**");
-    AUMWorkstationRuntime DAWRuntimes = AUMWorkstationInitMain();
-    DAWRuntimes.MakeAllWorkItemsAvailable();
+    AUMWorkstationCritical("*Start of the AUM Workstation**");
+    AUMWorkstationRuntime workstation = AUMWorkstationInitMain();
+    workstation.MakeAllWorkItemsAvailable();
     // While there is a primary window:
-    while (DAWRuntimes.WorkstationItems[0]->IsAvailable)
+    while (workstation.WorkstationItems[0]->IsAvailable)
     {
-        DAWRuntimes.CompletePendingWorkloads();
+        workstation.CompletePendingWorkloads();
     }
     AUMWorkstationCritical("All functions have stopped looping.");
-    AUMWorkstationCritical("**End of the Host application****");
+    AUMWorkstationCritical("**End of the AUM Workstation****");
     return 0;
 }
 

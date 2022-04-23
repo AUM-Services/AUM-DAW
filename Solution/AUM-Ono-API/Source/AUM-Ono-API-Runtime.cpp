@@ -2,11 +2,11 @@
 
 #include "AUM-Ono-Api-Runtime.h"
 
-/********************************************************************************************************/
-    ////                                                        ////
-    //// Design the API here, and tell it which runtimes to use ////
-    ////                                                        ////
-    ////////////////////////////////////////////////////////////////
+/***********************************************************************************************/
+    ////                                                         ////
+    //// Design the API here, and tell it which runtimes to use. ////
+    ////                                                         ////
+    /////////////////////////////////////////////////////////////////
 
 namespace Runtime {
 
@@ -24,11 +24,13 @@ namespace Runtime {
 
 }
 
-/********************************************************************************************************/
-    ////                                                        ////
-    //// Send them to the application's host with this function ////
-    ////                                                        ////
-    ////////////////////////////////////////////////////////////////
+/***********************************************************************************************/
+    ////                                                                          ////
+    //// Send the runtimes to the workstation with a definition of how to operate ////
+    //// Note that this initializer may seem redundant, but due to unique ptr,    ////
+    //// it is needed. Otherwise references are rejected by the compiler.         ////
+    ////                                                                          ////
+    //////////////////////////////////////////////////////////////////////////////////
 
 AUMWorkstationRuntime AUM_Workstation_Runtime::AUMWorkstationInitMain() {
 
@@ -36,7 +38,10 @@ AUMWorkstationRuntime AUM_Workstation_Runtime::AUMWorkstationInitMain() {
     
     AUMWorkstationRuntimeDebug("*Start of AUM Ono API items**");
     AUMOnoAPIRuntime aumOnoAPI = AUMOnoAPIRuntime();
+
+    // This sets everything up within the workstation to run.
     aumOnoAPI.InitWorkstationItems();
+    //
 
 #ifdef AUM_WORKSTATION_RUN_CASE
 
@@ -58,3 +63,15 @@ AUMWorkstationRuntime AUM_Workstation_Runtime::AUMWorkstationInitMain() {
     AUMWorkstationRuntimeDebug("**End of AUM Ono API items****");
     return aumOnoAPI;
 };
+
+/***********************************************************************************************/
+    ////                              ////
+    //// This application's function. ////
+    ////                              ////
+    //////////////////////////////////////
+
+int main(int argc, char** argv)
+{
+    StartAUMApplication(argc, argv);
+    return 0;
+}

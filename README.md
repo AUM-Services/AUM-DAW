@@ -1,1 +1,1 @@
-A DAW is used for Digital Signal Processing (DSP). DAW stands for Digital Audio Workstation.
+A DAW, AKA Digital Audio Workstation is an application for processing soundwaves, AKA DSP, or Digital Signal Processing.
